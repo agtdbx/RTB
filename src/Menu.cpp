@@ -21,6 +21,9 @@ void Menu::initButton() {
     this->butlvl2 = Button("2", 40,this->winW/2 - 25, this->winH/3, 50, 50, colorOff, colorOn);
     this->butlvl3 = Button("3", 40,this->winW/2 - 25 + 75, this->winH/3, 50, 50, colorOff, colorOn);
     this->butRetourJouer = Button("Retour", 40, this->winW/2 - 100, this->winH-50 - 100, 200, 50, colorOff, colorOn);
+
+    //Options
+    this->butRetourOptions = Button("Retour", 40, this->winW/2 - 100, this->winH-50 - 100, 200, 50, colorOff, colorOn);
 }
 
 
@@ -34,7 +37,12 @@ void Menu::input() {
 
             case SDL_KEYDOWN:
                 if (event.key.keysym.sym == SDLK_ESCAPE){
-                    this->run = false;
+                    if (this->fenetre != 0){
+                        this->fenetre = 0;
+                    }
+                    else{
+                        this->run = false;
+                    }
                 }
                 break;
         }
@@ -57,10 +65,19 @@ void Menu::tick() {
             break;
 
         case 1:
-            if (this->butRetourJouer.clicOnButton()){
+            if (this->butlvl1.clicOnButton()){
+                this->run = false;
+                this->continuer = true;
+            }
+            else if (this->butRetourJouer.clicOnButton()){
                 this->fenetre = 0;
             }
             break;
+
+        case 2:
+            if (this->butRetourOptions.clicOnButton()){
+                this->fenetre = 0;
+            }
     }
 }
 
@@ -83,22 +100,25 @@ void Menu::render() {
             this->butlvl3.draw(renderer);
             this->butRetourJouer.draw(renderer);
             break;
+
+        case 2:
+            this->butRetourOptions.draw(renderer);
     }
-    drawText(this->renderer, "Road To Back !", 80, this->winW/2, 50, 1, color);
+    drawText(this->renderer, "Road To Bac !", 80, this->winW/2, 50, 1, color);
 
     SDL_RenderPresent(this->renderer);
 }
 
 
 //Public methods
-
-Menu::Menu(SDL_Window *window, SDL_Renderer *renderer) {
-    this->winW = 1920;
-    this->winH = 1080;
+Menu::Menu(SDL_Window *window, SDL_Renderer *renderer, int winW, int winH) {
+    this->winW = winW;
+    this->winH = winH;
     this->window = window;
     this->renderer = renderer;
     this->run = true;
     this->fenetre = 0;
+    this->continuer = false;
 
     this->initButton();
 }
@@ -108,11 +128,13 @@ Menu::~Menu() {
 }
 
 
-int Menu::start() {
+bool Menu::start() {
+    this->run = true;
+    this->continuer = false;
     while(this->run){
         this->input();
         this->tick();
         this->render();
     }
-    return 1;
+    return this->continuer;
 }

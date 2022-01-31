@@ -13,9 +13,10 @@ private:
     SDL_Window *window;
     SDL_Renderer *renderer;
     int winW, winH, fenetre;
-    bool run;
+    bool run, continuer;
     Button butJouer, butOptions, butQuitter,
-    butlvl1, butlvl2, butlvl3, butRetourJouer;
+    butlvl1, butlvl2, butlvl3, butRetourJouer,
+    butRetourOptions;
 
     void initButton();
     void input();
@@ -23,10 +24,10 @@ private:
     void render();
 
 public:
-    Menu(SDL_Window *window, SDL_Renderer *renderer);
+    Menu(SDL_Window *window, SDL_Renderer *renderer, int winW, int winH);
     ~Menu();
 
-    int start();
+    bool start();
 };
 
 
