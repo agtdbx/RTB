@@ -11,9 +11,16 @@
 void Menu::initButton() {
     SDL_Color colorOff = {150, 150, 150, 255};
     SDL_Color colorOn = {200, 200, 200, 255};
+    //Menu principal
     this->butJouer = Button("Jouer", 40, this->winW/2 - 100, this->winH/2 - 100, 200, 50, colorOff, colorOn);
     this->butOptions = Button("Options", 40,this->winW/2 - 100, this->winH/2, 200, 50, colorOff, colorOn);
     this->butQuitter = Button("Quitter", 40,this->winW/2 - 100, this->winH/2 + 100, 200, 50, colorOff, colorOn);
+
+    //Choix des niveaux
+    this->butlvl1 = Button("1", 40,this->winW/2 - 25 - 75, this->winH/3, 50, 50, colorOff, colorOn);
+    this->butlvl2 = Button("2", 40,this->winW/2 - 25, this->winH/3, 50, 50, colorOff, colorOn);
+    this->butlvl3 = Button("3", 40,this->winW/2 - 25 + 75, this->winH/3, 50, 50, colorOff, colorOn);
+    this->butRetourJouer = Button("Retour", 40, this->winW/2 - 100, this->winH-50 - 100, 200, 50, colorOff, colorOn);
 }
 
 
@@ -36,7 +43,25 @@ void Menu::input() {
 
 
 void Menu::tick() {
+    switch (this->fenetre) {
+        case 0:
+            if (this->butJouer.clicOnButton()){
+                fenetre = 1;
+            }
+            else if (this->butOptions.clicOnButton()){
+                fenetre = 2;
+            }
+            else if (this->butQuitter.clicOnButton()){
+                this->run = false;
+            }
+            break;
 
+        case 1:
+            if (this->butRetourJouer.clicOnButton()){
+                this->fenetre = 0;
+            }
+            break;
+    }
 }
 
 
@@ -53,6 +78,10 @@ void Menu::render() {
             break;
 
         case 1:
+            this->butlvl1.draw(renderer);
+            this->butlvl2.draw(renderer);
+            this->butlvl3.draw(renderer);
+            this->butRetourJouer.draw(renderer);
             break;
     }
     drawText(this->renderer, "Road To Back !", 80, this->winW/2, 50, 1, color);

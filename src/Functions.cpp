@@ -26,7 +26,7 @@ void drawText(SDL_Renderer *renderer , char *text, int textSize, int x, int y, i
         position.x = x;
     }
     SDL_RenderCopy(renderer, texture, NULL, &position);
-//    SDL_DestroyTexture(texture);
+    SDL_DestroyTexture(texture);
     SDL_FreeSurface(surface);
     TTF_CloseFont(font);
 }

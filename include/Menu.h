@@ -15,7 +15,7 @@ private:
     int winW, winH, fenetre;
     bool run;
     Button butJouer, butOptions, butQuitter,
-    butlvl1, butlvl2, butlvl3, butlvl4, butRetour;
+    butlvl1, butlvl2, butlvl3, butRetourJouer;
 
     void initButton();
     void input();

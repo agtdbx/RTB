@@ -11,7 +11,10 @@ class Button {
 private:
     int x, y, w, h, textSize;
     char *text;
+    bool mouseOver;
     SDL_Color colorOff, colorOn;
+
+    void mouseOnButton();
 
 public:
     Button();
@@ -19,6 +22,7 @@ public:
     ~Button();
 
     void draw(SDL_Renderer *renderer);
+    bool clicOnButton();
 };
 
 
