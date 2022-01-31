@@ -22,6 +22,7 @@ private:
     void input();
     void tick();
     void render();
+    void drawBaseOptions();
 
 public:
     Menu(SDL_Window *window, SDL_Renderer *renderer, int winW, int winH);

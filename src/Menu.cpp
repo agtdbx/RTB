@@ -57,7 +57,7 @@ void Menu::tick() {
                 fenetre = 1;
             }
             else if (this->butOptions.clicOnButton()){
-                fenetre = 2;
+                fenetre = 20;
             }
             else if (this->butQuitter.clicOnButton()){
                 this->run = false;
@@ -74,10 +74,11 @@ void Menu::tick() {
             }
             break;
 
-        case 2:
+        case 20:
             if (this->butRetourOptions.clicOnButton()){
                 this->fenetre = 0;
             }
+            break;
     }
 }
 
@@ -89,24 +90,76 @@ void Menu::render() {
     SDL_Color color = {0, 0, 0, 255};
     switch (this->fenetre) {
         case 0:
-            this->butJouer.draw(renderer);
-            this->butOptions.draw(renderer);
-            this->butQuitter.draw(renderer);
+            drawText(this->renderer, "Road To Bac !", 80, this->winW/2, 50, 1, color);
+            this->butJouer.draw(this->renderer);
+            this->butOptions.draw(this->renderer);
+            this->butQuitter.draw(this->renderer);
+
             break;
 
         case 1:
-            this->butlvl1.draw(renderer);
-            this->butlvl2.draw(renderer);
-            this->butlvl3.draw(renderer);
-            this->butRetourJouer.draw(renderer);
+            drawText(this->renderer, "Road To Bac !", 80, this->winW/2, 50, 1, color);
+            this->butlvl1.draw(this->renderer);
+            this->butlvl2.draw(this->renderer);
+            this->butlvl3.draw(this->renderer);
+            this->butRetourJouer.draw(this->renderer);
             break;
 
-        case 2:
-            this->butRetourOptions.draw(renderer);
+        case 20:
+            drawText(this->renderer, "Road To Bac !", 80, this->winW/2, 10, 1, color);
+            this->drawBaseOptions();
+            this->butRetourOptions.draw(this->renderer);
     }
-    drawText(this->renderer, "Road To Bac !", 80, this->winW/2, 50, 1, color);
 
     SDL_RenderPresent(this->renderer);
+}
+
+void Menu::drawBaseOptions() {
+    int spaceWithScreen = 10;
+    int borderSize = 3;
+    SDL_SetRenderDrawColor(this->renderer, 0, 0, 0, 255);
+    int x = 0;
+    int y = 0;
+    int width = 250;
+    int height = 75;
+    //Case en haut à gauceh
+    for (int i = 0; i < borderSize; ++i){
+        SDL_Rect rect = {x+spaceWithScreen+i, y+spaceWithScreen+i, width-i*2, height-i*2};
+        SDL_RenderDrawRect(this->renderer, &rect);
+    }
+
+    SDL_Color color = {0, 0, 0, 255};
+    drawText(this->renderer, "Options", 40, x+width/2+spaceWithScreen+borderSize, y+height/2+spaceWithScreen+borderSize, 2, color);
+
+    // Case entière
+    for (int i = 0; i < borderSize; ++i){
+        SDL_Rect rect = {0+spaceWithScreen+i, 0+spaceWithScreen+i, 250-i*2, winH-spaceWithScreen*2-i*2};
+        SDL_RenderDrawRect(this->renderer, &rect);
+    }
+
+    y = height - borderSize;
+    for (int i = 0; i < borderSize; ++i){
+        SDL_Rect rect = {x+spaceWithScreen+i, y+spaceWithScreen+i, width-i*2, height-i*2};
+        SDL_RenderDrawRect(this->renderer, &rect);
+    }
+
+    y = height*2 - borderSize*2;
+    for (int i = 0; i < borderSize; ++i){
+        SDL_Rect rect = {x+spaceWithScreen+i, y+spaceWithScreen+i, width-i*2, height-i*2};
+        SDL_RenderDrawRect(this->renderer, &rect);
+    }
+
+    y = height*3 - borderSize*3;
+    for (int i = 0; i < borderSize; ++i){
+        SDL_Rect rect = {x+spaceWithScreen+i, y+spaceWithScreen+i, width-i*2, height-i*2};
+        SDL_RenderDrawRect(this->renderer, &rect);
+    }
+
+    y = height*4 - borderSize*4;
+    for (int i = 0; i < borderSize; ++i){
+        SDL_Rect rect = {x+spaceWithScreen+i, y+spaceWithScreen+i, width-i*2, height-i*2};
+        SDL_RenderDrawRect(this->renderer, &rect);
+    }
 }
 
 
