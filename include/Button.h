@@ -9,12 +9,13 @@
 
 class Button {
 private:
-    int x, y, w, h;
+    int x, y, w, h, textSize;
     char *text;
     SDL_Color colorOff, colorOn;
 
 public:
-    Button(char *text, int x, int y, int width, int height, SDL_Color colorOff, SDL_Color colorOn);
+    Button();
+    Button(char *text, int textSize, int x, int y, int width, int height, SDL_Color colorOff, SDL_Color colorOn);
     ~Button();
 
     void draw(SDL_Renderer *renderer);

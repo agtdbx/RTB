@@ -7,6 +7,16 @@
 #include "../include/Button.h"
 
 //Private methods
+
+void Menu::initButton() {
+    SDL_Color colorOff = {150, 150, 150, 255};
+    SDL_Color colorOn = {200, 200, 200, 255};
+    this->butJouer = Button("Jouer", 40, this->winW/2 - 100, this->winH/2 - 100, 200, 50, colorOff, colorOn);
+    this->butOptions = Button("Options", 40,this->winW/2 - 100, this->winH/2, 200, 50, colorOff, colorOn);
+    this->butQuitter = Button("Quitter", 40,this->winW/2 - 100, this->winH/2 + 100, 200, 50, colorOff, colorOn);
+}
+
+
 void Menu::input() {
     SDL_Event event;
     while(SDL_PollEvent(&event)){
@@ -19,6 +29,7 @@ void Menu::input() {
                 if (event.key.keysym.sym == SDLK_ESCAPE){
                     this->run = false;
                 }
+                break;
         }
     }
 }
@@ -34,12 +45,17 @@ void Menu::render() {
     SDL_RenderClear(this->renderer);
 
     SDL_Color color = {0, 0, 0, 255};
-    drawText(this->renderer, "Road To Back !", 80, this->winW/2, 50, 1, color);
+    switch (this->fenetre) {
+        case 0:
+            this->butJouer.draw(renderer);
+            this->butOptions.draw(renderer);
+            this->butQuitter.draw(renderer);
+            break;
 
-    SDL_Color colorOff = {100, 100, 100, 255};
-    SDL_Color colorOn = {0, 0, 0, 255};
-    Button but = Button("test", 100, 100, 100, 20, colorOff, colorOn);
-    but.draw(this->renderer);
+        case 1:
+            break;
+    }
+    drawText(this->renderer, "Road To Back !", 80, this->winW/2, 50, 1, color);
 
     SDL_RenderPresent(this->renderer);
 }
@@ -53,12 +69,13 @@ Menu::Menu(SDL_Window *window, SDL_Renderer *renderer) {
     this->window = window;
     this->renderer = renderer;
     this->run = true;
+    this->fenetre = 0;
+
+    this->initButton();
 }
 
 
 Menu::~Menu() {
-    free(this->renderer);
-    free(this->window);
 }
 
 
