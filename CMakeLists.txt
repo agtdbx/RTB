@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 14)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x")
 
-add_executable(RTB src/main.cpp src/Menu.cpp include/Menu.h)
+add_executable(RTB src/main.cpp src/Menu.cpp include/Menu.h src/Functions.cpp include/Functions.h src/Button.cpp include/Button.h)
 
 INCLUDE(FindPkgConfig)
 
