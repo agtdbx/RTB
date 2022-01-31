@@ -6,15 +6,15 @@
 #define RTB_BUTTON_H
 
 #include <SDL.h>
-#include <iostream>
 
 class Button {
 private:
-    int x, y, width, height;
-    std::string text;
+    int x, y, w, h;
+    char *text;
+    SDL_Color colorOff, colorOn;
 
 public:
-    Button(char *text, int x, int y, int width, int height);
+    Button(char *text, int x, int y, int width, int height, SDL_Color colorOff, SDL_Color colorOn);
     ~Button();
 
     void draw(SDL_Renderer *renderer);

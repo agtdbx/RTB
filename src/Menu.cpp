@@ -4,6 +4,7 @@
 
 #include "../include/Menu.h"
 #include "../include/Functions.h"
+#include "../include/Button.h"
 
 //Private methods
 void Menu::input() {
@@ -34,6 +35,11 @@ void Menu::render() {
 
     SDL_Color color = {0, 0, 0, 255};
     drawText(this->renderer, "Road To Back !", 80, this->winW/2, 50, 1, color);
+
+    SDL_Color colorOff = {100, 100, 100, 255};
+    SDL_Color colorOn = {0, 0, 0, 255};
+    Button but = Button("test", 100, 100, 100, 20, colorOff, colorOn);
+    but.draw(this->renderer);
 
     SDL_RenderPresent(this->renderer);
 }

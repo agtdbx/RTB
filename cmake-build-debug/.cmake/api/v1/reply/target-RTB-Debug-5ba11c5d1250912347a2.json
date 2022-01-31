@@ -213,7 +213,7 @@
 		},
 		{
 			"backtrace" : 1,
-			"path" : "src/Button.h",
+			"path" : "include/Button.h",
 			"sourceGroupIndex" : 1
 		}
 	],
