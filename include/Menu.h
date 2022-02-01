@@ -7,6 +7,7 @@
 
 #include <SDL.h>
 #include "../include/Button.h"
+#include "../include/Select.h"
 
 class Menu {
 private:
@@ -21,6 +22,7 @@ private:
     butKeyBinding,
     butCredit,
     butRetourOptions;
+    Select butChoixRes;
 
     void initButton();
     void input();

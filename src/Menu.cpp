@@ -26,8 +26,16 @@ void Menu::initButton() {
     SDL_Color tranparenteOff = {255, 255, 255, 0};
     SDL_Color tranparenteOn = {200, 200, 200, 100};
     this->butGraphics = Button("Graphique", 30, 2, this->spacingWithScreen + this->borderSize, 75 + this->spacingWithScreen, 250-this->borderSize*2, 75-this->borderSize*2, tranparenteOff, tranparenteOn);
+    std::vector<char*> choixRes = {"1280x720", "1920x1080", "2560x1440"};
+    this->butChoixRes = Select("1920x1080", 30, 1, this->winW/2 + 80, 250, 160, 40, colorOff, colorOn, choixRes);
+
+    //Sonore
     this->butSonore = Button("Sonore", 30, 2, this->spacingWithScreen + this->borderSize, 75*2 + this->spacingWithScreen - this->borderSize, 250-this->borderSize*2, 75-this->borderSize*2, tranparenteOff, tranparenteOn);
+
+    //Clavier
     this->butKeyBinding = Button("Clavier", 30, 2, this->spacingWithScreen + this->borderSize, 75*3 + this->spacingWithScreen - this->borderSize*2, 250-this->borderSize*2, 75-this->borderSize*2, tranparenteOff, tranparenteOn);
+
+    //Credit
     this->butCredit = Button("Credit", 30,2, this->spacingWithScreen + this->borderSize, 75*4 + this->spacingWithScreen - this->borderSize*3, 250-this->borderSize*2, 75-this->borderSize*2, tranparenteOff, tranparenteOn);
 
     this->butRetourOptions = Button("Retour", 40, 1, this->winW/2 - 100, this->winH-50 - 100, 200, 50, colorOff, colorOn);
@@ -208,7 +216,7 @@ void Menu::render() {
 
         case 23:{
             drawText(this->renderer, "Road To Bac !", 80, this->winW/2, 10, 1, color);
-            drawText(this->renderer, "Credit", 80, this->winW/2, 100, 1, color);
+            drawText(this->renderer, "Credit", 50, this->winW/2, 100, 1, color);
             SDL_SetRenderDrawColor(this->renderer, 150, 150, 150, 100);
             SDL_Rect rect = {this->spacingWithScreen + this->borderSize, 75*4 + this->spacingWithScreen - this->borderSize*3, 250-this->borderSize*2, 75-this->borderSize*2};
             SDL_RenderFillRect(this->renderer, &rect);
@@ -284,7 +292,9 @@ void Menu::drawBaseOptions() {
 
 
 void Menu::drawGraphicOptions() {
-
+    SDL_Color color = {0, 0, 0, 255};
+    drawText(this->renderer, "Resolution de l'ecran :", 30, this->winW/2 - 80, 250, 1, color);
+    this->butChoixRes.draw(this->renderer);
 }
 
 
