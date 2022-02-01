@@ -29,7 +29,7 @@ Button::Button() {
 
 }
 
-Button::Button(char *text, int textSize, int x, int y, int width, int height, SDL_Color colorOff, SDL_Color colorOn) {
+Button::Button(char *text, int textSize, int textAlign, int x, int y, int width, int height, SDL_Color colorOff, SDL_Color colorOn) {
     this->text = text;
     this->textSize = textSize;
     this->x = x;
@@ -38,6 +38,7 @@ Button::Button(char *text, int textSize, int x, int y, int width, int height, SD
     this->h = height;
     this->colorOff = colorOff;
     this->colorOn = colorOn;
+    this->textAlign = textAlign;
 }
 
 
@@ -57,7 +58,7 @@ void Button::draw(SDL_Renderer *renderer) {
     SDL_Rect rect = {this->x, this->y, this->w, this->h}; // Création du carré (x, y, width, height)
     SDL_RenderFillRect(renderer, &rect); // Dessin du carré
     SDL_Color color = {0, 0, 0, 255};
-    drawText(renderer, this->text, this->textSize, this->x + this->w/2, this->y, 1, color);
+    drawText(renderer, this->text, this->textSize, this->x + this->w/2, this->y, this->textAlign, color);
 }
 
 bool Button::clicOnButton() {

@@ -9,7 +9,7 @@
 
 class Button {
 private:
-    int x, y, w, h, textSize;
+    int x, y, w, h, textSize, textAlign;
     char *text;
     bool mouseOver;
     SDL_Color colorOff, colorOn;
@@ -18,7 +18,7 @@ private:
 
 public:
     Button();
-    Button(char *text, int textSize, int x, int y, int width, int height, SDL_Color colorOff, SDL_Color colorOn);
+    Button(char *text, int textSize, int textAlign, int x, int y, int width, int height, SDL_Color colorOff, SDL_Color colorOn);
     ~Button();
 
     void draw(SDL_Renderer *renderer);

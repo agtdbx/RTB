@@ -21,7 +21,7 @@ void drawText(SDL_Renderer *renderer , char *text, int textSize, int x, int y, i
     }
     else if (alignement == 2){
         position.x = x - surface->w/2;
-        position.y = y - surface->h/2;
+        position.y = y + surface->h/2;
     }
     else if (alignement == 3){
         position.x = x - surface->w;
