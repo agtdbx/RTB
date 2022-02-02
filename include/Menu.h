@@ -8,6 +8,7 @@
 #include <SDL.h>
 #include "../include/Button.h"
 #include "../include/Select.h"
+#include "../include/Switch.h"
 
 class Menu {
 private:
@@ -23,6 +24,7 @@ private:
     butCredit,
     butRetourOptions;
     Select butChoixRes;
+    Switch fullScreen;
 
     void initButton();
     void input();

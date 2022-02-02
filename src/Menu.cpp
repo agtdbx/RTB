@@ -11,6 +11,7 @@ void Menu::initButton() {
     SDL_Color colorOff = {255, 255, 255, 0};
     SDL_Color colorOn = {200, 200, 200, 100};
     SDL_Color black = {0, 0, 0, 255};
+    SDL_Color blue = {0, 0, 255, 100};
     //Menu principal
     this->butJouer = Button("Jouer", 40, 1, this->winW/2 - 100, this->winH/2 - 100, 200, 50, colorOff, colorOn, 2, black);
     this->butOptions = Button("Options", 40, 1,this->winW/2 - 100, this->winH/2, 200, 50, colorOff, colorOn,2, black);
@@ -27,6 +28,7 @@ void Menu::initButton() {
     this->butGraphics = Button("Graphique", 30, 2, this->spacingWithScreen + this->borderSize, 75 + this->spacingWithScreen, 250-this->borderSize*2, 75-this->borderSize*2, colorOff, colorOn,0, black);
     std::vector<char*> choixRes = {"1280x720", "1280x800", "1920x1080", "2560x1440"};
     this->butChoixRes = Select("1920x1080", 30, 1, this->winW/2 + 80, 250, 160, 40, colorOff, colorOn, choixRes, 2, black);
+    this->fullScreen = Switch(this->winW/2 + 40, 360, 80, 20, colorOff, blue, 2, black);
 
     //Sonore
     this->butSonore = Button("Sonore", 30, 2, this->spacingWithScreen + this->borderSize, 75*2 + this->spacingWithScreen - this->borderSize, 250-this->borderSize*2, 75-this->borderSize*2, colorOff, colorOn,0, black);
@@ -292,8 +294,14 @@ void Menu::drawBaseOptions() {
 
 void Menu::drawGraphicOptions() {
     SDL_Color color = {0, 0, 0, 255};
+
+    //Choix résolution
     drawText(this->renderer, "Resolution de l'ecran :", 30, this->winW/2 - 80, 250, 1, color);
     this->butChoixRes.draw(this->renderer);
+
+    //Pleins écran
+    drawText(this->renderer, "Plein ecran :", 30, this->winW/2 - 80, 350, 1, color);
+    this->fullScreen.draw(this->renderer);
 }
 
 
