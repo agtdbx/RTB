@@ -8,37 +8,36 @@
 //Private methods
 
 void Menu::initButton() {
-    SDL_Color colorOff = {150, 150, 150, 255};
-    SDL_Color colorOn = {200, 200, 200, 255};
+    SDL_Color colorOff = {255, 255, 255, 0};
+    SDL_Color colorOn = {200, 200, 200, 100};
+    SDL_Color black = {0, 0, 0, 255};
     //Menu principal
-    this->butJouer = Button("Jouer", 40, 1, this->winW/2 - 100, this->winH/2 - 100, 200, 50, colorOff, colorOn);
-    this->butOptions = Button("Options", 40, 1,this->winW/2 - 100, this->winH/2, 200, 50, colorOff, colorOn);
-    this->butQuitter = Button("Quitter", 40, 1, this->winW/2 - 100, this->winH/2 + 100, 200, 50, colorOff, colorOn);
+    this->butJouer = Button("Jouer", 40, 1, this->winW/2 - 100, this->winH/2 - 100, 200, 50, colorOff, colorOn, 2, black);
+    this->butOptions = Button("Options", 40, 1,this->winW/2 - 100, this->winH/2, 200, 50, colorOff, colorOn,2, black);
+    this->butQuitter = Button("Quitter", 40, 1, this->winW/2 - 100, this->winH/2 + 100, 200, 50, colorOff, colorOn,2, black);
 
     //Choix des niveaux
-    this->butlvl1 = Button("1", 40, 1,this->winW/2 - 25 - 75, this->winH/3, 50, 50, colorOff, colorOn);
-    this->butlvl2 = Button("2", 40, 1,this->winW/2 - 25, this->winH/3, 50, 50, colorOff, colorOn);
-    this->butlvl3 = Button("3", 40, 1,this->winW/2 - 25 + 75, this->winH/3, 50, 50, colorOff, colorOn);
-    this->butRetourJouer = Button("Retour", 40, 1, this->winW/2 - 100, this->winH-50 - 100, 200, 50, colorOff, colorOn);
+    this->butlvl1 = Button("1", 40, 1,this->winW/2 - 25 - 75, this->winH/3, 50, 50, colorOff, colorOn,2, black);
+    this->butlvl2 = Button("2", 40, 1,this->winW/2 - 25, this->winH/3, 50, 50, colorOff, colorOn,2, black);
+    this->butlvl3 = Button("3", 40, 1,this->winW/2 - 25 + 75, this->winH/3, 50, 50, colorOff, colorOn,2, black);
+    this->butRetourJouer = Button("Retour", 40, 1, this->winW/2 - 100, this->winH-50 - 100, 200, 50, colorOff, colorOn,2, black);
 
     //Options
     //Graphic
-    SDL_Color tranparenteOff = {255, 255, 255, 0};
-    SDL_Color tranparenteOn = {200, 200, 200, 100};
-    this->butGraphics = Button("Graphique", 30, 2, this->spacingWithScreen + this->borderSize, 75 + this->spacingWithScreen, 250-this->borderSize*2, 75-this->borderSize*2, tranparenteOff, tranparenteOn);
-    std::vector<char*> choixRes = {"1280x720", "1920x1080", "2560x1440"};
-    this->butChoixRes = Select("1920x1080", 30, 1, this->winW/2 + 80, 250, 160, 40, colorOff, colorOn, choixRes);
+    this->butGraphics = Button("Graphique", 30, 2, this->spacingWithScreen + this->borderSize, 75 + this->spacingWithScreen, 250-this->borderSize*2, 75-this->borderSize*2, colorOff, colorOn,0, black);
+    std::vector<char*> choixRes = {"1280x720", "1280x800", "1920x1080", "2560x1440"};
+    this->butChoixRes = Select("1920x1080", 30, 1, this->winW/2 + 80, 250, 160, 40, colorOff, colorOn, choixRes, 2, black);
 
     //Sonore
-    this->butSonore = Button("Sonore", 30, 2, this->spacingWithScreen + this->borderSize, 75*2 + this->spacingWithScreen - this->borderSize, 250-this->borderSize*2, 75-this->borderSize*2, tranparenteOff, tranparenteOn);
+    this->butSonore = Button("Sonore", 30, 2, this->spacingWithScreen + this->borderSize, 75*2 + this->spacingWithScreen - this->borderSize, 250-this->borderSize*2, 75-this->borderSize*2, colorOff, colorOn,0, black);
 
     //Clavier
-    this->butKeyBinding = Button("Clavier", 30, 2, this->spacingWithScreen + this->borderSize, 75*3 + this->spacingWithScreen - this->borderSize*2, 250-this->borderSize*2, 75-this->borderSize*2, tranparenteOff, tranparenteOn);
+    this->butKeyBinding = Button("Clavier", 30, 2, this->spacingWithScreen + this->borderSize, 75*3 + this->spacingWithScreen - this->borderSize*2, 250-this->borderSize*2, 75-this->borderSize*2, colorOff, colorOn,0, black);
 
     //Credit
-    this->butCredit = Button("Credit", 30,2, this->spacingWithScreen + this->borderSize, 75*4 + this->spacingWithScreen - this->borderSize*3, 250-this->borderSize*2, 75-this->borderSize*2, tranparenteOff, tranparenteOn);
+    this->butCredit = Button("Credit", 30,2, this->spacingWithScreen + this->borderSize, 75*4 + this->spacingWithScreen - this->borderSize*3, 250-this->borderSize*2, 75-this->borderSize*2, colorOff, colorOn,0, black);
 
-    this->butRetourOptions = Button("Retour", 40, 1, this->winW/2 - 100, this->winH-50 - 100, 200, 50, colorOff, colorOn);
+    this->butRetourOptions = Button("Retour", 40, 1, this->winW/2 - 100, this->winH-50 - 100, 200, 50, colorOff, colorOn,2, black);
 }
 
 

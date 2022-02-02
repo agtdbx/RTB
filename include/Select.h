@@ -11,22 +11,22 @@
 
 class Select {
 private:
-    int x, y, w, h, textSize, textAlign,  mouseOver;
+    int x, y, w, h, textSize, textAlign,  mouseOver, borderSize;
     char *text;
     std::vector<char*> values;
     bool extend;
-    SDL_Color colorOff, colorOn;
+    SDL_Color colorOff, colorOn, borderColor;
 
     void mouseOnButton();
     void clicOnButton();
 
 public:
     Select();
-    Select(char *text, int textSize, int textAlign, int x, int y, int width, int height, SDL_Color colorOff, SDL_Color colorOn, std::vector<char*> values);
+    Select(char *text, int textSize, int textAlign, int x, int y, int width, int height, SDL_Color colorOff, SDL_Color colorOn, std::vector<char*> values, int borderSize, SDL_Color borderColor);
     ~Select();
 
     void draw(SDL_Renderer *renderer);
-    int getValue();
+    char* getValue();
 };
 
 
