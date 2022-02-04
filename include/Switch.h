@@ -10,6 +10,7 @@
 class Switch {
 private:
     int x, y, w, h, borderSize;
+    float lastClic;
     bool active, mouseOver;
     SDL_Color colorOff, colorOn, borderColor;
     void mouseOnButton();

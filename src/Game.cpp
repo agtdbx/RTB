@@ -5,6 +5,7 @@
 #include "../include/Game.h"
 #include <SDL.h>
 #include "../include/Button.h"
+#include <iostream>
 
 //Private methods
 void Game::initButton() {
@@ -92,5 +93,8 @@ void Game::start() {
         this->input();
         this->tick();
         this->render();
+    }
+    float wait = SDL_GetTicks()/1000;
+    while (SDL_GetTicks()/1000 - wait < 0.2){
     }
 }

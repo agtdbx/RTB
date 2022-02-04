@@ -15,11 +15,12 @@ private:
     SDL_Window *window;
     SDL_Renderer *renderer;
     int winW, winH, fenetre, spacingWithScreen, borderSize;
+    float lastClic, lastTime;
     bool run, continuer;
     Button butJouer, butOptions, butQuitter,
     butlvl1, butlvl2, butlvl3, butRetourJouer,
     butGraphics,
-    butSonore,
+    butSonore, butMusiqueMoins, ButMusiquePlus, butSonMoins, butSonPlus,
     butKeyBinding,
     butCredit,
     butRetourOptions;

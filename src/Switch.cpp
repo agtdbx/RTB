@@ -34,8 +34,9 @@ void Switch::clicOnButton() {
 
     buttons = SDL_GetMouseState(&x, &y);
 
-    if ((buttons & SDL_BUTTON_LMASK) != 0 && this->mouseOver) {
+    if ((buttons & SDL_BUTTON_LMASK) != 0 && this->mouseOver && (SDL_GetTicks()/1000)-this->lastClic > 0.1) {
         this->active = !this->active;
+        this->lastClic = SDL_GetTicks()/1000;
     }
 }
 
@@ -56,6 +57,7 @@ Switch::Switch(int x, int y, int w, int h, SDL_Color colorOff, SDL_Color colorOn
     this->borderSize = borderSize;
     this->borderColor = borderColor;
     this->active = false;
+    this->lastClic = 0.0;
 }
 
 

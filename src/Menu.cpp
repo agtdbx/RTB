@@ -4,6 +4,7 @@
 
 #include "../include/Menu.h"
 #include "../include/Functions.h"
+#include <ctime>
 
 //Private methods
 
@@ -27,8 +28,8 @@ void Menu::initButton() {
     //Graphic
     this->butGraphics = Button("Graphique", 30, 2, this->spacingWithScreen + this->borderSize, 75 + this->spacingWithScreen, 250-this->borderSize*2, 75-this->borderSize*2, colorOff, colorOn,0, black);
     std::vector<char*> choixRes = {"1280x720", "1280x800", "1920x1080", "2560x1440"};
-    this->butChoixRes = Select("1920x1080", 30, 1, this->winW/2 + 80, 250, 160, 40, colorOff, colorOn, choixRes, 2, black);
-    this->fullScreen = Switch(this->winW/2 + 40, 360, 80, 20, colorOff, blue, 2, black);
+    this->butChoixRes = Select("1920x1080", 30, 1, this->winW/2 + 110, 250, 160, 40, colorOff, colorOn, choixRes, 2, black);
+    this->fullScreen = Switch(this->winW/2 - 20, 340, 80, 20, colorOff, blue, 2, black);
 
     //Sonore
     this->butSonore = Button("Sonore", 30, 2, this->spacingWithScreen + this->borderSize, 75*2 + this->spacingWithScreen - this->borderSize, 250-this->borderSize*2, 75-this->borderSize*2, colorOff, colorOn,0, black);
@@ -84,6 +85,7 @@ void Menu::tick() {
             if (this->butlvl1.clicOnButton()){
                 this->run = false;
                 this->continuer = true;
+                this->fenetre = 0;
             }
             else if (this->butRetourJouer.clicOnButton()){
                 this->fenetre = 0;
@@ -296,17 +298,21 @@ void Menu::drawGraphicOptions() {
     SDL_Color color = {0, 0, 0, 255};
 
     //Choix résolution
-    drawText(this->renderer, "Resolution de l'ecran :", 30, this->winW/2 - 80, 250, 1, color);
+    drawText(this->renderer, "Resolution de l'ecran :", 30, this->winW/2 - 200, 250, 0, color);
     this->butChoixRes.draw(this->renderer);
 
     //Pleins écran
-    drawText(this->renderer, "Plein ecran :", 30, this->winW/2 - 80, 350, 1, color);
+    drawText(this->renderer, "Plein ecran :", 30, this->winW/2 - 200, 330, 0, color);
     this->fullScreen.draw(this->renderer);
 }
 
 
 void Menu::drawSoundsOptions() {
+    SDL_Color color = {0, 0, 0, 255};
 
+    //Réglage de la musique
+    drawText(this->renderer, "Musique", 30, this->winW/2, 200, 1, color);
+    drawText(this->renderer, "100%", 25, this->winW/2, 250, 1, color);
 }
 
 
@@ -331,6 +337,8 @@ Menu::Menu(SDL_Window *window, SDL_Renderer *renderer, int winW, int winH) {
     this->continuer = false;
     this->spacingWithScreen = 10;
     this->borderSize = 3;
+    this->lastClic = 0.0;
+    this->lastTime = 0.0;
 
     this->initButton();
 }
@@ -345,9 +353,12 @@ bool Menu::start() {
     this->run = true;
     this->continuer = false;
     while(this->run){
-        this->input();
-        this->tick();
-        this->render();
+        if (((float)SDL_GetTicks()/1000) - this->lastTime > 1.0/30){
+            this->lastTime = (float)SDL_GetTicks()/1000;
+            this->input();
+            this->tick();
+            this->render();
+        }
     }
     return this->continuer;
 }
