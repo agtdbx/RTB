@@ -33,6 +33,8 @@ void Menu::initButton() {
 
     //Sonore
     this->butSonore = Button("Sonore", 30, 2, this->spacingWithScreen + this->borderSize, 75*2 + this->spacingWithScreen - this->borderSize, 250-this->borderSize*2, 75-this->borderSize*2, colorOff, colorOn,0, black);
+    this->butMusiqueMoins = Button("-", 30, 1, this->winW/2 - 50, 245, 25, 35, colorOff, colorOn, 0, black);
+    this->butMusiquePlus = Button("+", 30, 1, this->winW/2 + 50, 245, 25, 35, colorOff, colorOn, 0, black);
 
     //Clavier
     this->butKeyBinding = Button("Clavier", 30, 2, this->spacingWithScreen + this->borderSize, 75*3 + this->spacingWithScreen - this->borderSize*2, 250-this->borderSize*2, 75-this->borderSize*2, colorOff, colorOn,0, black);
@@ -119,6 +121,14 @@ void Menu::tick() {
             }
             else if (this->butRetourOptions.clicOnButton()){
                 this->fenetre = 0;
+            }
+            else if (this->butMusiqueMoins.clicOnButton() && this->volumeMusique >= 5 && (float)SDL_GetTicks()/1000 - this->lastClic > 0.3){
+                this->volumeMusique -= 5;
+                this->lastClic = (float)SDL_GetTicks()/1000;
+            }
+            else if (this->butMusiquePlus.clicOnButton() && this->volumeMusique <= 95 && (float)SDL_GetTicks()/1000 - this->lastClic > 0.3){
+                this->volumeMusique += 5;
+                this->lastClic = (float)SDL_GetTicks()/1000;
             }
             break;
 
@@ -312,7 +322,13 @@ void Menu::drawSoundsOptions() {
 
     //Réglage de la musique
     drawText(this->renderer, "Musique", 30, this->winW/2, 200, 1, color);
-    drawText(this->renderer, "100%", 25, this->winW/2, 250, 1, color);
+    char text[10] = "000000000";
+    snprintf(text, sizeof(text), "%i", this->volumeMusique);
+    drawText(this->renderer, text, 25, this->winW/2, 250, 1, color);
+    drawText(this->renderer, "%", 25, this->winW/2 + 30, 250, 1, color);
+
+    this->butMusiqueMoins.draw(this->renderer);
+    this->butMusiquePlus.draw(this->renderer);
 }
 
 
@@ -339,6 +355,7 @@ Menu::Menu(SDL_Window *window, SDL_Renderer *renderer, int winW, int winH) {
     this->borderSize = 3;
     this->lastClic = 0.0;
     this->lastTime = 0.0;
+    this->volumeMusique = 100;
 
     this->initButton();
 }

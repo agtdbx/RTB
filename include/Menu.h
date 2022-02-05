@@ -14,13 +14,13 @@ class Menu {
 private:
     SDL_Window *window;
     SDL_Renderer *renderer;
-    int winW, winH, fenetre, spacingWithScreen, borderSize;
+    int winW, winH, fenetre, spacingWithScreen, borderSize, volumeMusique;
     float lastClic, lastTime;
     bool run, continuer;
     Button butJouer, butOptions, butQuitter,
     butlvl1, butlvl2, butlvl3, butRetourJouer,
     butGraphics,
-    butSonore, butMusiqueMoins, ButMusiquePlus, butSonMoins, butSonPlus,
+    butSonore, butMusiqueMoins, butMusiquePlus, butSonMoins, butSonPlus,
     butKeyBinding,
     butCredit,
     butRetourOptions;
