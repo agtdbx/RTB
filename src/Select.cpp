@@ -137,3 +137,7 @@ bool Select::draw(SDL_Renderer *renderer) {
 char* Select::getValue() {
     return this->text;
 }
+
+void Select::setX(int x) {
+    this->x = x;
+}

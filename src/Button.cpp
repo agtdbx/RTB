@@ -84,3 +84,11 @@ bool Button::clicOnButton() {
 
     return rep;
 }
+
+void Button::setX(int x) {
+    this->x = x;
+}
+
+void Button::setY(int y) {
+    this->y = y;
+}

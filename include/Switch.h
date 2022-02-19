@@ -22,6 +22,7 @@ public:
     ~Switch();
     bool draw(SDL_Renderer *renderer);
     bool isActive();
+    void setX(int x);
 };
 
 

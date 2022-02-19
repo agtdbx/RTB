@@ -357,15 +357,12 @@ void Menu::drawSoundsOptions() {
     snprintf(text2, sizeof(text2), "%i", this->volumeSon);
     drawText(this->renderer, text2, 25, this->winW/2 - 5, 340, 1, color);
     drawText(this->renderer, "%", 25, this->winW/2 + 25, 340, 1, color);
-
-    this->butSonMoins.draw(this->renderer);
-    this->butSonPlus.draw(this->renderer);
 }
 
 
 void Menu::drawKeyboardOptions() {
     //Bind déplacement à droite
-    
+
 }
 
 
@@ -397,6 +394,44 @@ void Menu::setScreenSize() {
     intHeight >> this->winH;
 
     SDL_SetWindowSize(this->window, this->winW, this->winH);
+
+    this->butChoixRes.setX(this->winW/2 + 110);
+    this->fullScreen.setX(this->winW/2 - 20);
+
+    //Menu principal
+    this->butJouer.setX(this->winW/2 - 100);
+    this->butJouer.setY(this->winH/2 - 100);
+    this->butOptions.setX(this->winW/2 - 100);
+    this->butOptions.setY(this->winH/2);
+    this->butQuitter.setX(this->winW/2 - 100);
+    this->butQuitter.setY(this->winH/2 + 100);
+
+    //Choix des niveaux
+    this->butlvl1.setX(this->winW/2 - 25 - 75);
+    this->butlvl1.setY(this->winH/3);
+    this->butlvl2.setX(this->winW/2 - 25);
+    this->butlvl2.setY(this->winH/3);
+    this->butlvl3.setX(this->winW/2 - 25 + 75);
+    this->butlvl3.setY(this->winH/3);
+    this->butRetourJouer.setX(this->winW/2 - 100);
+    this->butRetourJouer.setY(this->winH-50 - 100);
+
+    //Options
+    //Graphic
+    this->butChoixRes.setX(this->winW/2 + 110);
+    this->fullScreen.setX(this->winW/2 - 20);
+
+    //Sonore
+    this->butMusiqueMoins.setX(this->winW/2 - 55);
+    this->butMusiquePlus.setX(this->winW/2 + 35);
+    this->butSonMoins.setX(this->winW/2 - 55);
+    this->butSonPlus.setX(this->winW/2 + 35);
+
+    //Clavier
+
+
+    this->butRetourOptions.setX(this->winW/2 - 100);
+    this->butRetourOptions.setY(this->winH-50 - 100);
 }
 
 

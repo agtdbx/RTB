@@ -27,6 +27,7 @@ public:
 
     bool draw(SDL_Renderer *renderer);
     char* getValue();
+    void setX(int x);
 };
 
 

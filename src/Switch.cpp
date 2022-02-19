@@ -103,3 +103,7 @@ bool Switch::draw(SDL_Renderer *renderer) {
 bool Switch::isActive() {
     return this->active;
 }
+
+void Switch::setX(int x) {
+    this->x = x;
+}

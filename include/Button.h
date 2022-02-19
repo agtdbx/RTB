@@ -23,6 +23,8 @@ public:
 
     void draw(SDL_Renderer *renderer);
     bool clicOnButton();
+    void setX(int x);
+    void setY(int y);
 };
 
 
