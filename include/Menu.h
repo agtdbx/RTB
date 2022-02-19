@@ -22,7 +22,7 @@ private:
     butlvl1, butlvl2, butlvl3, butRetourJouer,
     butGraphics,
     butSonore, butMusiqueMoins, butMusiquePlus, butSonMoins, butSonPlus,
-    butKeyBinding,
+    butKeyBinding, butBindGauche, butBindDroite, butBindSaut,
     butCredit,
     butRetourOptions;
     Select butChoixRes;

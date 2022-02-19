@@ -42,6 +42,9 @@ void Menu::initButton() {
 
     //Clavier
     this->butKeyBinding = Button("Clavier", 30, 2, this->spacingWithScreen + this->borderSize, 75*3 + this->spacingWithScreen - this->borderSize*2, 250-this->borderSize*2, 75-this->borderSize*2, colorOff, colorOn,0, black);
+    this->butBindGauche = Button("Changer", 30, 1, this->winW - 140 - 200, 200, 140, 40, colorOff, colorOn, 2, black);
+    this->butBindDroite= Button("Changer", 30, 1, this->winW - 140 - 200, 260, 140, 40, colorOff, colorOn, 2, black);
+    this->butBindSaut = Button("Changer", 30, 1, this->winW - 140 - 200, 320, 140, 40, colorOff, colorOn, 2, black);
 
     //Credit
     this->butCredit = Button("Credit", 30,2, this->spacingWithScreen + this->borderSize, 75*4 + this->spacingWithScreen - this->borderSize*3, 250-this->borderSize*2, 75-this->borderSize*2, colorOff, colorOn,0, black);
@@ -74,7 +77,6 @@ void Menu::input() {
 
 
 void Menu::tick() {
-    SDL_PumpEvents();
     switch (this->fenetre) {
         case 0:
             if (this->butJouer.clicOnButton()){
@@ -158,6 +160,18 @@ void Menu::tick() {
             else if (this->butRetourOptions.clicOnButton()){
                 this->fenetre = 0;
             }
+            else if (this->butBindGauche.clicOnButton()){
+                this->fenetre = 221;
+                this->toucheABind = 'G';
+            }
+            else if (this->butBindDroite.clicOnButton()){
+                this->fenetre = 221;
+                this->toucheABind = 'D';
+            }
+            else if (this->butBindSaut.clicOnButton()){
+                this->fenetre = 221;
+                this->toucheABind = 'S';
+            }
             break;
 
         case 23:
@@ -172,6 +186,34 @@ void Menu::tick() {
             }
             else if (this->butRetourOptions.clicOnButton()){
                 this->fenetre = 0;
+            }
+            break;
+
+        case 221:
+            int keylen;
+            const unsigned char *keyboard = SDL_GetKeyboardState(&keylen);
+
+            int key = 0;
+
+            for (int i = 0; i < keylen; ++i){
+                if (keyboard[i] == 1){
+                    key = i;
+                    break;
+                }
+            }
+
+            if (key > 0){
+                if (this->toucheABind == 'G'){
+                    this->toucheGauche = key;
+                }
+                else if (this->toucheABind == 'D'){
+                    this->toucheDroite = key;
+                }
+                else if (this->toucheABind == 'S'){
+                    this->toucheSaut = key;
+                }
+                this->toucheABind = 'X';
+                this->fenetre = 22;
             }
             break;
     }
@@ -252,6 +294,11 @@ void Menu::render() {
 
             this->butRetourOptions.draw(this->renderer);
             break;}
+
+        case 221:
+            drawText(this->renderer, "Road To Bac !", 80, this->winW/2, 10, 1, color);
+            drawText(this->renderer, "Appuis sur un touche", 50, this->winW/2, this->winH/2, 1, color);
+            break;
     }
 
     SDL_RenderPresent(this->renderer);
@@ -357,12 +404,28 @@ void Menu::drawSoundsOptions() {
     snprintf(text2, sizeof(text2), "%i", this->volumeSon);
     drawText(this->renderer, text2, 25, this->winW/2 - 5, 340, 1, color);
     drawText(this->renderer, "%", 25, this->winW/2 + 25, 340, 1, color);
+
+    this->butSonMoins.draw(this->renderer);
+    this->butSonPlus.draw(this->renderer);
 }
 
 
 void Menu::drawKeyboardOptions() {
-    //Bind déplacement à droite
+    SDL_Color color = {0, 0, 0, 255};
+    //Bind déplacement à gauche
+    drawText(this->renderer, "Deplacement a gauche :", 30, this->winW/2, 200, 3, color);
+    drawText(this->renderer, this->drawKeyBind(this->toucheGauche), 30, this->winW/2 + 5, 200, 0, color);
+    this->butBindGauche.draw(this->renderer);
 
+    //Bind déplacement à droite
+    drawText(this->renderer, "Deplacement a droite :", 30, this->winW/2, 260, 3, color);
+    drawText(this->renderer, this->drawKeyBind(this->toucheDroite), 30, this->winW/2 + 5, 260, 0, color);
+    this->butBindDroite.draw(this->renderer);
+
+    //Bind saut
+    drawText(this->renderer, "Saut :", 30, this->winW/2, 320, 3, color);
+    drawText(this->renderer, this->drawKeyBind(this->toucheSaut), 30, this->winW/2 + 5, 320, 0, color);
+    this->butBindSaut.draw(this->renderer);
 }
 
 
@@ -428,7 +491,9 @@ void Menu::setScreenSize() {
     this->butSonPlus.setX(this->winW/2 + 35);
 
     //Clavier
-
+    this->butBindGauche.setX(this->winW - 140 - 200);
+    this->butBindDroite.setX(this->winW - 140 - 200);
+    this->butBindSaut.setX(this->winW - 140 - 200);
 
     this->butRetourOptions.setX(this->winW/2 - 100);
     this->butRetourOptions.setY(this->winH-50 - 100);
@@ -445,10 +510,7 @@ void Menu::setScreenMode() {
 }
 
 
-char * Menu::drawKeyBind(int key) {
-    if (key == 28){
-        return "Control droit";
-    }
+char * Menu::drawKeyBind(int key){
     if (key == 44){
         return "Espace";
     }
@@ -466,6 +528,9 @@ char * Menu::drawKeyBind(int key) {
     }
     if (key == 224){
         return "Control gauche";
+    }
+    if (key == 228){
+        return "Control droit";
     }
     if (key == 225){
         return "Maj gauche";
@@ -504,8 +569,8 @@ Menu::Menu(SDL_Window *window, SDL_Renderer *renderer, int winW, int winH) {
     this->volumeMusique = 100;
     this->volumeSon = 100;
     this->toucheABind = 'X';
-    this->toucheGauche = 113;
-    this->toucheDroite = 96;
+    this->toucheGauche = 20;
+    this->toucheDroite = 7;
     this->toucheSaut = 44;
 
     this->initButton();
