@@ -14,13 +14,13 @@ private:
     bool active, mouseOver;
     SDL_Color colorOff, colorOn, borderColor;
     void mouseOnButton();
-    void clicOnButton();
+    bool clicOnButton();
 
 public:
     Switch();
     Switch(int x, int y, int w, int h, SDL_Color colorOff, SDL_Color colorOn, int borderSize, SDL_Color borderColor);
     ~Switch();
-    void draw(SDL_Renderer *renderer);
+    bool draw(SDL_Renderer *renderer);
     bool isActive();
 };
 

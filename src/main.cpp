@@ -18,7 +18,7 @@ int main() {
 
     SDL_Window *window = SDL_CreateWindow("RTB",
                                           SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, winW, winH,
-                                          SDL_WINDOW_BORDERLESS);
+                                          SDL_WINDOW_FULLSCREEN_DESKTOP);
     SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, 0);
 
     Menu menu = Menu(window, renderer, winW, winH);

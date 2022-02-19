@@ -34,7 +34,8 @@ void Select::mouseOnButton() {
 }
 
 
-void Select::clicOnButton() {
+bool Select::clicOnButton() {
+    bool res = false;
     int x, y;
     Uint32 buttons;
 
@@ -50,12 +51,15 @@ void Select::clicOnButton() {
             if (this->mouseOver > 0) {
                 this->text = this->values[this->mouseOver - 1];
                 this->extend = false;
+                res = true;
             }
         }
     }
     else if ((buttons & SDL_BUTTON_LMASK) != 0 && this->mouseOver != 0){
         this->extend = false;
     }
+
+    return res;
 }
 
 
@@ -86,9 +90,9 @@ Select::~Select() {
 }
 
 
-void Select::draw(SDL_Renderer *renderer) {
+bool Select::draw(SDL_Renderer *renderer) {
     this->mouseOnButton();
-    this->clicOnButton();
+    bool res = this->clicOnButton();
     if (this->mouseOver == 0){
         SDL_SetRenderDrawColor(renderer, this->colorOn.r, this->colorOn.g, this->colorOn.b, this->colorOn.a);
     }
@@ -125,6 +129,8 @@ void Select::draw(SDL_Renderer *renderer) {
             drawText(renderer, this->values[i], this->textSize, this->x + this->w/2, this->y + (i+1)*40, this->textAlign, color);
         }
     }
+
+    return res;
 }
 
 

@@ -25,7 +25,8 @@ void Switch::mouseOnButton() {
 }
 
 
-void Switch::clicOnButton() {
+bool Switch::clicOnButton() {
+    bool res = false;
     this->mouseOnButton();
     int x, y;
     Uint32 buttons;
@@ -37,7 +38,10 @@ void Switch::clicOnButton() {
     if ((buttons & SDL_BUTTON_LMASK) != 0 && this->mouseOver && (SDL_GetTicks()/1000)-this->lastClic > 0.1) {
         this->active = !this->active;
         this->lastClic = SDL_GetTicks()/1000;
+        res = true;
     }
+
+    return res;
 }
 
 
@@ -56,7 +60,7 @@ Switch::Switch(int x, int y, int w, int h, SDL_Color colorOff, SDL_Color colorOn
     this->colorOn = colorOn;
     this->borderSize = borderSize;
     this->borderColor = borderColor;
-    this->active = false;
+    this->active = true;
     this->lastClic = 0.0;
 }
 
@@ -66,8 +70,8 @@ Switch::~Switch() {
 }
 
 
-void Switch::draw(SDL_Renderer *renderer) {
-    this->clicOnButton();
+bool Switch::draw(SDL_Renderer *renderer) {
+    bool res = this->clicOnButton();
     int rayon = (this->h - this->borderSize*2)/2;
     int xCercle = 0;
     if (!this->active){
@@ -91,6 +95,8 @@ void Switch::draw(SDL_Renderer *renderer) {
         SDL_Rect rect = {this->x + i, this->y +i, this->w - i*2, this->h - i*2};
         SDL_RenderDrawRect(renderer, &rect);
     }
+
+    return res;
 }
 
 

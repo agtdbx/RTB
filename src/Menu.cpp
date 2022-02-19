@@ -4,7 +4,9 @@
 
 #include "../include/Menu.h"
 #include "../include/Functions.h"
-#include <ctime>
+#include <iostream>
+#include <string>
+#include <sstream>
 
 //Private methods
 
@@ -33,8 +35,10 @@ void Menu::initButton() {
 
     //Sonore
     this->butSonore = Button("Sonore", 30, 2, this->spacingWithScreen + this->borderSize, 75*2 + this->spacingWithScreen - this->borderSize, 250-this->borderSize*2, 75-this->borderSize*2, colorOff, colorOn,0, black);
-    this->butMusiqueMoins = Button("-", 30, 1, this->winW/2 - 50, 245, 25, 35, colorOff, colorOn, 0, black);
-    this->butMusiquePlus = Button("+", 30, 1, this->winW/2 + 50, 245, 25, 35, colorOff, colorOn, 0, black);
+    this->butMusiqueMoins = Button("-", 30, 1, this->winW/2 - 55, 235, 25, 35, colorOff, colorOn, 0, black);
+    this->butMusiquePlus = Button("+", 30, 1, this->winW/2 + 35, 235, 25, 35, colorOff, colorOn, 0, black);
+    this->butSonMoins = Button("-", 30, 1, this->winW/2 - 55, 335, 25, 35, colorOff, colorOn, 0, black);
+    this->butSonPlus = Button("+", 30, 1, this->winW/2 + 35, 335, 25, 35, colorOff, colorOn, 0, black);
 
     //Clavier
     this->butKeyBinding = Button("Clavier", 30, 2, this->spacingWithScreen + this->borderSize, 75*3 + this->spacingWithScreen - this->borderSize*2, 250-this->borderSize*2, 75-this->borderSize*2, colorOff, colorOn,0, black);
@@ -70,6 +74,7 @@ void Menu::input() {
 
 
 void Menu::tick() {
+    SDL_PumpEvents();
     switch (this->fenetre) {
         case 0:
             if (this->butJouer.clicOnButton()){
@@ -128,6 +133,14 @@ void Menu::tick() {
             }
             else if (this->butMusiquePlus.clicOnButton() && this->volumeMusique <= 95 && (float)SDL_GetTicks()/1000 - this->lastClic > 0.3){
                 this->volumeMusique += 5;
+                this->lastClic = (float)SDL_GetTicks()/1000;
+            }
+            else if (this->butSonMoins.clicOnButton() && this->volumeSon >= 5 && (float)SDL_GetTicks()/1000 - this->lastClic > 0.3){
+                this->volumeSon -= 5;
+                this->lastClic = (float)SDL_GetTicks()/1000;
+            }
+            else if (this->butSonPlus.clicOnButton() && this->volumeSon <= 95 && (float)SDL_GetTicks()/1000 - this->lastClic > 0.3){
+                this->volumeSon += 5;
                 this->lastClic = (float)SDL_GetTicks()/1000;
             }
             break;
@@ -309,11 +322,19 @@ void Menu::drawGraphicOptions() {
 
     //Choix résolution
     drawText(this->renderer, "Resolution de l'ecran :", 30, this->winW/2 - 200, 250, 0, color);
-    this->butChoixRes.draw(this->renderer);
+    bool changeChoix = this->butChoixRes.draw(this->renderer);
+
+    if (changeChoix){
+        this->setScreenSize();
+    }
 
     //Pleins écran
     drawText(this->renderer, "Plein ecran :", 30, this->winW/2 - 200, 330, 0, color);
-    this->fullScreen.draw(this->renderer);
+    bool fullScreen = this->fullScreen.draw(this->renderer);
+
+    if (fullScreen){
+        this->setScreenMode();
+    }
 }
 
 
@@ -324,21 +345,111 @@ void Menu::drawSoundsOptions() {
     drawText(this->renderer, "Musique", 30, this->winW/2, 200, 1, color);
     char text[10] = "000000000";
     snprintf(text, sizeof(text), "%i", this->volumeMusique);
-    drawText(this->renderer, text, 25, this->winW/2, 250, 1, color);
-    drawText(this->renderer, "%", 25, this->winW/2 + 30, 250, 1, color);
+    drawText(this->renderer, text, 25, this->winW/2 - 5, 240, 1, color);
+    drawText(this->renderer, "%", 25, this->winW/2 + 25, 240, 1, color);
 
     this->butMusiqueMoins.draw(this->renderer);
     this->butMusiquePlus.draw(this->renderer);
+
+    //Réglage du son
+    drawText(this->renderer, "Son", 30, this->winW/2, 300, 1, color);
+    char text2[10] = "000000000";
+    snprintf(text2, sizeof(text2), "%i", this->volumeSon);
+    drawText(this->renderer, text2, 25, this->winW/2 - 5, 340, 1, color);
+    drawText(this->renderer, "%", 25, this->winW/2 + 25, 340, 1, color);
+
+    this->butSonMoins.draw(this->renderer);
+    this->butSonPlus.draw(this->renderer);
 }
 
 
 void Menu::drawKeyboardOptions() {
-
+    //Bind déplacement à droite
+    
 }
 
 
 void Menu::drawCredit() {
 
+}
+
+
+void Menu::setScreenSize() {
+    char *res = this->butChoixRes.getValue();
+    std::string width, height;
+    bool first = false;
+
+    for (int i = 0; i < strlen(res); ++i){
+        if (res[i] == 'x'){
+            first = true;
+        }
+        else if (!first){
+            width.push_back(res[i]);
+        }
+        else{
+            height.push_back(res[i]);
+        }
+    }
+    std::stringstream intWidth(width);
+    std::stringstream intHeight(height);
+
+    intWidth >> this->winW;
+    intHeight >> this->winH;
+
+    SDL_SetWindowSize(this->window, this->winW, this->winH);
+}
+
+
+void Menu::setScreenMode() {
+    if (this->fullScreen.isActive()){
+        SDL_SetWindowFullscreen(this->window, SDL_WINDOW_FULLSCREEN_DESKTOP);
+    }
+    else{
+        SDL_SetWindowFullscreen(this->window, SDL_WINDOW_SHOWN);
+    }
+}
+
+
+char * Menu::drawKeyBind(int key) {
+    if (key == 28){
+        return "Control droit";
+    }
+    if (key == 44){
+        return "Espace";
+    }
+    if (key == 79){
+        return "Fleche droite";
+    }
+    if (key == 80){
+        return "Fleche gauche";
+    }
+    if (key == 81){
+        return "Fleche basse";
+    }
+    if (key == 82){
+        return "Fleche haute";
+    }
+    if (key == 224){
+        return "Control gauche";
+    }
+    if (key == 225){
+        return "Maj gauche";
+    }
+    if (key == 226){
+        return "Alt gauche";
+    }
+    if (key == 229){
+        return "Maj droit";
+    }
+    if (key == 230){
+        return "Alt droit";
+    }
+    if (4 <= key && key <= 31){
+        static char res = 'c';
+        res = key + 93;
+        return &res;
+    }
+    return "Non Definit";
 }
 
 
@@ -356,6 +467,11 @@ Menu::Menu(SDL_Window *window, SDL_Renderer *renderer, int winW, int winH) {
     this->lastClic = 0.0;
     this->lastTime = 0.0;
     this->volumeMusique = 100;
+    this->volumeSon = 100;
+    this->toucheABind = 'X';
+    this->toucheGauche = 113;
+    this->toucheDroite = 96;
+    this->toucheSaut = 44;
 
     this->initButton();
 }
