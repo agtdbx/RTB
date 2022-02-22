@@ -6,6 +6,7 @@
 #include <SDL.h>
 #include "../include/Button.h"
 #include <iostream>
+#include "../include/Personnage.h"
 
 //Private methods
 void Game::initButton() {
@@ -56,6 +57,9 @@ void Game::render() {
         case 0:
             SDL_SetRenderDrawColor(this->renderer, 255, 255, 255, 255);
             SDL_RenderClear(this->renderer);
+
+            this->perso.draw(this->renderer);
+
             break;
 
         case 1:
@@ -95,6 +99,10 @@ void Game::start() {
         this->render();
     }
     float wait = SDL_GetTicks()/1000;
-    while (SDL_GetTicks()/1000 - wait < 0.2){
-    }
+    while (SDL_GetTicks()/1000 - wait < 0.2){}
+}
+
+
+void Game::initLevel(int levelNum) {
+    this->perso = Personnage(100.0f, 100.0f);
 }

@@ -14,7 +14,7 @@ class Menu {
 private:
     SDL_Window *window;
     SDL_Renderer *renderer;
-    int winW, winH, fenetre, spacingWithScreen, borderSize, volumeMusique, volumeSon, toucheGauche, toucheDroite, toucheSaut;
+    int winW, winH, fenetre, spacingWithScreen, borderSize, volumeMusique, volumeSon, toucheGauche, toucheDroite, toucheSaut, niveauUnlock, levelLoad;
     float lastClic, lastTime;
     bool run, continuer;
     char toucheABind;
@@ -40,12 +40,15 @@ private:
     void setScreenSize();
     void setScreenMode();
     char * drawKeyBind(int key);
+    void saveOptions();
+    void loadOptions();
 
 public:
     Menu(SDL_Window *window, SDL_Renderer *renderer, int winW, int winH);
     ~Menu();
 
     bool start();
+    int getNumLevel();
 };
 
 

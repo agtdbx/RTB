@@ -141,3 +141,12 @@ char* Select::getValue() {
 void Select::setX(int x) {
     this->x = x;
 }
+
+void Select::setValue(std::string value) {
+    for (int i = 0; i < this->values.size(); ++i){
+        if (value == this->values[i]){
+            this->text = this->values[i];
+            break;
+        }
+    }
+}

@@ -107,3 +107,7 @@ bool Switch::isActive() {
 void Switch::setX(int x) {
     this->x = x;
 }
+
+void Switch::setActive(bool value) {
+    this->active = value;
+}

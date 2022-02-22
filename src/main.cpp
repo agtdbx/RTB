@@ -32,6 +32,7 @@ int main() {
             run = false;
         }
         else{
+            game.initLevel(menu.getNumLevel());
             game.start();
         }
     }

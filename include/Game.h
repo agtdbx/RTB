@@ -7,6 +7,7 @@
 
 #include <SDL.h>
 #include "../include/Button.h"
+#include "../include/Personnage.h"
 
 class Game {
 private:
@@ -15,6 +16,7 @@ private:
     int winW, winH, fenetre;
     bool run;
     Button butContinuer, butQuitter;
+    Personnage perso;
 
     void initButton();
     void input();
@@ -26,6 +28,7 @@ public:
     ~Game();
 
     void start();
+    void initLevel(int levelNum);
 };
 
 

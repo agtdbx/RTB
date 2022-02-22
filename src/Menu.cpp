@@ -4,8 +4,9 @@
 
 #include "../include/Menu.h"
 #include "../include/Functions.h"
-#include <iostream>
 #include <string>
+#include <ostream>
+#include <fstream>
 #include <sstream>
 
 //Private methods
@@ -15,6 +16,7 @@ void Menu::initButton() {
     SDL_Color colorOn = {200, 200, 200, 100};
     SDL_Color black = {0, 0, 0, 255};
     SDL_Color blue = {0, 0, 255, 100};
+
     //Menu principal
     this->butJouer = Button("Jouer", 40, 1, this->winW/2 - 100, this->winH/2 - 100, 200, 50, colorOff, colorOn, 2, black);
     this->butOptions = Button("Options", 40, 1,this->winW/2 - 100, this->winH/2, 200, 50, colorOff, colorOn,2, black);
@@ -30,6 +32,7 @@ void Menu::initButton() {
     //Graphic
     this->butGraphics = Button("Graphique", 30, 2, this->spacingWithScreen + this->borderSize, 75 + this->spacingWithScreen, 250-this->borderSize*2, 75-this->borderSize*2, colorOff, colorOn,0, black);
     std::vector<char*> choixRes = {"1280x720", "1280x800", "1920x1080", "2560x1440"};
+
     this->butChoixRes = Select("1920x1080", 30, 1, this->winW/2 + 110, 250, 160, 40, colorOff, colorOn, choixRes, 2, black);
     this->fullScreen = Switch(this->winW/2 - 20, 340, 80, 20, colorOff, blue, 2, black);
 
@@ -91,10 +94,11 @@ void Menu::tick() {
             break;
 
         case 1:
-            if (this->butlvl1.clicOnButton()){
+            if (this->butlvl1.clicOnButton() && this->niveauUnlock >= 1){
                 this->run = false;
                 this->continuer = true;
                 this->fenetre = 0;
+                this->levelLoad = 1;
             }
             else if (this->butRetourJouer.clicOnButton()){
                 this->fenetre = 0;
@@ -237,9 +241,15 @@ void Menu::render() {
 
         case 1:
             drawText(this->renderer, "Road To Bac !", 80, this->winW/2, 50, 1, color);
-            this->butlvl1.draw(this->renderer);
-            this->butlvl2.draw(this->renderer);
-            this->butlvl3.draw(this->renderer);
+            if(this->niveauUnlock >= 1){
+                this->butlvl1.draw(this->renderer);
+            }
+            if(this->niveauUnlock >= 2){
+                this->butlvl2.draw(this->renderer);
+            }
+            if(this->niveauUnlock >= 3){
+                this->butlvl3.draw(this->renderer);
+            }
             this->butRetourJouer.draw(this->renderer);
             break;
 
@@ -553,6 +563,106 @@ char * Menu::drawKeyBind(int key){
 }
 
 
+void Menu::saveOptions() {
+    // Sauvegarde des optionsx
+    std::ofstream myfile;
+    myfile.open ("../data/saves/options.txt"); // Ouverture du fichier
+
+    myfile << this->butChoixRes.getValue() << "\n";
+    myfile << this->winW << "\n";
+    myfile << this->winH << "\n";
+    myfile << this->fullScreen.isActive() << "\n";
+    myfile << this->volumeMusique << "\n";
+    myfile << this->volumeSon << "\n";
+    myfile << this->toucheGauche << "\n";
+    myfile << this->toucheDroite << "\n";
+    myfile << this->toucheSaut<< "\n";
+    myfile << this->niveauUnlock<< "\n";
+
+    myfile.close();
+}
+
+
+void Menu::loadOptions() {
+    std::string line;
+    std::ifstream myfile ("../data/saves/options.txt");// Ouverture du fichier
+
+    if (myfile.is_open()){
+        int i = 1;
+        while (getline(myfile,line)){
+            switch (i) {
+                case 1:{
+                    this->butChoixRes.setValue(line);
+                    break;
+                }
+
+                case 2:{
+                    std::stringstream integer(line);
+                    integer >> this->winW;
+                    break;
+                }
+
+                case 3:{
+                    std::stringstream integer(line);
+                    integer >> this->winH;
+                    break;
+                }
+
+                case 4:{
+                    std::stringstream integer(line);
+                    bool pleinEcran;
+                    integer >> pleinEcran;
+                    this->fullScreen.setActive(pleinEcran);
+                    break;
+                }
+
+                case 5:{
+                    std::stringstream integer(line);
+                    integer >> this->volumeMusique;
+                    break;
+                }
+
+                case 6:{
+                    std::stringstream integer(line);
+                    integer >> this->volumeSon;
+                    break;
+                }
+
+                case 7:{
+                    std::stringstream integer(line);
+                    integer >> this->toucheGauche;
+                    break;
+                }
+
+                case 8:{
+                    std::stringstream integer(line);
+                    integer >> this->toucheDroite;
+                    break;
+                }
+
+                case 9:{
+                    std::stringstream integer(line);
+                    integer >> this->toucheSaut;
+                    break;
+                }
+
+                case 10:{
+                    std::stringstream integer(line);
+                    integer >> this->niveauUnlock;
+                    break;
+                }
+
+            }
+            ++i;
+        }
+        myfile.close();
+    }
+    else{
+        std::cout << "Unable to open file";
+    }
+}
+
+
 //Public methods
 Menu::Menu(SDL_Window *window, SDL_Renderer *renderer, int winW, int winH) {
     this->winW = winW;
@@ -572,8 +682,15 @@ Menu::Menu(SDL_Window *window, SDL_Renderer *renderer, int winW, int winH) {
     this->toucheGauche = 20;
     this->toucheDroite = 7;
     this->toucheSaut = 44;
+    this->niveauUnlock = 3;
+    this->levelLoad = 0;
 
     this->initButton();
+
+    this->loadOptions();
+
+    this->setScreenSize();
+    this->setScreenMode();
 }
 
 
@@ -585,6 +702,7 @@ Menu::~Menu() {
 bool Menu::start() {
     this->run = true;
     this->continuer = false;
+    this->levelLoad = 0;
     while(this->run){
         if (((float)SDL_GetTicks()/1000) - this->lastTime > 1.0/30){
             this->lastTime = (float)SDL_GetTicks()/1000;
@@ -593,5 +711,11 @@ bool Menu::start() {
             this->render();
         }
     }
+    this->saveOptions();
     return this->continuer;
+}
+
+
+int Menu::getNumLevel() {
+    return this->levelLoad;
 }
