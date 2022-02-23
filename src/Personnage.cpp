@@ -27,6 +27,8 @@ Personnage::Personnage(float x, float y) {
     this->h = 60;
     this->vX = 0.0f;
     this->vY= 0.0f;
+    this->vitesse = 500.0f;
+    this->acceleration = 50.0f;
 }
 
 
@@ -41,4 +43,36 @@ void Personnage::draw(SDL_Renderer *renderer) {
     int y = this->y;
     SDL_Rect rect = {x, y, this->w, this->h};
     SDL_RenderFillRect(renderer, &rect);
+}
+
+
+void Personnage::addVx(float vX) {
+    this->vX += vX;
+    if (this->vX > this->vitesse){
+        this->vX = this->vitesse;
+    }
+    else if (this->vX < -this->vitesse){
+        this->vX = -this->vitesse;
+    }
+}
+
+
+void Personnage::stopVx() {
+    this->vX = 0.0f;
+}
+
+
+void Personnage::addVy(float vY) {
+    this->vY += vY;
+}
+
+
+void Personnage::move(float delta) {
+    this->x += this->vX * delta;
+    this->y += this->vY * delta;
+}
+
+
+float Personnage::getAcceleration() {
+    return this->acceleration;
 }

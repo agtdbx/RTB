@@ -13,10 +13,11 @@ class Game {
 private:
     SDL_Window *window;
     SDL_Renderer *renderer;
-    int winW, winH, fenetre;
+    int winW, winH, fenetre, volumeMusique, volumeSon, toucheGauche, toucheDroite, toucheSaut;
     bool run;
     Button butContinuer, butQuitter;
     Personnage perso;
+    float lastTime;
 
     void initButton();
     void input();
@@ -29,6 +30,7 @@ public:
 
     void start();
     void initLevel(int levelNum);
+    void setVariables(int volumeSon, int volumeMusique, int toucheGauche, int toucheDroite, int toucheSaut);
 };
 
 

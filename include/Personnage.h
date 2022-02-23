@@ -10,7 +10,7 @@
 class Personnage {
 private:
     int w, h;
-    float x, y, vX, vY;
+    float x, y, vX, vY, vitesse, acceleration;
 
 public:
     Personnage();
@@ -18,6 +18,11 @@ public:
     ~Personnage();
 
     void draw(SDL_Renderer *renderer);
+    void addVx(float vX);
+    void stopVx();
+    void addVy(float vY);
+    void move(float delta);
+    float getAcceleration();
 };
 
 

@@ -41,7 +41,24 @@ void Game::input() {
 
 
 void Game::tick() {
-    if (this->fenetre == 1){
+    if (this->fenetre == 0){
+        int keylen;
+        const unsigned char *keyboard = SDL_GetKeyboardState(&keylen);
+
+        if (keyboard[this->toucheGauche]) {
+            this->perso.addVx(-this->perso.getAcceleration());
+        }
+        else if (keyboard[this->toucheDroite]) {
+            this->perso.addVx(this->perso.getAcceleration());
+        }
+        else{
+            this->perso.stopVx();
+        }
+
+        float delta = ((float)SDL_GetTicks()/1000.0f) - this->lastTime;
+        this->perso.move(delta);
+    }
+    else if (this->fenetre == 1){
         if (this->butContinuer.clicOnButton()){
             this->fenetre = 0;
         }
@@ -49,6 +66,7 @@ void Game::tick() {
             this->run = false;
         }
     }
+    this->lastTime = ((float)SDL_GetTicks()/1000.0f);
 }
 
 
@@ -80,6 +98,12 @@ Game::Game(SDL_Window *window, SDL_Renderer *renderer, int winW, int winH) {
     this->renderer = renderer;
     this->run = true;
     this->fenetre = 0;
+    this->volumeSon = 100;
+    this->volumeMusique = 100;
+    this->toucheGauche = 20;
+    this->toucheDroite = 7;
+    this->toucheSaut = 44;
+    this->lastTime = ((float)SDL_GetTicks()/1000.0f);
 
     this->initButton();
 }
@@ -105,4 +129,13 @@ void Game::start() {
 
 void Game::initLevel(int levelNum) {
     this->perso = Personnage(100.0f, 100.0f);
+}
+
+
+void Game::setVariables(int volumeSon, int volumeMusique, int toucheGauche, int toucheDroite, int toucheSaut) {
+    this->volumeSon = volumeSon;
+    this->volumeMusique = volumeMusique;
+    this->toucheGauche = toucheGauche;
+    this->toucheDroite = toucheDroite;
+    this->toucheSaut = toucheSaut;
 }

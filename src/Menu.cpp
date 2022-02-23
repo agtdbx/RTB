@@ -719,3 +719,28 @@ bool Menu::start() {
 int Menu::getNumLevel() {
     return this->levelLoad;
 }
+
+
+int Menu::getVolumeSon() {
+    return this->volumeSon;
+}
+
+
+int Menu::getVolumeMusique() {
+    return this->volumeMusique;
+}
+
+
+int Menu::getToucheGauche() {
+    return this->toucheGauche;
+}
+
+
+int Menu::getToucheDroite() {
+    return this->toucheDroite;
+}
+
+
+int Menu::getToucheSaut() {
+    return this->toucheSaut;
+}

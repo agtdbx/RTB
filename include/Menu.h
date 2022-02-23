@@ -49,6 +49,11 @@ public:
 
     bool start();
     int getNumLevel();
+    int getVolumeSon();
+    int getVolumeMusique();
+    int getToucheGauche();
+    int getToucheDroite();
+    int getToucheSaut();
 };
 
 
