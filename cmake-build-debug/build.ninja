@@ -128,6 +128,27 @@ build CMakeFiles/RTB.dir/src/Personnage.cpp.o: CXX_COMPILER__RTB_Debug /home/aug
   OBJECT_DIR = CMakeFiles/RTB.dir
   OBJECT_FILE_DIR = CMakeFiles/RTB.dir/src
 
+build CMakeFiles/RTB.dir/src/Map.cpp.o: CXX_COMPILER__RTB_Debug /home/auguste/Documents/Projet_perso/C++/RTB/src/Map.cpp || cmake_object_order_depends_target_RTB
+  DEP_FILE = CMakeFiles/RTB.dir/src/Map.cpp.o.d
+  FLAGS = -std=c++0x -g -std=gnu++14
+  INCLUDES = -I/usr/include/SDL2
+  OBJECT_DIR = CMakeFiles/RTB.dir
+  OBJECT_FILE_DIR = CMakeFiles/RTB.dir/src
+
+build CMakeFiles/RTB.dir/src/Tuile.cpp.o: CXX_COMPILER__RTB_Debug /home/auguste/Documents/Projet_perso/C++/RTB/src/Tuile.cpp || cmake_object_order_depends_target_RTB
+  DEP_FILE = CMakeFiles/RTB.dir/src/Tuile.cpp.o.d
+  FLAGS = -std=c++0x -g -std=gnu++14
+  INCLUDES = -I/usr/include/SDL2
+  OBJECT_DIR = CMakeFiles/RTB.dir
+  OBJECT_FILE_DIR = CMakeFiles/RTB.dir/src
+
+build CMakeFiles/RTB.dir/src/Camera.cpp.o: CXX_COMPILER__RTB_Debug /home/auguste/Documents/Projet_perso/C++/RTB/src/Camera.cpp || cmake_object_order_depends_target_RTB
+  DEP_FILE = CMakeFiles/RTB.dir/src/Camera.cpp.o.d
+  FLAGS = -std=c++0x -g -std=gnu++14
+  INCLUDES = -I/usr/include/SDL2
+  OBJECT_DIR = CMakeFiles/RTB.dir
+  OBJECT_FILE_DIR = CMakeFiles/RTB.dir/src
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target RTB
@@ -136,7 +157,7 @@ build CMakeFiles/RTB.dir/src/Personnage.cpp.o: CXX_COMPILER__RTB_Debug /home/aug
 #############################################
 # Link the executable RTB
 
-build RTB: CXX_EXECUTABLE_LINKER__RTB_Debug CMakeFiles/RTB.dir/src/main.cpp.o CMakeFiles/RTB.dir/src/Menu.cpp.o CMakeFiles/RTB.dir/src/Functions.cpp.o CMakeFiles/RTB.dir/src/Button.cpp.o CMakeFiles/RTB.dir/src/Game.cpp.o CMakeFiles/RTB.dir/src/Select.cpp.o CMakeFiles/RTB.dir/src/Switch.cpp.o CMakeFiles/RTB.dir/src/Personnage.cpp.o
+build RTB: CXX_EXECUTABLE_LINKER__RTB_Debug CMakeFiles/RTB.dir/src/main.cpp.o CMakeFiles/RTB.dir/src/Menu.cpp.o CMakeFiles/RTB.dir/src/Functions.cpp.o CMakeFiles/RTB.dir/src/Button.cpp.o CMakeFiles/RTB.dir/src/Game.cpp.o CMakeFiles/RTB.dir/src/Select.cpp.o CMakeFiles/RTB.dir/src/Switch.cpp.o CMakeFiles/RTB.dir/src/Personnage.cpp.o CMakeFiles/RTB.dir/src/Map.cpp.o CMakeFiles/RTB.dir/src/Tuile.cpp.o CMakeFiles/RTB.dir/src/Camera.cpp.o
   FLAGS = -std=c++0x -g
   LINK_LIBRARIES = -lSDL2  -lSDL2_ttf  -lSDL2  -lSDL2_image  -lSDL2  -lSDL2_mixer  -lSDL2  -lSDL2_ttf  -lSDL2_image  -lSDL2_mixer
   OBJECT_DIR = CMakeFiles/RTB.dir

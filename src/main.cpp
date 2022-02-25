@@ -22,7 +22,7 @@ int main() {
     SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, 0);
 
     Menu menu = Menu(window, renderer, winW, winH);
-    Game game = Game(window, renderer, winW, winH);
+    Game game = Game(renderer, winW, winH);
 
     bool run = true;
     bool continuer = true;

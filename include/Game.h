@@ -8,16 +8,19 @@
 #include <SDL.h>
 #include "../include/Button.h"
 #include "../include/Personnage.h"
+#include "../include/Map.h"
+#include "../include/Camera.h"
 
 class Game {
 private:
-    SDL_Window *window;
     SDL_Renderer *renderer;
     int winW, winH, fenetre, volumeMusique, volumeSon, toucheGauche, toucheDroite, toucheSaut;
-    bool run;
+    bool run, showFps;
     Button butContinuer, butQuitter;
     Personnage perso;
-    float lastTime;
+    float lastTime, fps;
+    Map map;
+    Camera camera;
 
     void initButton();
     void input();
@@ -25,7 +28,7 @@ private:
     void render();
 
 public:
-    Game(SDL_Window *window, SDL_Renderer *renderer, int winW, int winH);
+    Game(SDL_Renderer *renderer, int winW, int winH);
     ~Game();
 
     void start();
