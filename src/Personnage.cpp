@@ -8,6 +8,39 @@
 
 // Private methodes
 
+bool Personnage::mouvementPossibleX(Camera camera, Map map, float delta) {
+    int x1 = (this->x + this->vX*delta)/20;
+    int x2 = (this->x + this->w/2 + this->vY*delta)/20;
+    int x3 = (this->x + this->w + this->vY*delta)/20;
+    int y1 = (this->y)/20;
+    int y2 = (this->y + this->h/2)/20;
+    int y3 = (this->y + this->h)/20;
+
+    if (map.test(x1, y1) && map.test(x1, y2) && map.test(x1, y3) &&
+        map.test(x2, y1) && map.test(x2, y2) && map.test(x2, y3) &&
+        map.test(x3, y1) && map.test(x3, y2) && map.test(x3, y3)){;
+        return true;
+    }
+    return false;
+}
+
+
+bool Personnage::mouvementPossibleY(Camera camera, Map map, float delta) {
+    int x1 = (this->x)/20;
+    int x2 = (this->x + this->w/2)/20;
+    int x3 = (this->x + this->w)/20;
+    int y1 = (this->y + this->vY*delta)/20;
+    int y2 = (this->y + this->h/2 + this->vY*delta)/20;
+    int y3 = (this->y + this->h + this->vY*delta)/20;
+
+    if (map.test(x1, y1) && map.test(x1, y2) && map.test(x1, y3) &&
+        map.test(x2, y1) && map.test(x2, y2) && map.test(x2, y3) &&
+        map.test(x3, y1) && map.test(x3, y2) && map.test(x3, y3)){;
+        return true;
+    }
+    return false;
+}
+
 
 // Public methodes
 Personnage::Personnage() {
@@ -89,9 +122,14 @@ void Personnage::stopVy() {
 
 
 void Personnage::move(float delta, Camera& camera, Map map) {
-    this->x += this->vX * delta;
-    this->y += this->vY * delta;
-    camera.addPos(this->vX * delta, this->vY * delta);
+    if (this->mouvementPossibleX(camera, map, delta)){
+        this->x += this->vX * delta;
+        camera.addPosX(this->vX * delta);
+    }
+    if (this->mouvementPossibleY(camera, map, delta)){
+        this->y += this->vY * delta;
+        camera.addPosY(this->vY * delta);
+    }
 }
 
 

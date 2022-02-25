@@ -14,6 +14,9 @@ private:
     int w, h;
     float x, y, vX, vY, vitesse, acceleration;
 
+    bool mouvementPossibleX(Camera camera, Map map, float delta);
+    bool mouvementPossibleY(Camera camera, Map map, float delta);
+
 public:
     Personnage();
     Personnage(float x, float y);

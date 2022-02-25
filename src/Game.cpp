@@ -5,6 +5,10 @@
 #include "../include/Game.h"
 #include "../include/Functions.h"
 #include <SDL.h>
+#include <string>
+#include <ostream>
+#include <fstream>
+#include <sstream>
 
 //Private methods
 void Game::initButton() {
@@ -65,16 +69,12 @@ void Game::tick() {
 
         float delta = ((float)SDL_GetTicks()/1000.0f) - this->lastTime;
 
-        if (keyboard[SDL_SCANCODE_M]){
-            this->showFps = true;
-            if((int)SDL_GetTicks()%100 == 0){
-                this->fps = 1.0f/delta;
-            }
+        if (keyboard[SDL_SCANCODE_F4]) {
+            this->showFps = !this->showFps;
         }
-        else{
-            this->showFps = false;
+        if (this->showFps && (int)SDL_GetTicks()%100 == 0){
+            this->fps = 1.0f / delta;
         }
-
 
         this->perso.move(delta, this->camera, this->map);
     }
@@ -96,13 +96,15 @@ void Game::render() {
             SDL_SetRenderDrawColor(this->renderer, 255, 255, 255, 255);
             SDL_RenderClear(this->renderer);
 
-            this->map.draw(this->renderer, this->camera);
+            this->map.draw(this->renderer, this->camera, this->winW, this->winH);
 
             this->perso.draw(this->renderer, this->camera);
 
             if (this->showFps){
                 SDL_Color green = {0, 200, 0, 255};
-                drawText(this->renderer, "fps", 20, 200, 300, 3, green);
+                char strfps[10] = "000000000";
+                snprintf(strfps, sizeof(strfps), "%f", this->fps);
+                drawText(this->renderer, strfps, 20, this->winW, 0, 3, green);
             }
 
             break;
@@ -147,9 +149,11 @@ void Game::start() {
     this->run = true;
     this->fenetre = 0;
     while(this->run){
-        this->input();
-        this->tick();
-        this->render();
+        if (((float)SDL_GetTicks()/1000) - this->lastTime >= 1.0f/60.0f){
+            this->input();
+            this->tick();
+            this->render();
+        }
     }
     float wait = (float)SDL_GetTicks()/1000.0f;
     while ((float)SDL_GetTicks()/1000.0f - wait < 0.2){}
@@ -157,8 +161,8 @@ void Game::start() {
 
 
 void Game::initLevel(int levelNum) {
-    this->perso = Personnage(100.0f, 100.0f);
-    this->map = Map(80, 40);
+    this->map = Map(160, 90, 20*20, 70*20);
+    this->perso = Personnage(this->map.getStartX(), this->map.getStartY());
     this->camera.setPos(this->perso.getX() + (this->perso.getWidth()/2) - this->winW/2, this->perso.getY() - (this->winH/4)*3);
 }
 

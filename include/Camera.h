@@ -16,7 +16,8 @@ public:
 
     float getX();
     float getY();
-    void addPos(float x, float y);
+    void addPosX(float x);
+    void addPosY(float y);
     void setPos(float x, float y);
 };
 

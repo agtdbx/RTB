@@ -23,11 +23,11 @@ Map::Map() {
     this->endY = 200;
 }
 
-Map::Map(int w, int h) {
+Map::Map(int w, int h, int startX, int startY) {
     this->w = w;
     this->h = h;
-    this->startX = 100;
-    this->startY = 100;
+    this->startX = startX;
+    this->startY = startY;
     this->endX = 200;
     this->endY = 200;
     this->squareSize = 20;
@@ -57,10 +57,12 @@ Map::~Map() {
 }
 
 
-void Map::draw(SDL_Renderer *renderer, Camera camera) {
+void Map::draw(SDL_Renderer *renderer, Camera camera, int winW, int winH) {
     for (int i = 0; i < this->w; ++i) {
         for (int j = 0; j < this->h; ++j) {
-            this->map[i][j].draw(renderer, camera);
+            if (-20 <= i*20 - camera.getX() && i*20 - camera.getX() <= winW && -20 <= j*20 - camera.getY() && j*20 - camera.getY() <= winH){
+                this->map[i][j].draw(renderer, camera);
+            }
         }
     }
 }
@@ -68,6 +70,10 @@ void Map::draw(SDL_Renderer *renderer, Camera camera) {
 
 Tuile Map::get(int x, int y) {
     return this->map[x][y];
+}
+
+bool Map::test(int x, int y) {
+    return this->map[x][y].isPassable();
 }
 
 int Map::getSquarreSize() {
