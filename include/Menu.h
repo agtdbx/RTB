@@ -54,6 +54,8 @@ public:
     int getToucheGauche();
     int getToucheDroite();
     int getToucheSaut();
+    int getWinWidth();
+    int getWinHeight();
 };
 
 

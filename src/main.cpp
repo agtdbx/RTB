@@ -32,7 +32,7 @@ int main() {
             run = false;
         }
         else{
-            game.setVariables(menu.getVolumeSon(), menu.getVolumeMusique(), menu.getToucheGauche(), menu.getToucheDroite(), menu.getToucheSaut());
+            game.setVariables(menu.getVolumeSon(), menu.getVolumeMusique(), menu.getToucheGauche(), menu.getToucheDroite(), menu.getToucheSaut(), menu.getWinWidth(), menu.getWinHeight());
             game.initLevel(menu.getNumLevel());
             game.start();
         }

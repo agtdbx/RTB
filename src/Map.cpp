@@ -49,6 +49,7 @@ Map::Map(int w, int h, int startX, int startY) {
         }
         this->map.push_back(vector);
     }
+    this->map[10][this->h-10] = Tuile(10*this->squareSize, (this->h-10)*this->squareSize, this->squareSize, false, black);
 }
 
 

@@ -18,7 +18,7 @@ private:
     bool run, showFps;
     Button butContinuer, butQuitter;
     Personnage perso;
-    float lastTime, fps;
+    float lastTime, fps, gravity;
     Map map;
     Camera camera;
 
@@ -33,7 +33,7 @@ public:
 
     void start();
     void initLevel(int levelNum);
-    void setVariables(int volumeSon, int volumeMusique, int toucheGauche, int toucheDroite, int toucheSaut);
+    void setVariables(int volumeSon, int volumeMusique, int toucheGauche, int toucheDroite, int toucheSaut, int winWidth, int winHeight);
 };
 
 

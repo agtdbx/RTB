@@ -744,3 +744,13 @@ int Menu::getToucheDroite() {
 int Menu::getToucheSaut() {
     return this->toucheSaut;
 }
+
+
+int Menu::getWinWidth() {
+    return this->winW;
+}
+
+
+int Menu::getWinHeight() {
+    return this->winH;
+}

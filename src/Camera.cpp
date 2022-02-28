@@ -42,6 +42,6 @@ void Camera::addPosY(float y) {
 
 
 void Camera::setPos(float x, float y) {
-    this->x += x;
-    this->y += y;
+    this->x = x;
+    this->y = y;
 }

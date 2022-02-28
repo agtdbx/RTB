@@ -47,25 +47,6 @@ void Game::tick() {
         int keylen;
         const unsigned char *keyboard = SDL_GetKeyboardState(&keylen);
 
-        if (keyboard[this->toucheGauche]) {
-            this->perso.deplacementX(-this->perso.getAcceleration());
-        }
-        else if (keyboard[this->toucheDroite]) {
-            this->perso.deplacementX(this->perso.getAcceleration());
-        }
-        else{
-            this->perso.stopVx();
-        }
-
-        if (keyboard[SDL_SCANCODE_W]) {
-            this->perso.deplacementY(-this->perso.getAcceleration());
-        }
-        else if (keyboard[SDL_SCANCODE_S]) {
-            this->perso.deplacementY(this->perso.getAcceleration());
-        }
-        else{
-            this->perso.stopVy();
-        }
 
         float delta = ((float)SDL_GetTicks()/1000.0f) - this->lastTime;
 
@@ -76,6 +57,22 @@ void Game::tick() {
             this->fps = 1.0f / delta;
         }
 
+
+        if (keyboard[this->toucheGauche]) {
+            this->perso.deplacementX(-this->perso.getAcceleration());
+        }
+        else if (keyboard[this->toucheDroite]) {
+            this->perso.deplacementX(this->perso.getAcceleration());
+        }
+        else{
+            this->perso.stopVx();
+        }
+
+        if (keyboard[this->toucheSaut]) {
+            this->perso.saut(this->perso.getAcceleration(), this->map);
+        }
+
+        this->perso.addVy(this->gravity);
         this->perso.move(delta, this->camera, this->map);
     }
     else {
@@ -135,6 +132,7 @@ Game::Game(SDL_Renderer *renderer, int winW, int winH) {
     this->camera = Camera();
     this->showFps = false;
     this->fps = 0.0f;
+    this->gravity = 40.0f;
 
     this->initButton();
 }
@@ -167,10 +165,17 @@ void Game::initLevel(int levelNum) {
 }
 
 
-void Game::setVariables(int volumeSon, int volumeMusique, int toucheGauche, int toucheDroite, int toucheSaut) {
+void Game::setVariables(int volumeSon, int volumeMusique, int toucheGauche, int toucheDroite, int toucheSaut, int winWidth, int winHeight) {
     this->volumeSon = volumeSon;
     this->volumeMusique = volumeMusique;
     this->toucheGauche = toucheGauche;
     this->toucheDroite = toucheDroite;
     this->toucheSaut = toucheSaut;
+    this->winW = winWidth;
+    this->winH = winHeight;
+
+    this->butContinuer.setX(this->winW/2 - 100);
+    this->butContinuer.setY(this->winH/2 - 75);
+    this->butQuitter.setX(this->winW/2 - 100);
+    this->butQuitter.setY(this->winH/2 + 25);
 }

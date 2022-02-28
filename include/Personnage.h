@@ -12,7 +12,8 @@
 class Personnage {
 private:
     int w, h;
-    float x, y, vX, vY, vitesse, acceleration;
+    float x, y, vX, vY, vitesse, acceleration, debutSaut, tempsSaut;
+    bool sautOk;
 
     bool mouvementPossibleX(Camera camera, Map map, float delta);
     bool mouvementPossibleY(Camera camera, Map map, float delta);
@@ -29,6 +30,7 @@ public:
     void deplacementY(float vY);
     void addVy(float vY);
     void stopVy();
+    void saut(float vY, Map map);
     void move(float delta, Camera& camera, Map map);
     float getAcceleration();
     float getX();

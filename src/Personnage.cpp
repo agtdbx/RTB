@@ -13,14 +13,16 @@ bool Personnage::mouvementPossibleX(Camera camera, Map map, float delta) {
     int x2 = (this->x + this->w/2 + this->vY*delta)/20;
     int x3 = (this->x + this->w + this->vY*delta)/20;
     int y1 = (this->y)/20;
-    int y2 = (this->y + this->h/2)/20;
-    int y3 = (this->y + this->h)/20;
+    int y2 = (this->y + this->h/3)/20;
+    int y3 = (this->y + (this->h/3)*2)/20;
+    int y4 = (this->y + this->h)/20;
 
-    if (map.test(x1, y1) && map.test(x1, y2) && map.test(x1, y3) &&
-        map.test(x2, y1) && map.test(x2, y2) && map.test(x2, y3) &&
-        map.test(x3, y1) && map.test(x3, y2) && map.test(x3, y3)){;
+    if (map.test(x1, y1) && map.test(x1, y2) && map.test(x1, y3) && map.test(x1, y4) &&
+        map.test(x2, y1) && map.test(x2, y2) && map.test(x2, y3) && map.test(x2, y4) &&
+        map.test(x3, y1) && map.test(x3, y2) && map.test(x3, y3) && map.test(x3, y4)){;
         return true;
     }
+    this->vX = 0.0f;
     return false;
 }
 
@@ -30,14 +32,16 @@ bool Personnage::mouvementPossibleY(Camera camera, Map map, float delta) {
     int x2 = (this->x + this->w/2)/20;
     int x3 = (this->x + this->w)/20;
     int y1 = (this->y + this->vY*delta)/20;
-    int y2 = (this->y + this->h/2 + this->vY*delta)/20;
-    int y3 = (this->y + this->h + this->vY*delta)/20;
+    int y2 = (this->y + this->h/3 + this->vY*delta)/20;
+    int y3 = (this->y + (this->h/3)*2 + this->vY*delta)/20;
+    int y4 = (this->y + this->h + this->vY*delta)/20;
 
-    if (map.test(x1, y1) && map.test(x1, y2) && map.test(x1, y3) &&
-        map.test(x2, y1) && map.test(x2, y2) && map.test(x2, y3) &&
-        map.test(x3, y1) && map.test(x3, y2) && map.test(x3, y3)){;
+    if (map.test(x1, y1) && map.test(x1, y2) && map.test(x1, y3) && map.test(x1, y4) &&
+        map.test(x2, y1) && map.test(x2, y2) && map.test(x2, y3) && map.test(x2, y4) &&
+        map.test(x3, y1) && map.test(x3, y2) && map.test(x3, y3) && map.test(x3, y4) ){;
         return true;
     }
+    this->vY = 0.0f;
     return false;
 }
 
@@ -62,6 +66,9 @@ Personnage::Personnage(float x, float y) {
     this->vY= 0.0f;
     this->vitesse = 500.0f;
     this->acceleration = 50.0f;
+    this->debutSaut = 0.0f;
+    this->tempsSaut = 0.2f;
+    this->sautOk = false;
 }
 
 
@@ -92,6 +99,9 @@ void Personnage::deplacementX(float vX) {
 
 void Personnage::addVx(float vX) {
     this->vX += vX;
+    if (this->vX > 1000.0f){
+        this->vX = 1000.0f;
+    }
 }
 
 
@@ -101,7 +111,6 @@ void Personnage::stopVx() {
 
 
 void Personnage::deplacementY(float vY) {
-    this->vY += vY;
     if (this->vY > this->vitesse){
         this->vY = this->vitesse;
     }
@@ -113,6 +122,9 @@ void Personnage::deplacementY(float vY) {
 
 void Personnage::addVy(float vY) {
     this->vY += vY;
+    if (this->vY > 1000.0f){
+        this->vY = 1000.0f;
+    }
 }
 
 
@@ -120,6 +132,24 @@ void Personnage::stopVy() {
     this->vY = 0.0f;
 }
 
+void Personnage::saut(float vY, Map map) {
+    if (this->sautOk){
+        this->sautOk = false;
+        this->debutSaut = (float)SDL_GetTicks()/1000.0f;
+        this->vY -= vY*3;
+    }
+    else if (((float)SDL_GetTicks()/1000.0f)-this->debutSaut <= this->tempsSaut){
+        this->vY -= vY;
+    }
+
+    int x1 = ((int)this->x)/20;
+    int x2 = ((int)this->x + this->w/2)/20;
+    int x3 = ((int)this->x + this->w)/20;
+    int y = ((int)this->y + this->h)/20 + 1;
+    if (!map.test(x1, y) || !map.test(x2, y) || !map.test(x3, y)){
+        this->sautOk = true;
+    }
+}
 
 void Personnage::move(float delta, Camera& camera, Map map) {
     if (this->mouvementPossibleX(camera, map, delta)){
