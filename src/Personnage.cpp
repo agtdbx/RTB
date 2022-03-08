@@ -10,8 +10,8 @@
 
 bool Personnage::mouvementPossibleX(Camera camera, Map map, float delta) {
     int x1 = (this->x + this->vX*delta)/20;
-    int x2 = (this->x + this->w/2 + this->vY*delta)/20;
-    int x3 = (this->x + this->w + this->vY*delta)/20;
+    int x2 = (this->x + this->w/2 + this->vX*delta)/20;
+    int x3 = (this->x + this->w + this->vX*delta)/20;
     int y1 = (this->y)/20;
     int y2 = (this->y + this->h/3)/20;
     int y3 = (this->y + (this->h/3)*2)/20;

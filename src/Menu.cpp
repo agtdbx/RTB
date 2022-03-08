@@ -8,6 +8,10 @@
 #include <ostream>
 #include <fstream>
 #include <sstream>
+#include <jsoncpp/json/json.h>
+#include <jsoncpp/json/value.h>
+#include <jsoncpp/json/writer.h>
+#include <jsoncpp/json/reader.h>
 
 //Private methods
 
@@ -564,102 +568,44 @@ char * Menu::drawKeyBind(int key){
 
 
 void Menu::saveOptions() {
-    // Sauvegarde des optionsx
+    Json::Value json;
+    // Sauvegarde des options
     std::ofstream myfile;
-    myfile.open ("../data/saves/options.txt"); // Ouverture du fichier
+    myfile.open ("../data/saves/options.json"); // Ouverture du fichier
 
-    myfile << this->butChoixRes.getValue() << "\n";
-    myfile << this->winW << "\n";
-    myfile << this->winH << "\n";
-    myfile << this->fullScreen.isActive() << "\n";
-    myfile << this->volumeMusique << "\n";
-    myfile << this->volumeSon << "\n";
-    myfile << this->toucheGauche << "\n";
-    myfile << this->toucheDroite << "\n";
-    myfile << this->toucheSaut<< "\n";
-    myfile << this->niveauUnlock<< "\n";
+    json["resolution"] = this->butChoixRes.getValue();
+    json["winW"] = this->winW;
+    json["winH"] = this->winH;
+    json["fullscreen"] = this->fullScreen.isActive();
+    json["volumeMusique"] = this->volumeMusique;
+    json["volumeSon"] = this->volumeSon;
+    json["toucheGauche"] = this->toucheGauche;
+    json["toucheDroite"] = this->toucheDroite;
+    json["toucheSaut"] = this->toucheSaut;
+    json["niveauUnlock"] = this->niveauUnlock;
+
+    Json::StyledWriter writer;
+    myfile << writer.write(json);
 
     myfile.close();
 }
 
 
 void Menu::loadOptions() {
-    std::string line;
-    std::ifstream myfile ("../data/saves/options.txt");// Ouverture du fichier
+    Json::Value json;
+    std::ifstream myfile ("../data/saves/options.json");// Ouverture du fichier
+    myfile >> json;
 
-    if (myfile.is_open()){
-        int i = 1;
-        while (getline(myfile,line)){
-            switch (i) {
-                case 1:{
-                    this->butChoixRes.setValue(line);
-                    break;
-                }
-
-                case 2:{
-                    std::stringstream integer(line);
-                    integer >> this->winW;
-                    break;
-                }
-
-                case 3:{
-                    std::stringstream integer(line);
-                    integer >> this->winH;
-                    break;
-                }
-
-                case 4:{
-                    std::stringstream integer(line);
-                    bool pleinEcran;
-                    integer >> pleinEcran;
-                    this->fullScreen.setActive(pleinEcran);
-                    break;
-                }
-
-                case 5:{
-                    std::stringstream integer(line);
-                    integer >> this->volumeMusique;
-                    break;
-                }
-
-                case 6:{
-                    std::stringstream integer(line);
-                    integer >> this->volumeSon;
-                    break;
-                }
-
-                case 7:{
-                    std::stringstream integer(line);
-                    integer >> this->toucheGauche;
-                    break;
-                }
-
-                case 8:{
-                    std::stringstream integer(line);
-                    integer >> this->toucheDroite;
-                    break;
-                }
-
-                case 9:{
-                    std::stringstream integer(line);
-                    integer >> this->toucheSaut;
-                    break;
-                }
-
-                case 10:{
-                    std::stringstream integer(line);
-                    integer >> this->niveauUnlock;
-                    break;
-                }
-
-            }
-            ++i;
-        }
-        myfile.close();
-    }
-    else{
-        std::cout << "Unable to open file";
-    }
+    this->butChoixRes.setValue(json["resolution"].asString());
+    this->winW = json["winW"].asInt();
+    this->winH = json["winH"].asInt();
+    this->fullScreen.setActive(json["fullscreen"].asBool());
+    this->volumeMusique = json["volumeMusique"].asInt();
+    this->volumeSon = json["volumeSon"].asInt();
+    this->toucheGauche = json["toucheGauche"].asInt();
+    this->toucheDroite = json["toucheDroite"].asInt();
+    this->toucheSaut = json["toucheSaut"].asInt();
+    this->niveauUnlock = json["niveauUnlock"].asInt();
 }
 
 

@@ -50,7 +50,7 @@ void Game::tick() {
 
         float delta = ((float)SDL_GetTicks()/1000.0f) - this->lastTime;
 
-        if (keyboard[SDL_SCANCODE_F4]) {
+        if (keyboard[SDL_SCANCODE_F3]) {
             this->showFps = !this->showFps;
         }
         if (this->showFps && (int)SDL_GetTicks()%100 == 0){
@@ -133,6 +133,7 @@ Game::Game(SDL_Renderer *renderer, int winW, int winH) {
     this->showFps = false;
     this->fps = 0.0f;
     this->gravity = 40.0f;
+    this->fpsUnlimited = false;
 
     this->initButton();
 }
@@ -147,7 +148,7 @@ void Game::start() {
     this->run = true;
     this->fenetre = 0;
     while(this->run){
-        if (((float)SDL_GetTicks()/1000) - this->lastTime >= 1.0f/60.0f){
+        if (((float)SDL_GetTicks()/1000) - this->lastTime >= 1.0f/60.0f || this->fpsUnlimited){
             this->input();
             this->tick();
             this->render();
