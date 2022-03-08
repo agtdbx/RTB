@@ -1,0 +1,12 @@
+{
+   "width" : 50,
+   "height" : 100,
+   "startX" : 2,
+   "startY" : 15,
+   "endX" : 10,
+   "endY" : 2,
+   "map_file" : "lvl_1.png",
+   "special_tiles" : [
+
+   ]
+}

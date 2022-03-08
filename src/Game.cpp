@@ -160,7 +160,7 @@ void Game::start() {
 
 
 void Game::initLevel(int levelNum) {
-    this->map = Map(160, 90, 20*20, 70*20);
+    this->map = Map(1);
     this->perso = Personnage(this->map.getStartX(), this->map.getStartY());
     this->camera.setPos(this->perso.getX() + (this->perso.getWidth()/2) - this->winW/2, this->perso.getY() - (this->winH/4)*3);
 }
