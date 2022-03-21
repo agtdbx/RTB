@@ -12,11 +12,12 @@
 
 //Private methods
 void Game::initButton() {
-    SDL_Color colorOff = {255, 255, 255, 0};
-    SDL_Color colorOn = {200, 200, 200, 100};
+    SDL_Color colorOff = {255, 255, 255, 100};
+    SDL_Color colorOn = {200, 200, 200, 150};
     SDL_Color black = {0, 0, 0, 255};
     this->butContinuer = Button("Continuer", 40, 1, this->winW/2 - 100, this->winH/2 - 75, 200, 50, colorOff, colorOn,2, black);
     this->butQuitter = Button("Quitter", 40, 1, this->winW/2 - 100, this->winH/2 + 25, 200, 50, colorOff, colorOn,2, black);
+    this->butRetourMenu = Button("Retour au menu", 40, 1, this->winW/2 - 150, this->winH/2 - 75, 300, 50, colorOff, colorOn,2, black);
 }
 
 void Game::input() {
@@ -28,7 +29,7 @@ void Game::input() {
                 break;
 
             case SDL_KEYDOWN:
-                if (event.key.keysym.sym == SDLK_ESCAPE){
+                if (event.key.keysym.sym == SDLK_ESCAPE && this->fenetre != 2){
                     if (this->fenetre == 0){
                         this->fenetre = 1;
                     }
@@ -43,6 +44,9 @@ void Game::input() {
 
 
 void Game::tick() {
+    if (this->perso.atFin(this->map)){
+        this->fenetre = 2;
+    }
     if (this->fenetre == 0){
         int keylen;
         const unsigned char *keyboard = SDL_GetKeyboardState(&keylen);
@@ -75,11 +79,16 @@ void Game::tick() {
         this->perso.addVy(this->gravity);
         this->perso.move(delta, this->camera, this->map);
     }
-    else {
+    else if (this->fenetre == 1) {
         if (this->butContinuer.clicOnButton()){
             this->fenetre = 0;
         }
         else if (this->butQuitter.clicOnButton()){
+            this->run = false;
+        }
+    }
+    else{
+        if (this->butRetourMenu.clicOnButton()){
             this->run = false;
         }
     }
@@ -88,14 +97,14 @@ void Game::tick() {
 
 
 void Game::render() {
+    SDL_SetRenderDrawColor(this->renderer, 255, 255, 255, 255);
+    SDL_RenderClear(this->renderer);
+
+    this->map.draw(this->renderer, this->camera, this->winW, this->winH);
+
+    this->perso.draw(this->renderer, this->camera);
     switch (this->fenetre) {
         case 0:
-            SDL_SetRenderDrawColor(this->renderer, 255, 255, 255, 255);
-            SDL_RenderClear(this->renderer);
-
-            this->map.draw(this->renderer, this->camera, this->winW, this->winH);
-
-            this->perso.draw(this->renderer, this->camera);
 
             if (this->showFps){
                 SDL_Color green = {0, 200, 0, 255};
@@ -110,6 +119,9 @@ void Game::render() {
             this->butContinuer.draw(this->renderer);
             this->butQuitter.draw(this->renderer);
             break;
+
+        case 2:
+            this->butRetourMenu.draw(this->renderer);
     }
 
     SDL_RenderPresent(this->renderer);

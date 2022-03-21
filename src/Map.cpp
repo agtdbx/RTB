@@ -60,18 +60,19 @@ void Map::loadMap(int lvl_num) {
         std::vector<Tuile> vector;
         for (int j = 0; j < this->h; ++j){
             this->getpixel(&pixel, map, i, j);
-            Tuile tuile;
             if (pixel.r == 0 && pixel.g == 0 && pixel.b == 0){
-                tuile = Tuile(i*this->squareSize, j*this->squareSize, this->squareSize, false, black);
+                Tuile tuile = Tuile(i*this->squareSize, j*this->squareSize, this->squareSize, false, black);
+                vector.push_back(tuile);
             }
             else{
                 color.r = pixel.r;
                 color.g = pixel.g;
                 color.b = pixel.b;
                 color.a = pixel.a;
-                tuile = Tuile(i*this->squareSize, j*this->squareSize, this->squareSize, true, color);
+                Tuile tuile = Tuile(i*this->squareSize, j*this->squareSize, this->squareSize, true, color);
+                vector.push_back(tuile);
             }
-            vector.push_back(tuile);
+
         }
         this->map.push_back(vector);
     }

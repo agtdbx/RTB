@@ -22,7 +22,9 @@ bool Personnage::mouvementPossibleX(Camera camera, Map map, float delta) {
         map.test(x3, y1) && map.test(x3, y2) && map.test(x3, y3) && map.test(x3, y4)){;
         return true;
     }
+
     this->vX = 0.0f;
+
     return false;
 }
 
@@ -42,6 +44,7 @@ bool Personnage::mouvementPossibleY(Camera camera, Map map, float delta) {
         return true;
     }
     this->vY = 0.0f;
+
     return false;
 }
 
@@ -51,7 +54,7 @@ Personnage::Personnage() {
     this->x = 50.0f;
     this->y = 50.0f;
     this->w = 40;
-    this->h = 60;
+    this->h = 59;
     this->vX = 0.0f;
     this->vY= 0.0f;
 }
@@ -61,7 +64,7 @@ Personnage::Personnage(float x, float y) {
     this->x = x;
     this->y = y;
     this->w = 40;
-    this->h = 60;
+    this->h = 59;
     this->vX = 0.0f;
     this->vY= 0.0f;
     this->vitesse = 500.0f;
@@ -156,7 +159,7 @@ void Personnage::move(float delta, Camera& camera, Map map) {
         this->x += this->vX * delta;
         camera.addPosX(this->vX * delta);
     }
-    if (this->mouvementPossibleY(camera, map, delta)){
+    if(this->mouvementPossibleY(camera, map, delta)){
         this->y += this->vY * delta;
         camera.addPosY(this->vY * delta);
     }
@@ -185,4 +188,9 @@ int Personnage::getWidth() {
 
 int Personnage::getHeight() {
     return this->h;
+}
+
+
+bool Personnage::atFin(Map map) {
+    return this->x + this->w >= map.getEndX() && this->x <= map.getEndX() + 3*20 && this->y + this->h >= map.getEndY() && this->y <= map.getEndY() + 3*20;
 }

@@ -37,6 +37,7 @@ public:
     float getY();
     int getWidth();
     int getHeight();
+    bool atFin(Map map);
 };
 
 

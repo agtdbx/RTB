@@ -2,11 +2,35 @@
    "width" : 50,
    "height" : 100,
    "startX" : 2,
-   "startY" : 15,
-   "endX" : 10,
-   "endY" : 2,
+   "startY" : 79,
+   "endX" : 24,
+   "endY" : 3,
    "map_file" : "lvl_1.png",
    "special_tiles" : [
-
+      {
+         "x" : 44,
+         "y" : 98,
+         "type" : "bounce"
+      },
+      {
+         "x" : 45,
+         "y" : 98,
+         "type" : "bounce"
+      },
+      {
+         "x" : 46,
+         "y" : 98,
+         "type" : "bounce"
+      },
+      {
+         "x" : 47,
+         "y" : 98,
+         "type" : "bounce"
+      },
+      {
+         "x" : 48,
+         "y" : 98,
+         "type" : "bounce"
+      }
    ]
 }

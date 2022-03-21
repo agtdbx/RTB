@@ -16,7 +16,7 @@ private:
     SDL_Renderer *renderer;
     int winW, winH, fenetre, volumeMusique, volumeSon, toucheGauche, toucheDroite, toucheSaut;
     bool run, showFps, fpsUnlimited;
-    Button butContinuer, butQuitter;
+    Button butContinuer, butQuitter, butRetourMenu;
     Personnage perso;
     float lastTime, fps, gravity;
     Map map;

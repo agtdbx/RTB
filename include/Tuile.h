@@ -9,7 +9,7 @@
 #include "../include/Camera.h"
 
 class Tuile {
-private:
+protected:
     int x, y, size;
     bool passable;
     SDL_Color color;
