@@ -110,10 +110,10 @@ void Personnage::deplacementX(char direction, Map map) {
         int x3 = ((int)this->x + this->w)/20;
         int y = ((int)this->y + this->h)/20;
         if (map.touch(x1, y+1) == 3 || map.touch(x2, y+1) == 3 || map.touch(x3, y+1) == 3){
-            if (this->vX > 1.0f) {
-                this->vX -= 100.0f;
-            } else if (this->vX < 1.0f) {
-                this->vX += 100.0f;
+            if (this->vX >= 10.0f) {
+                this->vX -= 10.0f;
+            } else if (this->vX <= -10.0f) {
+                this->vX += 10.0f;
             }
             else{
                 this->vX = 0.0f;
