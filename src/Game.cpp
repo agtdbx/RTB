@@ -78,6 +78,11 @@ void Game::tick() {
 
         this->perso.addVy(this->gravity);
         this->perso.move(delta, this->camera, this->map);
+
+        if (this->perso.isMort(this->map)){
+            this->perso.respawn();
+            this->camera.setPos(this->perso.getX() + (this->perso.getWidth()/2) - this->winW/2, this->perso.getY() - (this->winH/4)*3);
+        }
     }
     else if (this->fenetre == 1) {
         if (this->butContinuer.clicOnButton()){

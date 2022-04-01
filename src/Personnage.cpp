@@ -9,13 +9,13 @@
 // Private methodes
 
 bool Personnage::mouvementPossibleX(Camera camera, Map map, float delta) {
-    int x1 = (this->x + this->vX*delta)/20;
-    int x2 = (this->x + this->w/2 + this->vX*delta)/20;
-    int x3 = (this->x + this->w + this->vX*delta)/20;
-    int y1 = (this->y)/20;
-    int y2 = (this->y + this->h/3)/20;
-    int y3 = (this->y + (this->h/3)*2)/20;
-    int y4 = (this->y + this->h)/20;
+    int x1 = (int)(this->x + this->vX*delta)/20;
+    int x2 = (int)(this->x + this->w/2 + this->vX*delta)/20;
+    int x3 = (int)(this->x + this->w + this->vX*delta)/20;
+    int y1 = (int)(this->y)/20;
+    int y2 = (int)(this->y + this->h/3)/20;
+    int y3 = (int)(this->y + (this->h/3)*2)/20;
+    int y4 = (int)(this->y + this->h)/20;
 
     if (map.test(x1, y1) && map.test(x1, y2) && map.test(x1, y3) && map.test(x1, y4) &&
         map.test(x2, y1) && map.test(x2, y2) && map.test(x2, y3) && map.test(x2, y4) &&
@@ -30,13 +30,13 @@ bool Personnage::mouvementPossibleX(Camera camera, Map map, float delta) {
 
 
 bool Personnage::mouvementPossibleY(Camera camera, Map map, float delta) {
-    int x1 = (this->x)/20;
-    int x2 = (this->x + this->w/2)/20;
-    int x3 = (this->x + this->w)/20;
-    int y1 = (this->y + this->vY*delta)/20;
-    int y2 = (this->y + this->h/3 + this->vY*delta)/20;
-    int y3 = (this->y + (this->h/3)*2 + this->vY*delta)/20;
-    int y4 = (this->y + this->h + this->vY*delta)/20;
+    int x1 = (int)(this->x)/20;
+    int x2 = (int)(this->x + this->w/2)/20;
+    int x3 = (int)(this->x + this->w)/20;
+    int y1 = (int)(this->y + this->vY*delta)/20;
+    int y2 = (int)(this->y + this->h/3 + this->vY*delta)/20;
+    int y3 = (int)(this->y + (this->h/3)*2 + this->vY*delta)/20;
+    int y4 = (int)(this->y + this->h + this->vY*delta)/20;
 
     if (map.test(x1, y1) && map.test(x1, y2) && map.test(x1, y3) && map.test(x1, y4) &&
         map.test(x2, y1) && map.test(x2, y2) && map.test(x2, y3) && map.test(x2, y4) &&
@@ -45,7 +45,6 @@ bool Personnage::mouvementPossibleY(Camera camera, Map map, float delta) {
     }
 
     if (map.touch(x1, y4) == 2 || map.touch(x2, y4) == 2 || map.touch(x3, y4) == 2){
-        std::cout << "touch" << std::endl;
         this->vY *= -1;
         return true;
     }
@@ -64,10 +63,14 @@ Personnage::Personnage() {
     this->h = 59;
     this->vX = 0.0f;
     this->vY= 0.0f;
+    this->respawnX = 50.0f;
+    this->respawnY = 50.0f;
 }
 
 
 Personnage::Personnage(float x, float y) {
+    this->respawnX = x;
+    this->respawnY = y;
     this->x = x;
     this->y = y;
     this->w = 40;
@@ -102,10 +105,10 @@ void Personnage::deplacementX(char direction, Map map) {
     } else if (direction == 'd') {
         this->vX = this->vitesse;
     } else {
-        int x1 = (this->x)/20;
-        int x2 = (this->x + this->w/2)/20;
-        int x3 = (this->x + this->w)/20;
-        int y = (this->y + this->h)/20;
+        int x1 = ((int)this->x)/20;
+        int x2 = ((int)this->x + this->w/2)/20;
+        int x3 = ((int)this->x + this->w)/20;
+        int y = ((int)this->y + this->h)/20;
         if (map.touch(x1, y+1) == 3 || map.touch(x2, y+1) == 3 || map.touch(x3, y+1) == 3){
             if (this->vX > 1.0f) {
                 this->vX -= 100.0f;
@@ -121,9 +124,7 @@ void Personnage::deplacementX(char direction, Map map) {
         }
 
     }
-
-    this->vX += vX;
-    if (this->vX > this->vitesse){
+    if (this->vX > this->vitesse) {
         this->vX = this->vitesse;
     }
     else if (this->vX < -this->vitesse){
@@ -225,4 +226,36 @@ int Personnage::getHeight() {
 
 bool Personnage::atFin(Map map) {
     return this->x + this->w >= map.getEndX() && this->x <= map.getEndX() + 3*20 && this->y + this->h >= map.getEndY() && this->y <= map.getEndY() + 3*20;
+}
+
+
+void Personnage::respawn() {
+    this->x = this->respawnX;
+    this->y = this->respawnY;
+    this->vX = 0.0f;
+    this->vY = 0.0f;
+}
+
+
+void Personnage::setRespawn(float x, float y) {
+    this->respawnX = x;
+    this->respawnY = y;
+}
+
+bool Personnage::isMort(Map map) {
+    int x1 = (int)(this->x)/20;
+    int x2 = (int)(this->x + this->w/2)/20;
+    int x3 = (int)(this->x + this->w)/20;
+    int y1 = (int)(this->y)/20;
+    int y2 = (int)(this->y + this->h/3)/20;
+    int y3 = (int)(this->y + (this->h/3)*2)/20;
+    int y4 = (int)(this->y + this->h)/20;
+
+    if (map.touch(x1, y1) == 4 || map.touch(x1, y2) == 4 || map.touch(x1, y3) == 4 || map.touch(x1, y4) == 4 ||
+        map.touch(x2, y1) == 4 || map.touch(x2, y2) == 4 || map.touch(x2, y3) == 4 || map.touch(x2, y4) == 4 ||
+        map.touch(x3, y1) == 4 || map.touch(x3, y2) == 4 || map.touch(x3, y3) == 4 || map.touch(x3, y4) == 4){;
+        return true;
+    }
+
+    return false;
 }

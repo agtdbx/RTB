@@ -45,7 +45,7 @@ void Tuile::draw(SDL_Renderer *renderer, Camera camera) {
 
 
 bool Tuile::isPassable() {
-    if (this->type == "air") {
+    if (this->type == "air" || this->type == "pique") {
         return true;
     }
     return false;
@@ -64,6 +64,9 @@ int Tuile::touch() {
     }
     if (this->type == "glace") {
         return 3;
+    }
+    if (this->type == "pique") {
+        return 4;
     }
     return -1;
 }

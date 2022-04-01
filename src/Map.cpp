@@ -77,6 +77,10 @@ void Map::loadMap(int lvl_num) {
                     Tuile tuile = Tuile(i*this->squareSize, j*this->squareSize, this->squareSize, "glace", color);
                     vector.push_back(tuile);
                 }
+                else if (color.r == 100 && color.g == 100 && color.b == 100){
+                    Tuile tuile = Tuile(i*this->squareSize, j*this->squareSize, this->squareSize, "pique", color);
+                    vector.push_back(tuile);
+                }
                 else{
                     Tuile tuile = Tuile(i*this->squareSize, j*this->squareSize, this->squareSize, "air", color);
                     vector.push_back(tuile);

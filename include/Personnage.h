@@ -12,7 +12,7 @@
 class Personnage {
 private:
     int w, h;
-    float x, y, vX, vY, vitesse, acceleration, debutSaut, tempsSaut;
+    float x, y, vX, vY, vitesse, acceleration, debutSaut, tempsSaut, respawnX, respawnY;
     bool sautOk;
 
     bool mouvementPossibleX(Camera camera, Map map, float delta);
@@ -38,6 +38,9 @@ public:
     int getWidth();
     int getHeight();
     bool atFin(Map map);
+    void respawn();
+    void setRespawn(float x, float y);
+    bool isMort(Map map);
 };
 
 
