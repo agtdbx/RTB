@@ -61,7 +61,7 @@ void Map::loadMap(int lvl_num) {
         for (int j = 0; j < this->h; ++j){
             this->getpixel(&pixel, map, i, j);
             if (pixel.r == 0 && pixel.g == 0 && pixel.b == 0){
-                Tuile tuile = Tuile(i*this->squareSize, j*this->squareSize, this->squareSize, false, black);
+                Tuile tuile = Tuile(i*this->squareSize, j*this->squareSize, this->squareSize, "mur", black);
                 vector.push_back(tuile);
             }
             else{
@@ -69,10 +69,19 @@ void Map::loadMap(int lvl_num) {
                 color.g = pixel.g;
                 color.b = pixel.b;
                 color.a = pixel.a;
-                Tuile tuile = Tuile(i*this->squareSize, j*this->squareSize, this->squareSize, true, color);
-                vector.push_back(tuile);
+                if (color.r == 0 && color.g == 255 && color.b == 0){
+                    Tuile tuile = Tuile(i*this->squareSize, j*this->squareSize, this->squareSize, "slime", color);
+                    vector.push_back(tuile);
+                }
+                else if (color.r == 0 && color.g == 255 && color.b == 255){
+                    Tuile tuile = Tuile(i*this->squareSize, j*this->squareSize, this->squareSize, "glace", color);
+                    vector.push_back(tuile);
+                }
+                else{
+                    Tuile tuile = Tuile(i*this->squareSize, j*this->squareSize, this->squareSize, "air", color);
+                    vector.push_back(tuile);
+                }
             }
-
         }
         this->map.push_back(vector);
     }
@@ -108,10 +117,10 @@ Map::Map(int nb) {
         for (int j = 0; j < this->h; ++j){
             Tuile tuile;
             if (i == 0 || i == this->w-1 || j == 0 || j == this->h-1){
-                tuile = Tuile(i*this->squareSize, j*this->squareSize, this->squareSize, false, black);
+                tuile = Tuile(i*this->squareSize, j*this->squareSize, this->squareSize, "mur", black);
             }
             else{
-                tuile = Tuile(i*this->squareSize, j*this->squareSize, this->squareSize, true, white);
+                tuile = Tuile(i*this->squareSize, j*this->squareSize, this->squareSize, "air", white);
             }
             vector.push_back(tuile);
         }
@@ -143,6 +152,10 @@ Tuile Map::get(int x, int y) {
 
 bool Map::test(int x, int y) {
     return this->map[x][y].isPassable();
+}
+
+int Map::touch(int x, int y) {
+    return this->map[x][y].touch();
 }
 
 int Map::getSquarreSize() {

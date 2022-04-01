@@ -30,6 +30,7 @@ public:
     void draw(SDL_Renderer *renderer, Camera camera, int winW, int winH);
     Tuile get(int x, int y);
     bool test(int x, int y);
+    int touch(int x, int y);
     int getSquarreSize();
     int getStartX();
     int getStartY();

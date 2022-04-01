@@ -63,13 +63,13 @@ void Game::tick() {
 
 
         if (keyboard[this->toucheGauche]) {
-            this->perso.deplacementX(-this->perso.getAcceleration());
+            this->perso.deplacementX('g', this->map);
         }
         else if (keyboard[this->toucheDroite]) {
-            this->perso.deplacementX(this->perso.getAcceleration());
+            this->perso.deplacementX('d', this->map);
         }
         else{
-            this->perso.stopVx();
+            this->perso.deplacementX('n', this->map);
         }
 
         if (keyboard[this->toucheSaut]) {

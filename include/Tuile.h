@@ -11,16 +11,17 @@
 class Tuile {
 protected:
     int x, y, size;
-    bool passable;
+    std::string type;
     SDL_Color color;
 
 public:
     Tuile();
-    Tuile(int x, int y, int size, bool passable, SDL_Color color);
+    Tuile(int x, int y, int size, std::string type, SDL_Color color);
     ~Tuile();
 
     void draw(SDL_Renderer *renderer, Camera camera);
     bool isPassable();
+    int touch();
 };
 
 

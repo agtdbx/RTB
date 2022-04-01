@@ -2,6 +2,8 @@
 // Created by auguste on 23/02/2022.
 //
 
+#include <iostream>
+#include <string>
 #include "../include/Tuile.h"
 
 
@@ -14,16 +16,16 @@ Tuile::Tuile() {
     this->x = 0;
     this->y = 0;
     this->size = 10;
-    this->passable = false;
+    this->type = "mur";
     this->color = {100, 100, 100, 255};
 }
 
 
-Tuile::Tuile(int x, int y, int size, bool passable, SDL_Color color) {
+Tuile::Tuile(int x, int y, int size, std::string type, SDL_Color color) {
     this->x = x;
     this->y = y;
     this->size = size;
-    this->passable = passable;
+    this->type = type;
     this->color = color;
 }
 
@@ -43,5 +45,25 @@ void Tuile::draw(SDL_Renderer *renderer, Camera camera) {
 
 
 bool Tuile::isPassable() {
-    return this->passable;
+    if (this->type == "air") {
+        return true;
+    }
+    return false;
+}
+
+
+int Tuile::touch() {
+    if (this->type == "mur") {
+        return 0;
+    }
+    if (this->type == "air") {
+        return 1;
+    }
+    if (this->type == "slime") {
+        return 2;
+    }
+    if (this->type == "glace") {
+        return 3;
+    }
+    return -1;
 }

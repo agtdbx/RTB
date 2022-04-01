@@ -24,7 +24,7 @@ public:
     ~Personnage();
 
     void draw(SDL_Renderer *renderer, Camera camera);
-    void deplacementX(float vX);
+    void deplacementX(char direction, Map map);
     void addVx(float vX);
     void stopVx();
     void deplacementY(float vY);

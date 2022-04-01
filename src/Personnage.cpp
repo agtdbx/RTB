@@ -43,6 +43,13 @@ bool Personnage::mouvementPossibleY(Camera camera, Map map, float delta) {
         map.test(x3, y1) && map.test(x3, y2) && map.test(x3, y3) && map.test(x3, y4) ){;
         return true;
     }
+
+    if (map.touch(x1, y4) == 2 || map.touch(x2, y4) == 2 || map.touch(x3, y4) == 2){
+        std::cout << "touch" << std::endl;
+        this->vY *= -1;
+        return true;
+    }
+
     this->vY = 0.0f;
 
     return false;
@@ -89,7 +96,32 @@ void Personnage::draw(SDL_Renderer *renderer, Camera camera) {
 }
 
 
-void Personnage::deplacementX(float vX) {
+void Personnage::deplacementX(char direction, Map map) {
+    if (direction == 'g') {
+        this->vX = -this->vitesse;
+    } else if (direction == 'd') {
+        this->vX = this->vitesse;
+    } else {
+        int x1 = (this->x)/20;
+        int x2 = (this->x + this->w/2)/20;
+        int x3 = (this->x + this->w)/20;
+        int y = (this->y + this->h)/20;
+        if (map.touch(x1, y+1) == 3 || map.touch(x2, y+1) == 3 || map.touch(x3, y+1) == 3){
+            if (this->vX > 1.0f) {
+                this->vX -= 100.0f;
+            } else if (this->vX < 1.0f) {
+                this->vX += 100.0f;
+            }
+            else{
+                this->vX = 0.0f;
+            }
+        }
+        else{
+            this->vX = 0.0f;
+        }
+
+    }
+
     this->vX += vX;
     if (this->vX > this->vitesse){
         this->vX = this->vitesse;
