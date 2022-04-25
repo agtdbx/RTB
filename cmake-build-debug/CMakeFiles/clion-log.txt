@@ -1,4 +1,4 @@
-/snap/clion/184/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/snap/clion/184/bin/ninja/linux/ninja -G Ninja /home/auguste/Documents/Projet_perso/C++/RTB
+/snap/clion/189/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/snap/clion/189/bin/ninja/linux/ninja -G Ninja -S /home/auguste/Documents/Projet_perso/C++/RTB -B /home/auguste/Documents/Projet_perso/C++/RTB/cmake-build-debug
 -- Configuring done
 -- Generating done
 -- Build files have been written to: /home/auguste/Documents/Projet_perso/C++/RTB/cmake-build-debug

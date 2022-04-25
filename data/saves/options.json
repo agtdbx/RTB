@@ -1,12 +1,12 @@
 {
-   "fullscreen" : true,
+   "fullscreen" : false,
    "niveauUnlock" : 3,
-   "resolution" : "1920x1080",
+   "resolution" : "1280x720",
    "toucheDroite" : 7,
    "toucheGauche" : 4,
    "toucheSaut" : 44,
    "volumeMusique" : 100,
    "volumeSon" : 100,
-   "winH" : 1080,
-   "winW" : 1920
+   "winH" : 720,
+   "winW" : 1280
 }

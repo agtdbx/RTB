@@ -8,6 +8,7 @@
 #include <iostream>
 #include <vector>
 #include "../include/Tuile.h"
+#include "../include/Checkpoint.h"
 #include <SDL_image.h>
 
 struct Pixel{
@@ -17,6 +18,7 @@ typedef struct Pixel Pixel;
 
 class Map {
 private:
+    std::vector<Checkpoint> checkpoints;
     std::vector<std::vector<Tuile>> map;
     int w, h, startX, startY, endX, endY, squareSize;
     void getpixel(Pixel *pixel, SDL_Surface *surface, int x, int y);
@@ -36,6 +38,7 @@ public:
     int getStartY();
     int getEndX();
     int getEndY();
+    Checkpoint testCheckpoint(float x, float y, int w, int h);
 };
 
 
