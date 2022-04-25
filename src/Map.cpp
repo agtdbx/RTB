@@ -45,7 +45,16 @@ void Map::loadMap(int lvl_num) {
     this->endX = json["endX"].asInt()*20;
     this->endY = json["endY"].asInt()*20;
     std::string png_map = json["map_file"].asString();
-    Json::Value special_tiles = json["special_tiles"];
+    Json::Value special_tiles = json["checkpoints"];
+
+    this->checkpoints = std::vector<Checkpoint>();
+    for (int i = 0; i < special_tiles.size(); i++){
+        Json::Value special_tile = special_tiles[i];
+        int x = special_tile["x"].asInt()*20;
+        int y = special_tile["y"].asInt()*20;
+        int id = special_tile["id"].asInt();
+        this->checkpoints.push_back(Checkpoint(x,y,id));
+    }
 
     // Lecture du fichier png
     SDL_Surface* picture = IMG_Load("../data/levels/lvl_1.png");
@@ -180,4 +189,16 @@ int Map::getEndX() {
 
 int Map::getEndY() {
     return this->endY;
+}
+
+Checkpoint Map::testCheckpoint(float x, float y, int w, int h) {
+    Checkpoint rep = Checkpoint(0, 0, -1);
+
+    for (Checkpoint checkpoint : this->checkpoints){
+        if (checkpoint.getX() <= (x + w) && (checkpoint.getX() + 3*20) >= x && checkpoint.getY() <= (y + h) && (checkpoint.getY() + 3*20) >= y){
+            rep = checkpoint;
+        }
+    }
+
+    return rep;
 }

@@ -14,7 +14,7 @@
 class Game {
 private:
     SDL_Renderer *renderer;
-    int winW, winH, fenetre, volumeMusique, volumeSon, toucheGauche, toucheDroite, toucheSaut;
+    int winW, winH, fenetre, volumeMusique, volumeSon, toucheGauche, toucheDroite, toucheSaut, checkpointProgression;
     bool run, showFps, fpsUnlimited;
     Button butContinuer, butQuitter, butRetourMenu;
     Personnage perso;

@@ -83,6 +83,13 @@ void Game::tick() {
             this->perso.respawn();
             this->camera.setPos(this->perso.getX() + (this->perso.getWidth()/2) - this->winW/2, this->perso.getY() - (this->winH/4)*3);
         }
+
+        Checkpoint checkpoint = this->map.testCheckpoint(this->perso.getX(), this->perso.getY(), this->perso.getWidth(), this->perso.getHeight());
+
+        if (checkpoint.getId() > this->checkpointProgression){
+            this->checkpointProgression = checkpoint.getId();
+            this->perso.setRespawn(checkpoint.getX(), checkpoint.getY());
+        }
     }
     else if (this->fenetre == 1) {
         if (this->butContinuer.clicOnButton()){
@@ -180,6 +187,7 @@ void Game::initLevel(int levelNum) {
     this->map = Map(1);
     this->perso = Personnage(this->map.getStartX(), this->map.getStartY());
     this->camera.setPos(this->perso.getX() + (this->perso.getWidth()/2) - this->winW/2, this->perso.getY() - (this->winH/4)*3);
+    this->checkpointProgression = 0;
 }
 
 

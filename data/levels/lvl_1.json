@@ -6,31 +6,21 @@
    "endX" : 24,
    "endY" : 3,
    "map_file" : "lvl_1.png",
-   "special_tiles" : [
+   "checkpoints" : [
       {
-         "x" : 44,
-         "y" : 98,
-         "type" : "bounce"
+         "x" : 39,
+         "y" : 77,
+         "id" : 1
       },
       {
-         "x" : 45,
-         "y" : 98,
-         "type" : "bounce"
+         "x" : 36,
+         "y" : 43,
+         "id" : 2
       },
       {
-         "x" : 46,
-         "y" : 98,
-         "type" : "bounce"
-      },
-      {
-         "x" : 47,
-         "y" : 98,
-         "type" : "bounce"
-      },
-      {
-         "x" : 48,
-         "y" : 98,
-         "type" : "bounce"
+         "x" : 10,
+         "y" : 15,
+         "id" : 3
       }
    ]
 }
