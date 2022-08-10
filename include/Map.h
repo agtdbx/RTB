@@ -1,32 +1,29 @@
 //
-// Created by auguste on 23/02/2022.
+// Created by auguste on 31/05/22.
 //
 
-#ifndef RTB_MAP_H
-#define RTB_MAP_H
+#ifndef EDITEUR_RTB_MAP_H
+#define EDITEUR_RTB_MAP_H
 
 #include <iostream>
 #include <vector>
 #include "../include/Tuile.h"
-#include "../include/Checkpoint.h"
+#include "../include/Zone.h"
 #include <SDL_image.h>
-
-struct Pixel{
-    int r, g, b, a;
-};
-typedef struct Pixel Pixel;
 
 class Map {
 private:
-    std::vector<Checkpoint> checkpoints;
+    std::vector<Zone> checkpoints;
     std::vector<std::vector<Tuile>> map;
-    int w, h, startX, startY, endX, endY, squareSize;
-    void getpixel(Pixel *pixel, SDL_Surface *surface, int x, int y);
-    void loadMap(int lvl_num);
+    int w, h, squareSize;
+    Zone start, end;
+
+    void initEmptyMap();
+    std::vector<std::vector<Tuile>> copyMap();
 
 public:
     Map();
-    Map(int nb);
+    Map(int w, int h, int squareSize);
     ~Map();
 
     void draw(SDL_Renderer *renderer, Camera camera, int winW, int winH);
@@ -34,12 +31,19 @@ public:
     bool test(int x, int y);
     int touch(int x, int y);
     int getSquarreSize();
-    int getStartX();
-    int getStartY();
-    int getEndX();
-    int getEndY();
-    Checkpoint testCheckpoint(float x, float y, int w, int h);
+    void setStart(Zone start);
+    Zone getStart();
+    void setEnd(Zone end);
+    Zone getEnd();
+    int getWidth();
+    int getHeigth();
+    std::vector<Zone> getCheckpoint();
+    Zone testCheckpoint(float x, float y, int w, int h);
+    void set(int x, int y, Tuile t);
+    void addCheckpoint(Zone checkpoint);
+    void removeCheckpoint(int id);
+    void resize(int mapW, int mapH);
 };
 
 
-#endif //RTB_MAP_H
+#endif //EDITEUR_RTB_MAP_H

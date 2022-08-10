@@ -9,6 +9,11 @@
 #include <ostream>
 #include <fstream>
 #include <sstream>
+#include <jsoncpp/json/json.h>
+#include <jsoncpp/json/value.h>
+#include <jsoncpp/json/writer.h>
+#include <jsoncpp/json/reader.h>
+#include <dirent.h>
 
 //Private methods
 void Game::initButton() {
@@ -84,11 +89,11 @@ void Game::tick() {
             this->camera.setPos(this->perso.getX() + (this->perso.getWidth()/2) - this->winW/2, this->perso.getY() - (this->winH/4)*3);
         }
 
-        Checkpoint checkpoint = this->map.testCheckpoint(this->perso.getX(), this->perso.getY(), this->perso.getWidth(), this->perso.getHeight());
+        Zone checkpoint = this->map.testCheckpoint(this->perso.getX(), this->perso.getY(), this->perso.getWidth(), this->perso.getHeight());
 
         if (checkpoint.getId() > this->checkpointProgression){
             this->checkpointProgression = checkpoint.getId();
-            this->perso.setRespawn(checkpoint.getX(), checkpoint.getY());
+            this->perso.setRespawn(checkpoint.getX()*20, checkpoint.getY()*20);
         }
     }
     else if (this->fenetre == 1) {
@@ -140,6 +145,87 @@ void Game::render() {
 }
 
 
+void Game::loadMap(std::string filename) {
+    std::string file = "";
+    file.append(filename);
+    file.append(".json");
+
+    bool test = false;
+    DIR *d;
+    struct dirent *dir;
+    d = opendir("../data/levels/");
+    if (d){
+        while ((dir = readdir(d)) != NULL){
+            std::string file_name = dir->d_name;
+            if (file_name != "." && file_name != ".."){
+                if (file_name == file){
+                    test = true;
+                }
+            }
+        }
+        closedir(d);
+    }
+
+    if (test){
+        Json::Value json;
+
+        std::string filepath = "../data/levels/";
+        filepath.append(file);
+
+        std::ifstream myfile(filepath);
+
+        myfile >> json; // Récupération du fichier
+        std::string fname = json["filename"].asString();
+        std::string mname = json["name"].asString();
+//        this->filename = json["filename"].asString();
+//        this->mapname = json["name"].asString();
+
+        int w = json["width"].asInt();
+        int h = json["heigth"].asInt();
+        int size = json["square_size"].asInt();
+        this->map = Map(w, h, size);
+
+        // Chargement du debut
+        Json::Value debut = json["start"];
+        Zone start = Zone(debut["x"].asInt(), debut["y"].asInt(), "start");
+        this->map.setStart(start);
+
+        // Chargement de la fin
+        Json::Value fin = json["end"];
+        Zone end = Zone(fin["x"].asInt(), fin["y"].asInt(), "end");
+        this->map.setEnd(end);
+
+        // Chargement des checkpoints
+        Json::Value checkpoints = json["checkpoints"];
+        if (checkpoints.isArray()){
+            for (int i = 0; i < checkpoints.size(); i++){
+                Json::Value check = checkpoints[i];
+
+                int x = check["x"].asInt();
+                int y = check["y"].asInt();
+                int id = check["id"].asInt();
+
+                Zone checkpoint = Zone(x, y, id);
+                this->map.addCheckpoint(checkpoint);
+            }
+        }
+
+        Json::Value tuiles = json["map"];
+        for (int i = 0; i < tuiles.size(); i++){
+            Json::Value t = tuiles[i];
+
+            int x = t["x"].asInt();
+            int y = t["y"].asInt();
+            std::string type = t["type"].asString();
+
+            Tuile tuile = Tuile(x, y, size, const_cast<char*>(type.c_str()));
+            this->map.set(x, y, tuile);
+        }
+    }
+}
+
+
+
 //Public methods
 Game::Game(SDL_Renderer *renderer, int winW, int winH) {
     this->winW = winW;
@@ -184,10 +270,14 @@ void Game::start() {
 
 
 void Game::initLevel(int levelNum) {
-    this->map = Map(1);
-    this->perso = Personnage(this->map.getStartX(), this->map.getStartY());
+    switch (levelNum) {
+        case 1:
+            this->loadMap("test");
+            break;
+    }
+    this->perso = Personnage(this->map.getStart().getX()*20.0f, this->map.getStart().getY()*20.0f);
     this->camera.setPos(this->perso.getX() + (this->perso.getWidth()/2) - this->winW/2, this->perso.getY() - (this->winH/4)*3);
-    this->checkpointProgression = 0;
+    this->checkpointProgression = -1;
 }
 
 

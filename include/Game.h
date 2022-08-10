@@ -26,6 +26,7 @@ private:
     void input();
     void tick();
     void render();
+    void loadMap(std::string filename);
 
 public:
     Game(SDL_Renderer *renderer, int winW, int winH);

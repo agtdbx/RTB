@@ -1,5 +1,5 @@
 //
-// Created by auguste on 23/02/2022.
+// Created by auguste on 31/05/22.
 //
 
 #include "../include/Map.h"
@@ -14,132 +14,60 @@
 #include <SDL2/SDL_image.h>
 
 //private methods
-void Map::getpixel(Pixel *pixel, SDL_Surface *surface, int x, int y) {
-    int bpp = surface->format->BytesPerPixel;
-    Uint8 *p = (Uint8 *)surface->pixels + y * surface->pitch + x * bpp;
-
-    Uint8 red = p[3];
-    Uint8 green = p[2];
-    Uint8 blue = p[1];
-    Uint8 alpha = p[0];
-
-    pixel->r = red;
-    pixel->g = green;
-    pixel->b = blue;
-    pixel->a = alpha;
-}
-
-
-
-void Map::loadMap(int lvl_num) {
-    // Lecture du fichier json
-    Json::Value json;
-    std::ifstream myfile ("../data/levels/lvl_1.json");// Ouverture du fichier
-    myfile >> json;
-
-    // Assignation des valeurs du json
-    this->w = json["width"].asInt();
-    this->h = json["height"].asInt();
-    this->startX = json["startX"].asInt()*20;
-    this->startY = json["startY"].asInt()*20;
-    this->endX = json["endX"].asInt()*20;
-    this->endY = json["endY"].asInt()*20;
-    std::string png_map = json["map_file"].asString();
-    Json::Value special_tiles = json["checkpoints"];
-
-    this->checkpoints = std::vector<Checkpoint>();
-    for (int i = 0; i < special_tiles.size(); i++){
-        Json::Value special_tile = special_tiles[i];
-        int x = special_tile["x"].asInt()*20;
-        int y = special_tile["y"].asInt()*20;
-        int id = special_tile["id"].asInt();
-        this->checkpoints.push_back(Checkpoint(x,y,id));
-    }
-
-    // Lecture du fichier png
-    SDL_Surface* picture = IMG_Load("../data/levels/lvl_1.png");
-    SDL_Surface* map = SDL_ConvertSurfaceFormat(picture, SDL_PIXELFORMAT_ABGR32, 0);
-
-    // Création de la map avec les valeurs du png
+void Map::initEmptyMap() {
     this->map.clear();
-    SDL_Color black = {0, 0, 0, 255};
-    SDL_Color color = {255, 255, 255, 255};
-    Pixel pixel;
-    for (int i = 0; i < this->w; ++i){
-        std::vector<Tuile> vector;
-        for (int j = 0; j < this->h; ++j){
-            this->getpixel(&pixel, map, i, j);
-            if (pixel.r == 0 && pixel.g == 0 && pixel.b == 0){
-                Tuile tuile = Tuile(i*this->squareSize, j*this->squareSize, this->squareSize, "mur", black);
-                vector.push_back(tuile);
-            }
-            else{
-                color.r = pixel.r;
-                color.g = pixel.g;
-                color.b = pixel.b;
-                color.a = pixel.a;
-                if (color.r == 0 && color.g == 255 && color.b == 0){
-                    Tuile tuile = Tuile(i*this->squareSize, j*this->squareSize, this->squareSize, "slime", color);
-                    vector.push_back(tuile);
-                }
-                else if (color.r == 0 && color.g == 255 && color.b == 255){
-                    Tuile tuile = Tuile(i*this->squareSize, j*this->squareSize, this->squareSize, "glace", color);
-                    vector.push_back(tuile);
-                }
-                else if (color.r == 100 && color.g == 100 && color.b == 100){
-                    Tuile tuile = Tuile(i*this->squareSize, j*this->squareSize, this->squareSize, "pique", color);
-                    vector.push_back(tuile);
-                }
-                else{
-                    Tuile tuile = Tuile(i*this->squareSize, j*this->squareSize, this->squareSize, "air", color);
-                    vector.push_back(tuile);
-                }
-            }
-        }
-        this->map.push_back(vector);
-    }
-    SDL_FreeSurface(picture);
-}
-
-
-//public methods
-Map::Map() {
-    this->squareSize = 20;
-    this->w = 1920/this->squareSize;
-    this->h = 1080/this->squareSize;
-    this->startX = 100;
-    this->startY = 100;
-    this->endX = 200;
-    this->endY = 200;
-}
-
-Map::Map(int nb) {
-    this->w = 20;
-    this->h = 20;
-    this->startX = 2*20;
-    this->startY = 15*20;
-    this->endX = 200;
-    this->endY = 200;
-    this->squareSize = 20;
-
-    SDL_Color black = {0, 0, 0, 255};
-    SDL_Color white = {255, 255, 255, 255};
 
     for (int i = 0; i < this->w; ++i){
         std::vector<Tuile> vector;
         for (int j = 0; j < this->h; ++j){
             Tuile tuile;
             if (i == 0 || i == this->w-1 || j == 0 || j == this->h-1){
-                tuile = Tuile(i*this->squareSize, j*this->squareSize, this->squareSize, "mur", black);
+                tuile = Tuile(i, j, this->squareSize, "mur");
             }
             else{
-                tuile = Tuile(i*this->squareSize, j*this->squareSize, this->squareSize, "air", white);
+                tuile = Tuile(i, j, this->squareSize, "air");
             }
             vector.push_back(tuile);
         }
         this->map.push_back(vector);
     }
-    this->loadMap(1);
+}
+
+
+std::vector<std::vector<Tuile>> Map::copyMap() {
+    std::vector<std::vector<Tuile>> copyMap;
+
+    for (int x = 0; x < this->map.size(); x++){
+        std::vector<Tuile> vector;
+        for (int y = 0; y < this->map[0].size(); y++){
+            vector.push_back(this->map[x][y]);
+        }
+        copyMap.push_back(vector);
+    }
+
+    return copyMap;
+}
+
+
+//public methods
+Map::Map() {
+    this->w = 32;
+    this->h = 18;
+    this->start = Zone(1, 1, "start");
+    this->end = Zone(3, 3, "end");
+    this->squareSize = 20;
+
+    initEmptyMap();
+}
+
+Map::Map(int w, int h, int squareSize) {
+    this->w = w;
+    this->h = h;
+    this->start = Zone(1, 1, "start");
+    this->end = Zone(3, 3, "end");
+    this->squareSize = squareSize;
+
+    initEmptyMap();
 }
 
 
@@ -149,12 +77,21 @@ Map::~Map() {
 
 
 void Map::draw(SDL_Renderer *renderer, Camera camera, int winW, int winH) {
+    int minX = -20;
+    int minY = -20;
     for (int i = 0; i < this->w; ++i) {
         for (int j = 0; j < this->h; ++j) {
-            if (-20 <= i*20 - camera.getX() && i*20 - camera.getX() <= winW && -20 <= j*20 - camera.getY() && j*20 - camera.getY() <= winH){
+            if (minX <= i*this->squareSize - camera.getX() && i*this->squareSize - camera.getX() <= winW && minY <= j*this->squareSize - camera.getY() && j*this->squareSize - camera.getY() <= winH){
                 this->map[i][j].draw(renderer, camera);
             }
         }
+    }
+
+    this->start.draw(renderer, camera);
+    this->end.draw(renderer, camera);
+
+    for (Zone check : this->checkpoints){
+        check.draw(renderer, camera);
     }
 }
 
@@ -163,42 +100,126 @@ Tuile Map::get(int x, int y) {
     return this->map[x][y];
 }
 
+
 bool Map::test(int x, int y) {
-    return this->map[x][y].isPassable();
+    if (x >= 0 && x < this->map.size() && y >= 0 && y < this->map[0].size()){
+        return this->map[x][y].isPassable();
+    }
+    return false;
 }
 
+
 int Map::touch(int x, int y) {
-    return this->map[x][y].touch();
+    if (x >= 0 && x < this->map.size() && y >= 0 && y < this->map[0].size()){
+        return this->map[x][y].touch();
+    }
+    return 0;
 }
+
 
 int Map::getSquarreSize() {
     return this->squareSize;
 }
 
-int Map::getStartX() {
-    return this->startX;
+
+void Map::setStart(Zone start) {
+    this->start = start;
+
+    int x = start.getX();
+    int y = start.getY();
+    this->map[x][y] = Tuile(x, y, 20, "air");
+    this->map[x+1][y] = Tuile(x+1, y, 20, "air");
+    this->map[x][y+1] = Tuile(x, y+1, 20, "air");
+    this->map[x+1][y+1] = Tuile(x+1, y+1, 20, "air");
+    this->map[x][y+2] = Tuile(x, y+2, 20, "air");
+    this->map[x+1][y+2] = Tuile(x+1, y+2, 20, "air");
 }
 
-int Map::getStartY() {
-    return this->startY;
+
+Zone Map::getStart() {
+    return this->start;
 }
 
-int Map::getEndX() {
-    return this->endX;
+
+void Map::setEnd(Zone end) {
+    this->end = end;
+
+    int x = end.getX();
+    int y = end.getY();
+    this->map[x][y] = Tuile(x, y, 20, "air");
+    this->map[x+1][y] = Tuile(x+1, y, 20, "air");
+    this->map[x][y+1] = Tuile(x, y+1, 20, "air");
+    this->map[x+1][y+1] = Tuile(x+1, y+1, 20, "air");
+    this->map[x][y+2] = Tuile(x, y+2, 20, "air");
+    this->map[x+1][y+2] = Tuile(x+1, y+2, 20, "air");
 }
 
-int Map::getEndY() {
-    return this->endY;
+
+Zone Map::getEnd() {
+    return this->end;
 }
 
-Checkpoint Map::testCheckpoint(float x, float y, int w, int h) {
-    Checkpoint rep = Checkpoint(0, 0, -1);
 
-    for (Checkpoint checkpoint : this->checkpoints){
-        if (checkpoint.getX() <= (x + w) && (checkpoint.getX() + 3*20) >= x && checkpoint.getY() <= (y + h) && (checkpoint.getY() + 3*20) >= y){
+Zone Map::testCheckpoint(float x, float y, int w, int h) {
+    Zone rep = Zone(0, 0, -2);
+
+    for (Zone checkpoint : this->checkpoints){
+        if (checkpoint.getX()*20 <= (x + w) && (checkpoint.getX()*20 + 3*20) >= x && checkpoint.getY()*20 <= (y + h) && (checkpoint.getY()*20 + 3*20) >= y){
             rep = checkpoint;
         }
     }
 
     return rep;
+}
+
+
+int Map::getWidth() {
+    return this->w;
+}
+
+
+int Map::getHeigth() {
+    return this->h;
+}
+
+
+std::vector<Zone> Map::getCheckpoint() {
+    return this->checkpoints;
+}
+
+
+void Map::set(int x, int y, Tuile t) {
+    this->map[x][y] = t;
+}
+
+
+void Map::addCheckpoint(Zone checkpoint) {
+    this->checkpoints.push_back(checkpoint);
+}
+
+
+void Map::removeCheckpoint(int id) {
+    this->checkpoints.erase(this->checkpoints.cbegin() + id);
+
+    for (int i = 0; i < this->checkpoints.size(); i++){
+        this->checkpoints[i].setId(i);
+    }
+}
+
+
+void Map::resize(int mapW, int mapH) {
+    std::cout << "RESIZE : " << this->w << "x" << this->h << " en " << mapW << "x" << mapH << std::endl;
+    std::vector<std::vector<Tuile>> copyMap = this->copyMap();
+
+    this->w = mapW;
+    this->h = mapH;
+    this->initEmptyMap();
+
+    for (int x = 1; x < this->map.size()-1; x++){
+        for (int y = 1; y < this->map[0].size()-1; y++){
+            if (x < copyMap.size()-1 && y < copyMap[0].size()-1){
+                this->map[x][y] = copyMap[x][y];
+            }
+        }
+    }
 }

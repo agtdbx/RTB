@@ -62,7 +62,7 @@ Personnage::Personnage() {
     this->w = 40;
     this->h = 59;
     this->vX = 0.0f;
-    this->vY= 0.0f;
+    this->vY = 0.0f;
     this->respawnX = 50.0f;
     this->respawnY = 50.0f;
 }
@@ -73,10 +73,10 @@ Personnage::Personnage(float x, float y) {
     this->respawnY = y;
     this->x = x;
     this->y = y;
-    this->w = 40;
+    this->w = 39;
     this->h = 59;
     this->vX = 0.0f;
-    this->vY= 0.0f;
+    this->vY = 0.0f;
     this->vitesse = 500.0f;
     this->acceleration = 50.0f;
     this->debutSaut = 0.0f;
@@ -225,7 +225,7 @@ int Personnage::getHeight() {
 
 
 bool Personnage::atFin(Map map) {
-    return this->x + this->w >= map.getEndX() && this->x <= map.getEndX() + 3*20 && this->y + this->h >= map.getEndY() && this->y <= map.getEndY() + 3*20;
+    return this->x + this->w >= map.getEnd().getX()*20 && this->x <= map.getEnd().getX()*20 + 3*20 && this->y + this->h >= map.getEnd().getY()*20 && this->y <= map.getEnd().getY()*20 + 3*20;
 }
 
 
