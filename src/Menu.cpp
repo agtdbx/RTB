@@ -236,7 +236,7 @@ void Menu::render() {
     SDL_Color color = {0, 0, 0, 255};
     switch (this->fenetre) {
         case 0:
-            drawText(this->renderer, "Road To Bac !", 80, this->winW/2, 50, 1, color);
+            drawText(this->renderer, "Road To Back !", 80, this->winW/2, 50, 1, color);
             this->butJouer.draw(this->renderer);
             this->butOptions.draw(this->renderer);
             this->butQuitter.draw(this->renderer);
@@ -244,7 +244,7 @@ void Menu::render() {
             break;
 
         case 1:
-            drawText(this->renderer, "Road To Bac !", 80, this->winW/2, 50, 1, color);
+            drawText(this->renderer, "Road To Back !", 80, this->winW/2, 50, 1, color);
             if(this->niveauUnlock >= 1){
                 this->butlvl1.draw(this->renderer);
             }
@@ -258,7 +258,7 @@ void Menu::render() {
             break;
 
         case 20:{
-            drawText(this->renderer, "Road To Bac !", 80, this->winW/2, 10, 1, color);
+            drawText(this->renderer, "Road To Back !", 80, this->winW/2, 10, 1, color);
             drawText(this->renderer, "Options graphique", 50, this->winW/2, 100, 1, color);
             SDL_SetRenderDrawColor(this->renderer, 150, 150, 150, 100);
             SDL_Rect rect = {this->spacingWithScreen + this->borderSize, 75 + this->spacingWithScreen, 250-this->borderSize*2, 75-this->borderSize*2};
@@ -271,7 +271,7 @@ void Menu::render() {
             break;}
 
         case 21:{
-            drawText(this->renderer, "Road To Bac !", 80, this->winW/2, 10, 1, color);
+            drawText(this->renderer, "Road To Back !", 80, this->winW/2, 10, 1, color);
             drawText(this->renderer, "Options sonore", 50, this->winW/2, 100, 1, color);
             SDL_SetRenderDrawColor(this->renderer, 150, 150, 150, 100);
             SDL_Rect rect = {this->spacingWithScreen + this->borderSize, 75*2 + this->spacingWithScreen - this->borderSize, 250-this->borderSize*2, 75-this->borderSize*2};
@@ -284,7 +284,7 @@ void Menu::render() {
             break;}
 
         case 22:{
-            drawText(this->renderer, "Road To Bac !", 80, this->winW/2, 10, 1, color);
+            drawText(this->renderer, "Road To Back !", 80, this->winW/2, 10, 1, color);
             drawText(this->renderer, "Options clavier", 50, this->winW/2, 100, 1, color);
             SDL_SetRenderDrawColor(this->renderer, 150, 150, 150, 100);
             SDL_Rect rect = {this->spacingWithScreen + this->borderSize, 75*3 + this->spacingWithScreen - this->borderSize*2, 250-this->borderSize*2, 75-this->borderSize*2};
@@ -297,7 +297,7 @@ void Menu::render() {
             break;}
 
         case 23:{
-            drawText(this->renderer, "Road To Bac !", 80, this->winW/2, 10, 1, color);
+            drawText(this->renderer, "Road To Back !", 80, this->winW/2, 10, 1, color);
             drawText(this->renderer, "Credit", 50, this->winW/2, 100, 1, color);
             SDL_SetRenderDrawColor(this->renderer, 150, 150, 150, 100);
             SDL_Rect rect = {this->spacingWithScreen + this->borderSize, 75*4 + this->spacingWithScreen - this->borderSize*3, 250-this->borderSize*2, 75-this->borderSize*2};
@@ -310,7 +310,7 @@ void Menu::render() {
             break;}
 
         case 221:
-            drawText(this->renderer, "Road To Bac !", 80, this->winW/2, 10, 1, color);
+            drawText(this->renderer, "Road To Back !", 80, this->winW/2, 10, 1, color);
             drawText(this->renderer, "Appuis sur un touche", 50, this->winW/2, this->winH/2, 1, color);
             break;
     }
