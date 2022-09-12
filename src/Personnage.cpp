@@ -159,8 +159,8 @@ void Personnage::deplacementY(float vY) {
 
 void Personnage::addVy(float vY) {
     this->vY += vY * this->graviteEffet;
-    if (this->vY > 1000.0f){
-        this->vY = 1000.0f;
+    if (this->vY > 1000.0f * this->graviteEffet){
+        this->vY = 1000.0f * this->graviteEffet;
     }
 }
 
