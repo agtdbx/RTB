@@ -12,11 +12,12 @@
 class Personnage {
 private:
     int w, h;
-    float x, y, vX, vY, vitesse, acceleration, debutSaut, tempsSaut, respawnX, respawnY;
+    float x, y, vX, vY, vitesse, acceleration, debutSaut, tempsSaut, respawnX, respawnY, graviteEffet;
     bool sautOk;
 
-    bool mouvementPossibleX(Camera camera, Map map, float delta);
-    bool mouvementPossibleY(Camera camera, Map map, float delta);
+    bool isInTuile(Map map, std::string nomTuile, float x, float y);
+    bool mouvementPossibleX(Map map, float delta);
+    bool mouvementPossibleY(Map map, float delta);
 
 public:
     Personnage();

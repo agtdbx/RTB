@@ -7,51 +7,51 @@
 
 
 // Private methodes
+bool Personnage::isInTuile(Map map, std::string nomTuile, float x, float y) {
+    int x1 = (int)(x)/20;
+    int x2 = (int)(x + this->w/2)/20;
+    int x3 = (int)(x + this->w)/20;
+    int y1 = (int)(y)/20;
+    int y2 = (int)(y + this->h/3)/20;
+    int y3 = (int)(y + (this->h/3)*2)/20;
+    int y4 = (int)(y + this->h)/20;
 
-bool Personnage::mouvementPossibleX(Camera camera, Map map, float delta) {
-    int x1 = (int)(this->x + this->vX*delta)/20;
-    int x2 = (int)(this->x + this->w/2 + this->vX*delta)/20;
-    int x3 = (int)(this->x + this->w + this->vX*delta)/20;
-    int y1 = (int)(this->y)/20;
-    int y2 = (int)(this->y + this->h/3)/20;
-    int y3 = (int)(this->y + (this->h/3)*2)/20;
-    int y4 = (int)(this->y + this->h)/20;
-
-    if (map.test(x1, y1) && map.test(x1, y2) && map.test(x1, y3) && map.test(x1, y4) &&
-        map.test(x2, y1) && map.test(x2, y2) && map.test(x2, y3) && map.test(x2, y4) &&
-        map.test(x3, y1) && map.test(x3, y2) && map.test(x3, y3) && map.test(x3, y4)){;
-        return true;
-    }
-
-    this->vX = 0.0f;
-
+    if (map.get(x1, y1).getType() == nomTuile || map.get(x2, y1).getType() == nomTuile || map.get(x3, y1).getType() == nomTuile ||
+        map.get(x1, y2).getType() == nomTuile || map.get(x2, y2).getType() == nomTuile || map.get(x3, y2).getType() == nomTuile ||
+        map.get(x1, y3).getType() == nomTuile || map.get(x2, y3).getType() == nomTuile || map.get(x3, y3).getType() == nomTuile ||
+        map.get(x1, y4).getType() == nomTuile || map.get(x2, y4).getType() == nomTuile || map.get(x3, y4).getType() == nomTuile)
+            return true;
     return false;
 }
 
+bool Personnage::mouvementPossibleX(Map map, float delta) {
+    int x = (int)(this->x + this->vX*delta);
+    int y = (int)(this->y);
 
-bool Personnage::mouvementPossibleY(Camera camera, Map map, float delta) {
-    int x1 = (int)(this->x)/20;
-    int x2 = (int)(this->x + this->w/2)/20;
-    int x3 = (int)(this->x + this->w)/20;
-    int y1 = (int)(this->y + this->vY*delta)/20;
-    int y2 = (int)(this->y + this->h/3 + this->vY*delta)/20;
-    int y3 = (int)(this->y + (this->h/3)*2 + this->vY*delta)/20;
-    int y4 = (int)(this->y + this->h + this->vY*delta)/20;
-
-    if (map.test(x1, y1) && map.test(x1, y2) && map.test(x1, y3) && map.test(x1, y4) &&
-        map.test(x2, y1) && map.test(x2, y2) && map.test(x2, y3) && map.test(x2, y4) &&
-        map.test(x3, y1) && map.test(x3, y2) && map.test(x3, y3) && map.test(x3, y4) ){;
-        return true;
+    if (this->isInTuile(map, "mur", x, y) || this->isInTuile(map, "glace", x, y))
+    {
+        this->vX = 0.0f;
+        return false;
     }
+    if (this->isInTuile(map, "slime", x, y))
+        this->vX *= -1.0f;
+    return true;
+}
 
-    if (map.touch(x1, y4) == 2 || map.touch(x2, y4) == 2 || map.touch(x3, y4) == 2){
-        this->vY *= -1;
-        return true;
+
+bool Personnage::mouvementPossibleY(Map map, float delta) {
+    int x = (int)(this->x);
+    int y = (int)(this->y + this->vY*delta);
+
+    if (this->isInTuile(map, "mur", x, y) || this->isInTuile(map, "glace", x, y)
+        || (this->isInTuile(map, "plateforme", x, y) && this->vY > 0.0f))
+    {
+        this->vY = 0.0f;
+        return false;
     }
-
-    this->vY = 0.0f;
-
-    return false;
+    if (this->isInTuile(map, "slime", x, y))
+        this->vY *= -1.0f;
+    return true;
 }
 
 
@@ -82,6 +82,7 @@ Personnage::Personnage(float x, float y) {
     this->debutSaut = 0.0f;
     this->tempsSaut = 0.2f;
     this->sautOk = false;
+    this->graviteEffet = 1.0f;
 }
 
 
@@ -157,7 +158,7 @@ void Personnage::deplacementY(float vY) {
 
 
 void Personnage::addVy(float vY) {
-    this->vY += vY;
+    this->vY += vY * this->graviteEffet;
     if (this->vY > 1000.0f){
         this->vY = 1000.0f;
     }
@@ -182,17 +183,21 @@ void Personnage::saut(float vY, Map map) {
     int x2 = ((int)this->x + this->w/2)/20;
     int x3 = ((int)this->x + this->w)/20;
     int y = ((int)this->y + this->h)/20 + 1;
-    if (!map.test(x1, y) || !map.test(x2, y) || !map.test(x3, y)){
+    if (!map.test(x1, y, 'D') || !map.test(x2, y, 'D') || !map.test(x3, y, 'D')){
         this->sautOk = true;
     }
 }
 
 void Personnage::move(float delta, Camera& camera, Map map) {
-    if (this->mouvementPossibleX(camera, map, delta)){
+    if (this->isInTuile(map, "eau", x, y))
+        this->graviteEffet = 0.5f;
+    else
+        this->graviteEffet = 1.0f;
+    if (this->mouvementPossibleX(map, delta)){
         this->x += this->vX * delta;
         camera.addPosX(this->vX * delta);
     }
-    if(this->mouvementPossibleY(camera, map, delta)){
+    if(this->mouvementPossibleY(map, delta)){
         this->y += this->vY * delta;
         camera.addPosY(this->vY * delta);
     }

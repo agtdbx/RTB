@@ -20,7 +20,7 @@ public:
     ~Tuile();
 
     void draw(SDL_Renderer *renderer, Camera camera);
-    bool isPassable();
+    bool isPassable(char direction);
     int touch();
 
     std::string getType();

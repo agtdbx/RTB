@@ -28,7 +28,7 @@ public:
 
     void draw(SDL_Renderer *renderer, Camera camera, int winW, int winH);
     Tuile get(int x, int y);
-    bool test(int x, int y);
+    bool test(int x, int y, char direction);
     int touch(int x, int y);
     int getSquarreSize();
     void setStart(Zone start);

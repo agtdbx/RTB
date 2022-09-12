@@ -101,9 +101,9 @@ Tuile Map::get(int x, int y) {
 }
 
 
-bool Map::test(int x, int y) {
+bool Map::test(int x, int y, char direction) {
     if (x >= 0 && x < this->map.size() && y >= 0 && y < this->map[0].size()){
-        return this->map[x][y].isPassable();
+        return this->map[x][y].isPassable(direction);
     }
     return false;
 }
