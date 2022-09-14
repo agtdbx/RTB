@@ -19,32 +19,38 @@ Zone::Zone() {
 }
 
 
-Zone::Zone(int x, int y, std::string type) {
+Zone::Zone(int x, int y, std::string type, int squareSize, SDL_Renderer *renderer) {
     this->x = x;
     this->y = y;
     this->w = 2;
     this->h = 3;
     this->id = 0;
+    this->squareSize = squareSize;
 
     if (type == "start"){
         this->color = {200, 50, 50, 255};
+        this->sprite = getTexture(renderer, "debut");
     }
     else if (type == "end"){
         this->color = {50, 50, 200, 255};
+        this->sprite = getTexture(renderer, "fin");
     }
     else{
         this->color = {120, 120, 120, 255};
+        this->sprite = getTexture(renderer, "checkpoint");
     }
 }
 
 
-Zone::Zone(int x, int y, int id) {
+Zone::Zone(int x, int y, int id, int squareSize, SDL_Renderer *renderer) {
     this->x = x;
     this->y = y;
     this->w = 2;
     this->h = 3;
     this->id = id;
     this->color = {50, 200, 50, 255};
+    this->sprite = getTexture(renderer, "checkpoint");
+    this->squareSize = squareSize;
 }
 
 
@@ -55,12 +61,12 @@ Zone::~Zone() {
 
 void Zone::draw(SDL_Renderer *renderer, Camera camera) {
     SDL_SetRenderDrawColor(renderer, this->color.r, this->color.g, this->color.b, this->color.a);
-    int x = this->x * 20 - camera.getX();
-    int y = this->y * 20 - camera.getY();
-    SDL_Rect rect = {x, y, this->w * 20, this->h * 20};
-    SDL_RenderFillRect(renderer, &rect);
-
-    if (this->color.r == 200){
+    int x = this->x * this->squareSize - camera.getX();
+    int y = this->y * this->squareSize - camera.getY();
+    SDL_Rect rect = {x, y, this->w * this->squareSize, this->h * this->squareSize};
+    //SDL_RenderFillRect(renderer, &rect);
+    SDL_RenderCopy(renderer, this->sprite, NULL, &rect);
+    /*if (this->color.r == 200){
         drawText(renderer, "D", 20, x + this->w*10, y, 2, {0, 0, 0, 255});
     }
     else if (this->color.g == 200){
@@ -70,7 +76,7 @@ void Zone::draw(SDL_Renderer *renderer, Camera camera) {
     }
     else if (this->color.b == 200){
         drawText(renderer, "F", 20, x + this->w*10, y, 2, {0, 0, 0, 255});
-    }
+    }*/
 }
 
 

@@ -13,10 +13,11 @@ protected:
     int x, y, size;
     std::string type;
     SDL_Color color;
+    SDL_Texture *sprite;
 
 public:
     Tuile();
-    Tuile(int x, int y, int size, std::string type);
+    Tuile(int x, int y, int size, std::string type, SDL_Renderer *renderer);
     ~Tuile();
 
     void draw(SDL_Renderer *renderer, Camera camera);

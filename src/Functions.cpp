@@ -6,6 +6,8 @@
 
 #include <SDL.h>
 #include <SDL_ttf.h>
+#include <SDL_image.h>
+#include <iostream>
 
 void drawText(SDL_Renderer *renderer , char *text, int textSize, int x, int y, int alignement, SDL_Color color){
     TTF_Font * font = 0;
@@ -71,4 +73,15 @@ void drawCircle(SDL_Renderer * renderer, int32_t centreX, int32_t centreY, int32
             error += (tx - diameter);
         }
     }
+}
+
+SDL_Texture *getTexture(SDL_Renderer *renderer, std::string spritename)
+{
+    std::string path = "../data/sprites/";
+    path.append(spritename);
+    path.append(".png");
+    char *img = const_cast<char*>(path.c_str());
+    SDL_Surface *surface = IMG_Load(img);
+    SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
+    return texture;
 }

@@ -12,13 +12,14 @@
 
 class Zone {
 private:
-    int x, y, w, h, id;
+    int x, y, w, h, id, squareSize;
     SDL_Color color;
+    SDL_Texture *sprite;
 
 public:
     Zone();
-    Zone(int x, int y, std::string type);
-    Zone(int x, int y, int id);
+    Zone(int x, int y, std::string type, int squareSize, SDL_Renderer *renderer);
+    Zone(int x, int y, int id, int squareSize, SDL_Renderer *renderer);
     ~Zone();
 
     void draw(SDL_Renderer *renderer, Camera camera);

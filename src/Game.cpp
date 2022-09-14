@@ -56,7 +56,6 @@ void Game::tick() {
         int keylen;
         const unsigned char *keyboard = SDL_GetKeyboardState(&keylen);
 
-
         float delta = ((float)SDL_GetTicks()/1000.0f) - this->lastTime;
 
         if (keyboard[SDL_SCANCODE_F3]) {
@@ -65,7 +64,6 @@ void Game::tick() {
         if (this->showFps && (int)SDL_GetTicks()%100 == 0){
             this->fps = 1.0f / delta;
         }
-
 
         if (keyboard[this->toucheGauche]) {
             this->perso.deplacementX('g', this->map);
@@ -82,7 +80,7 @@ void Game::tick() {
         }
 
         this->perso.addVy(this->gravity);
-        this->perso.move(delta, this->camera, this->map);
+        this->perso.move(delta, this->camera, this->map, &this->background);
 
         if (this->perso.isMort(this->map)){
             this->perso.respawn();
@@ -93,7 +91,7 @@ void Game::tick() {
 
         if (checkpoint.getId() > this->checkpointProgression){
             this->checkpointProgression = checkpoint.getId();
-            this->perso.setRespawn(checkpoint.getX()*20, checkpoint.getY()*20);
+            this->perso.setRespawn(checkpoint.getX() * this->map.getSquarreSize(), checkpoint.getY() * this->map.getSquarreSize());
         }
     }
     else if (this->fenetre == 1) {
@@ -116,6 +114,8 @@ void Game::tick() {
 void Game::render() {
     SDL_SetRenderDrawColor(this->renderer, 255, 255, 255, 255);
     SDL_RenderClear(this->renderer);
+
+    this->background.draw(this->renderer);
 
     this->map.draw(this->renderer, this->camera, this->winW, this->winH);
 
@@ -182,18 +182,19 @@ void Game::loadMap(std::string filename) {
 
         int w = json["width"].asInt();
         int h = json["heigth"].asInt();
-        int size = json["square_size"].asInt();
-        this->map = Map(w, h, size);
+        //int size = json["square_size"].asInt();
+        int size = 24;
+        this->map = Map(w, h, size, this->renderer);
 
         // Chargement du debut
         Json::Value debut = json["start"];
-        Zone start = Zone(debut["x"].asInt(), debut["y"].asInt(), "start");
-        this->map.setStart(start);
+        Zone start = Zone(debut["x"].asInt(), debut["y"].asInt(), "start", size, this->renderer);
+        this->map.setStart(start, this->renderer);
 
         // Chargement de la fin
         Json::Value fin = json["end"];
-        Zone end = Zone(fin["x"].asInt(), fin["y"].asInt(), "end");
-        this->map.setEnd(end);
+        Zone end = Zone(fin["x"].asInt(), fin["y"].asInt(), "end", size, this->renderer);
+        this->map.setEnd(end, this->renderer);
 
         // Chargement des checkpoints
         Json::Value checkpoints = json["checkpoints"];
@@ -205,10 +206,9 @@ void Game::loadMap(std::string filename) {
                 int y = check["y"].asInt();
                 int id = check["id"].asInt();
 
-                Zone checkpoint = Zone(x, y, id);
+                Zone checkpoint = Zone(x, y, id, size, this->renderer);
                 this->map.addCheckpoint(checkpoint);
-            }
-        }
+            }      }
 
         Json::Value tuiles = json["map"];
         for (int i = 0; i < tuiles.size(); i++){
@@ -218,7 +218,7 @@ void Game::loadMap(std::string filename) {
             int y = t["y"].asInt();
             std::string type = t["type"].asString();
 
-            Tuile tuile = Tuile(x, y, size, const_cast<char*>(type.c_str()));
+            Tuile tuile = Tuile(x, y, size, const_cast<char*>(type.c_str()), this->renderer);
             this->map.set(x, y, tuile);
         }
     }
@@ -242,8 +242,9 @@ Game::Game(SDL_Renderer *renderer, int winW, int winH) {
     this->camera = Camera();
     this->showFps = false;
     this->fps = 0.0f;
-    this->gravity = 40.0f;
+    this->gravity = 40.0f * (20.0f / 24.0f);
     this->fpsUnlimited = false;
+    this->background = Background(this->renderer, this->winW, this->winH);
 
     this->initButton();
 }
@@ -274,10 +275,22 @@ void Game::initLevel(int levelNum) {
         case 1:
             this->loadMap("test");
             break;
+
+        case 2:
+            this->loadMap("test2");
+            break;
+
+        case 3:
+            this->loadMap("test3");
+            break;
     }
-    this->perso = Personnage(this->map.getStart().getX()*20.0f, this->map.getStart().getY()*20.0f);
+    this->perso = Personnage(this->map.getStart().getX() * this->map.getSquarreSize(), this->map.getStart().getY() * this->map.getSquarreSize(), this->map.getSquarreSize(), this->renderer);
     this->camera.setPos(this->perso.getX() + (this->perso.getWidth()/2) - this->winW/2, this->perso.getY() - (this->winH/4)*3);
+    this->camera.setWindowSize(this->winW, this->winH);
+    this->camera.setMapSize(this->map.getWidth(), this->map.getHeigth());
+    this->camera.linkToPerso(&this->perso);
     this->checkpointProgression = -1;
+    this->background = Background(this->renderer, this->winW, this->winH);
 }
 
 

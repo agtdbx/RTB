@@ -104,6 +104,18 @@ void Menu::tick() {
                 this->fenetre = 0;
                 this->levelLoad = 1;
             }
+            if (this->butlvl2.clicOnButton() && this->niveauUnlock >= 2){
+                this->run = false;
+                this->continuer = true;
+                this->fenetre = 0;
+                this->levelLoad = 2;
+            }
+            if (this->butlvl3.clicOnButton() && this->niveauUnlock >= 3){
+                this->run = false;
+                this->continuer = true;
+                this->fenetre = 0;
+                this->levelLoad = 3;
+            }
             else if (this->butRetourJouer.clicOnButton()){
                 this->fenetre = 0;
             }
@@ -658,6 +670,12 @@ bool Menu::start() {
         }
     }
     this->saveOptions();
+
+    /*SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+    SDL_SetRenderDrawColor(this->renderer, 255, 255, 255, 255);
+    SDL_RenderClear(this->renderer);
+    drawText(this->renderer, "Chargement ...", 40, this->winW / 2, this->winH / 2, 1, {0, 0, 0, 255});*/
+
     return this->continuer;
 }
 

@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 14)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x")
 
-add_executable(RTB src/main.cpp src/Menu.cpp include/Menu.h src/Functions.cpp include/Functions.h src/Button.cpp include/Button.h src/Game.cpp include/Game.h src/Select.cpp include/Select.h src/Switch.cpp include/Switch.h src/Personnage.cpp include/Personnage.h src/Map.cpp include/Map.h src/Tuile.cpp include/Tuile.h src/Camera.cpp include/Camera.h src/Zone.cpp include/Zone.h)
+add_executable(RTB src/main.cpp src/Menu.cpp include/Menu.h src/Functions.cpp include/Functions.h src/Button.cpp include/Button.h src/Game.cpp include/Game.h src/Select.cpp include/Select.h src/Switch.cpp include/Switch.h src/Personnage.cpp include/Personnage.h src/Map.cpp include/Map.h src/Tuile.cpp include/Tuile.h src/Camera.cpp include/Camera.h src/Zone.cpp include/Zone.h src/Background.cpp include/Background.h)
 
 INCLUDE_DIRECTORIES(/usr/local)
 

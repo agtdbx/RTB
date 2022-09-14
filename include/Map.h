@@ -18,12 +18,12 @@ private:
     int w, h, squareSize;
     Zone start, end;
 
-    void initEmptyMap();
+    void initEmptyMap(SDL_Renderer *renderer);
     std::vector<std::vector<Tuile>> copyMap();
 
 public:
     Map();
-    Map(int w, int h, int squareSize);
+    Map(int w, int h, int squareSize, SDL_Renderer *renderer);
     ~Map();
 
     void draw(SDL_Renderer *renderer, Camera camera, int winW, int winH);
@@ -31,9 +31,9 @@ public:
     bool test(int x, int y, char direction);
     int touch(int x, int y);
     int getSquarreSize();
-    void setStart(Zone start);
+    void setStart(Zone start, SDL_Renderer *renderer);
     Zone getStart();
-    void setEnd(Zone end);
+    void setEnd(Zone end, SDL_Renderer *renderer);
     Zone getEnd();
     int getWidth();
     int getHeigth();
@@ -42,7 +42,6 @@ public:
     void set(int x, int y, Tuile t);
     void addCheckpoint(Zone checkpoint);
     void removeCheckpoint(int id);
-    void resize(int mapW, int mapH);
 };
 
 

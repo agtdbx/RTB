@@ -8,12 +8,14 @@
 #include <SDL.h>
 #include "../include/Camera.h"
 #include "../include/Map.h"
+#include "../include/Background.h"
 
 class Personnage {
 private:
     int w, h;
     float x, y, vX, vY, vitesse, acceleration, debutSaut, tempsSaut, respawnX, respawnY, graviteEffet;
     bool sautOk;
+    SDL_Texture *sprite;
 
     bool isInTuile(Map map, std::string nomTuile, float x, float y);
     bool mouvementPossibleX(Map map, float delta);
@@ -21,7 +23,7 @@ private:
 
 public:
     Personnage();
-    Personnage(float x, float y);
+    Personnage(float x, float y, int squareSize, SDL_Renderer *renderer);
     ~Personnage();
 
     void draw(SDL_Renderer *renderer, Camera camera);
@@ -32,7 +34,7 @@ public:
     void addVy(float vY);
     void stopVy();
     void saut(float vY, Map map);
-    void move(float delta, Camera& camera, Map map);
+    void move(float delta, Camera& camera, Map map, Background *background);
     float getAcceleration();
     float getX();
     float getY();

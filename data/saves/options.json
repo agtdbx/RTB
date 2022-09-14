@@ -1,5 +1,5 @@
 {
-   "fullscreen" : true,
+   "fullscreen" : false,
    "niveauUnlock" : 3,
    "resolution" : "1920x1080",
    "toucheDroite" : 7,

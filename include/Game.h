@@ -10,6 +10,7 @@
 #include "../include/Personnage.h"
 #include "../include/Map.h"
 #include "../include/Camera.h"
+#include "../include/Background.h"
 
 class Game {
 private:
@@ -21,6 +22,7 @@ private:
     float lastTime, fps, gravity;
     Map map;
     Camera camera;
+    Background background;
 
     void initButton();
     void input();

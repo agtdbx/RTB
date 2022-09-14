@@ -5,6 +5,7 @@
 #include <iostream>
 #include <string>
 #include "../include/Tuile.h"
+#include "../include/Functions.h"
 
 
 // private methodes
@@ -21,13 +22,14 @@ Tuile::Tuile() {
 }
 
 
-Tuile::Tuile(int x, int y, int size, std::string type) {
+Tuile::Tuile(int x, int y, int size, std::string type, SDL_Renderer *renderer) {
     this->x = x;
     this->y = y;
     this->size = size;
     this->type = type;
+    this->sprite = getTexture(renderer, this->type);
 
-    if (this->type == "mur")
+    /*if (this->type == "mur")
         this->color = {0, 0, 0, 255};
     else if (this->type == "air")
         this->color = {255, 255, 255, 255};
@@ -40,7 +42,7 @@ Tuile::Tuile(int x, int y, int size, std::string type) {
     else if (this->type == "plateforme")
         this->color = {100, 100, 100, 255};
     else if (this->type == "eau")
-        this->color = {50, 50, 255, 255};
+        this->color = {50, 50, 255, 255};*/
 }
 
 
@@ -50,11 +52,15 @@ Tuile::~Tuile() {
 
 
 void Tuile::draw(SDL_Renderer *renderer, Camera camera) {
-    SDL_SetRenderDrawColor(renderer, this->color.r, this->color.g, this->color.b, this->color.a);
-    int x = this->x*this->size - camera.getX();
-    int y = this->y*this->size  - camera.getY();
-    SDL_Rect rect = {x, y, this->size, this->size};
-    SDL_RenderFillRect(renderer, &rect);
+    if (this->type != "air")
+    {
+        //SDL_SetRenderDrawColor(renderer, this->color.r, this->color.g, this->color.b, this->color.a);
+        int x = this->x*this->size - camera.getX();
+        int y = this->y*this->size  - camera.getY();
+        SDL_Rect rect = {x, y, this->size, this->size};
+        //SDL_RenderFillRect(renderer, &rect);
+        SDL_RenderCopy(renderer, this->sprite, NULL, &rect);
+    }
 }
 
 
