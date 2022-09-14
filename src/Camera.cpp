@@ -7,20 +7,6 @@
 
 
 //Private methods
-void Camera::avoidOutOfMap() {
-    /*std::cout << "from " << this->x << ", " << this->y;
-    if (this->x < 0)
-        this->x = 0;
-    if (this->x + this->winW > this->mapW * 20)
-        this->x = (this->mapW * 20) - this->winW;
-
-    if (this->y < 0)
-        this->y = 0;
-    if (this->y + this->winH > this->mapH * 20)
-        this->y = (this->mapH * 20) - this->winH;
-
-    std::cout << " to " << this->x << ", " << this->y << std::endl;*/
-}
 
 
 //Public methods
@@ -49,22 +35,30 @@ float Camera::getY() {
 }
 
 
-void Camera::addPosX(float x) {
-    this->x += x;
-    this->avoidOutOfMap();
-}
+void Camera::tick(float x, float y, float vX, float vY, int w, int h, Background *background) {
+    this->x = x - (this->winW / 2);
+    this->y = y - (this->winH / 2);
 
+    if (this->x < 0.0f || this->mapW * this->mapSize <= this->winW) {
+        this->x = 0.0f;
+        vX = 0.0f;
+    }
+    else if (this->x + this->winW > this->mapW * this->mapSize) {
+        this->x = (this->mapW * this->mapSize) - this->winW;
+        vX = 0.0f;
+    }
 
-void Camera::addPosY(float y) {
-    this->y += y;
-    this->avoidOutOfMap();
-}
+    if (this->y < 0.0f || this->mapH * this->mapSize <= this->winH) {
+        this->y = 0.0f;
+        vY = 0.0f;
+    }
+    else if (this->y + this->winH > this->mapH * this->mapSize){
+        this->y = (this->mapH * this->mapSize) - this->winH;
+        vY = 0.0f;
+    }
 
-
-void Camera::setPos(float x, float y) {
-    this->x = x;
-    this->y = y;
-    this->avoidOutOfMap();
+    background->addCamX(vX / 300.0f);
+    background->addCamY(vY / 300.0f);
 }
 
 
@@ -74,11 +68,8 @@ void Camera::setWindowSize(float w, float h) {
 }
 
 
-void Camera::setMapSize(float w, float h) {
+void Camera::setMapSize(float w, float h, float size) {
     this->mapW = w;
     this->mapH = h;
-}
-
-void Camera::linkToPerso(Personnage *perso) {
-    this->perso = perso;
+    this->mapSize = size;
 }

@@ -80,12 +80,10 @@ void Game::tick() {
         }
 
         this->perso.addVy(this->gravity);
-        this->perso.move(delta, this->camera, this->map, &this->background);
+        this->perso.move(delta, this->camera, this->map);
 
-        if (this->perso.isMort(this->map)){
+        if (this->perso.isMort(this->map))
             this->perso.respawn();
-            this->camera.setPos(this->perso.getX() + (this->perso.getWidth()/2) - this->winW/2, this->perso.getY() - (this->winH/4)*3);
-        }
 
         Zone checkpoint = this->map.testCheckpoint(this->perso.getX(), this->perso.getY(), this->perso.getWidth(), this->perso.getHeight());
 
@@ -93,6 +91,7 @@ void Game::tick() {
             this->checkpointProgression = checkpoint.getId();
             this->perso.setRespawn(checkpoint.getX() * this->map.getSquarreSize(), checkpoint.getY() * this->map.getSquarreSize());
         }
+        this->camera.tick(this->perso.getX(), this->perso.getY(), this->perso.getVx(), this->perso.getVy(), this->perso.getWidth(), this->perso.getHeight(), &this->background);
     }
     else if (this->fenetre == 1) {
         if (this->butContinuer.clicOnButton()){
@@ -285,10 +284,8 @@ void Game::initLevel(int levelNum) {
             break;
     }
     this->perso = Personnage(this->map.getStart().getX() * this->map.getSquarreSize(), this->map.getStart().getY() * this->map.getSquarreSize(), this->map.getSquarreSize(), this->renderer);
-    this->camera.setPos(this->perso.getX() + (this->perso.getWidth()/2) - this->winW/2, this->perso.getY() - (this->winH/4)*3);
     this->camera.setWindowSize(this->winW, this->winH);
-    this->camera.setMapSize(this->map.getWidth(), this->map.getHeigth());
-    this->camera.linkToPerso(&this->perso);
+    this->camera.setMapSize(this->map.getWidth(), this->map.getHeigth(), this->map.getSquarreSize());
     this->checkpointProgression = -1;
     this->background = Background(this->renderer, this->winW, this->winH);
 }

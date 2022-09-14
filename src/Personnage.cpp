@@ -58,11 +58,13 @@ bool Personnage::inAir(Map map) {
     int y2 = (int)(this->y + this->h/3) / map.getSquarreSize();
     int y3 = (int)(this->y + (this->h/3)*2) / map.getSquarreSize();
     int y4 = (int)(this->y + this->h) / map.getSquarreSize();
+    int y5 = (int)(y + this->h) / map.getSquarreSize() + 1;
 
-    if (map.get(x1, y1).getType() == "air" || map.get(x2, y1).getType() == "air" || map.get(x3, y1).getType() == "air" ||
-        map.get(x1, y2).getType() == "air" || map.get(x2, y2).getType() == "air" || map.get(x3, y2).getType() == "air" ||
-        map.get(x1, y3).getType() == "air" || map.get(x2, y3).getType() == "air" || map.get(x3, y3).getType() == "air" ||
-        map.get(x1, y4).getType() == "air" || map.get(x2, y4).getType() == "air" || map.get(x3, y4).getType() == "air")
+    if (map.get(x1, y1).getType() == "air" && map.get(x2, y1).getType() == "air" && map.get(x3, y1).getType() == "air" &&
+        map.get(x1, y2).getType() == "air" && map.get(x2, y2).getType() == "air" && map.get(x3, y2).getType() == "air" &&
+        map.get(x1, y3).getType() == "air" && map.get(x2, y3).getType() == "air" && map.get(x3, y3).getType() == "air" &&
+        map.get(x1, y4).getType() == "air" && map.get(x2, y4).getType() == "air" && map.get(x3, y4).getType() == "air" &&
+        map.get(x1, y5).getType() == "air" && map.get(x2, y5).getType() == "air" && map.get(x3, y5).getType() == "air")
         return true;
     return false;
 }
@@ -127,6 +129,7 @@ Personnage::Personnage(float x, float y,  int squareSize, SDL_Renderer *renderer
     this->tempsSaut = 0.2f;
     this->sautOk = false;
     this->graviteEffet = 1.0f;
+    this->speedModifier = 1.0f;
     this->sprite = getTexture(renderer, "perso");
 }
 
@@ -146,18 +149,25 @@ void Personnage::draw(SDL_Renderer *renderer, Camera camera) {
 
 
 void Personnage::deplacementX(char direction, Map map) {
+    if (this->isOverTuile(map, "glace", this->x, this->y))
+        this->speedModifier = 1.3f;
+    else if (this->isInTuile(map, "eau", this->x, this->y))
+        this->speedModifier = 0.7f;
+    else if (!this->inAir(map))
+        this->speedModifier = 1.0f;
+
     if (direction == 'g')
-        this->vX = -this->vitesse;
+        this->vX = -this->vitesse * this->speedModifier;
     else if (direction == 'd')
-        this->vX = this->vitesse;
+        this->vX = this->vitesse * this->speedModifier;
     else {
         float frotement = 0.0f;
         if (this->isOverTuile(map, "glace", this->x, this->y))
             frotement = 10.0f;
         else if (this->inAir(map))
-            frotement = 20.0f;
-        else if (this->isInTuile(map, "eau", this->x, this->y))
             frotement = 40.0f;
+        else if (this->isInTuile(map, "eau", this->x, this->y))
+            frotement = 80.0f;
         if (frotement != 0.0f)
         {
             if (this->vX >= frotement)
@@ -170,10 +180,10 @@ void Personnage::deplacementX(char direction, Map map) {
         else
             this->vX = 0.0f;
     }
-    if (this->vX > this->vitesse)
-        this->vX = this->vitesse;
-    else if (this->vX < -this->vitesse)
-        this->vX = -this->vitesse;
+    if (this->vX > this->vitesse * this->speedModifier)
+        this->vX = this->vitesse * this->speedModifier;
+    else if (this->vX < -this->vitesse * this->speedModifier)
+        this->vX = -this->vitesse * this->speedModifier;
 }
 
 
@@ -237,21 +247,15 @@ void Personnage::saut(float vY, Map map) {
     }
 }
 
-void Personnage::move(float delta, Camera& camera, Map map, Background *background) {
+void Personnage::move(float delta, Camera& camera, Map map) {
     if (this->isInTuile(map, "eau", x, y))
         this->graviteEffet = 0.5f;
     else
         this->graviteEffet = 1.0f;
-    if (this->mouvementPossibleX(map, delta)){
+    if (this->mouvementPossibleX(map, delta))
         this->x += this->vX * delta;
-        camera.addPosX(this->vX * delta);
-        background->addCamX((this->vX * delta) / 5);
-    }
-    if(this->mouvementPossibleY(map, delta)){
+    if(this->mouvementPossibleY(map, delta))
         this->y += this->vY * delta;
-        camera.addPosY(this->vY * delta);
-        background->addCamY((this->vY * delta) / 5);
-    }
 }
 
 
@@ -267,6 +271,16 @@ float Personnage::getX() {
 
 float Personnage::getY() {
     return this->y;
+}
+
+
+float Personnage::getVx() {
+    return this->vX;
+}
+
+
+float Personnage::getVy() {
+    return this->vY;
 }
 
 

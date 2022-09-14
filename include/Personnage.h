@@ -13,7 +13,7 @@
 class Personnage {
 private:
     int w, h;
-    float x, y, vX, vY, vitesse, acceleration, debutSaut, tempsSaut, respawnX, respawnY, graviteEffet;
+    float x, y, vX, vY, vitesse, acceleration, debutSaut, tempsSaut, respawnX, respawnY, graviteEffet, speedModifier;
     bool sautOk;
     SDL_Texture *sprite;
 
@@ -37,10 +37,12 @@ public:
     void addVy(float vY);
     void stopVy();
     void saut(float vY, Map map);
-    void move(float delta, Camera& camera, Map map, Background *background);
+    void move(float delta, Camera& camera, Map map);
     float getAcceleration();
     float getX();
     float getY();
+    float getVx();
+    float getVy();
     int getWidth();
     int getHeight();
     bool atFin(Map map);
