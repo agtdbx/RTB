@@ -17,7 +17,10 @@ private:
     bool sautOk;
     SDL_Texture *sprite;
 
+    bool isOnTuile(Map map, std::string nomTuile, float x, float y);
+    bool isOverTuile(Map map, std::string nomTuile, float x, float y);
     bool isInTuile(Map map, std::string nomTuile, float x, float y);
+    bool inAir(Map map);
     bool mouvementPossibleX(Map map, float delta);
     bool mouvementPossibleY(Map map, float delta);
 
