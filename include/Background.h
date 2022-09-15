@@ -5,7 +5,7 @@
 #ifndef RTB_BACKGROUND_H
 #define RTB_BACKGROUND_H
 
-#include <SDL.h>
+#include <SDL2/SDL.h>
 
 class Background {
 private:

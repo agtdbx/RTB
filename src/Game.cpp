@@ -4,7 +4,7 @@
 
 #include "../include/Game.h"
 #include "../include/Functions.h"
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #include <string>
 #include <ostream>
 #include <fstream>
@@ -75,7 +75,7 @@ void Game::tick() {
         }
 
         if (keyboard[this->toucheSaut]) {
-            this->perso.saut(this->perso.getAcceleration(), &this->map);
+            this->perso.saut(&this->map);
         }
 
         this->perso.addVy(this->gravity);

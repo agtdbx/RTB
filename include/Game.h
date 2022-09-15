@@ -5,7 +5,7 @@
 #ifndef RTB_GAME_H
 #define RTB_GAME_H
 
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #include "../include/Button.h"
 #include "../include/Personnage.h"
 #include "../include/Map.h"

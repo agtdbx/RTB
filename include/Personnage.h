@@ -5,7 +5,7 @@
 #ifndef RTB_PERSONNAGE_H
 #define RTB_PERSONNAGE_H
 
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #include "../include/Camera.h"
 #include "../include/Map.h"
 #include "../include/Background.h"
@@ -13,9 +13,9 @@
 class Personnage {
 private:
     int w, h;
-    float x, y, vX, vY, vitesse, acceleration, debutSaut, tempsSaut, respawnX, respawnY, graviteEffet, speedModifier, timeOnWall, debutWallJump;
+    float x, y, vX, vY, vitesse, acceleration, debutSaut, tempsSaut, respawnX, respawnY, graviteEffet, speedModifier, debutWallJump, timeOfChargeWallJump;
     bool sautOk, wallJumpOk;
-    char viewDir;
+    char viewDir, dirWallJump;
     SDL_Texture *sprite;
 
     bool isOnTuile(Map *map, std::string nomTuile, float x, float y);
@@ -34,13 +34,10 @@ public:
     void draw(SDL_Renderer *renderer, Camera camera);
     void deplacementX(char direction, Map *map);
     void addVx(float vX);
-    void stopVx();
     void deplacementY(float vY);
     void addVy(float vY);
-    void stopVy();
-    void saut(float vY, Map *map);
+    void saut(Map *map);
     void move(float delta, Camera& camera, Map *map);
-    float getAcceleration();
     float getX();
     float getY();
     float getVx();

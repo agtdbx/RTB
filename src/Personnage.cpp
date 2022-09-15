@@ -4,7 +4,7 @@
 
 #include "../include/Personnage.h"
 #include "../include/Functions.h"
-#include <SDL.h>
+#include <SDL2/SDL.h>
 
 
 // Private methodes
@@ -141,13 +141,13 @@ Personnage::Personnage(float x, float y,  int squareSize, SDL_Renderer *renderer
     this->vitesse = 500.0f;
     this->acceleration = 50.0f;
     this->debutSaut = 0.0f;
-    this->tempsSaut = 0.2f;
+    this->tempsSaut = 0.1f;
     this->sautOk = false;
     this->graviteEffet = 1.0f;
     this->speedModifier = 1.0f;
-    this->timeOnWall = 0.0f;
     this->wallJumpOk = false;
-    this->debutSaut = 0.0f;
+    this->debutWallJump = 0.0f;
+    this->timeOfChargeWallJump = 0.0f;
     this->viewDir = 'R';
     this->sprite = getTexture(renderer, "perso");
 }
@@ -221,11 +221,6 @@ void Personnage::addVx(float vX) {
 }
 
 
-void Personnage::stopVx() {
-    this->vX = 0.0f;
-}
-
-
 void Personnage::deplacementY(float vY) {
     if (this->vY > this->vitesse){
         this->vY = this->vitesse;
@@ -250,64 +245,61 @@ void Personnage::addVy(float vY) {
 }
 
 
-void Personnage::stopVy() {
-    this->vY = 0.0f;
-}
-
-void Personnage::saut(float vY, Map *map) {
+void Personnage::saut(Map *map) {
     if (this->sautOk) {
         this->sautOk = false;
-        this->wallJumpOk = false;
-        this->timeOnWall = 0.0f;
         this->debutSaut = (float)SDL_GetTicks() / 1000.0f;
-        this->vY -= vY * 3.0f;
-    }
-    else if (this->wallJumpOk) {
-        this->sautOk = false;
-        this->wallJumpOk = false;
-        this->timeOnWall = 0.0f;
-        if (this->vY > 0.0f)
-            this->vY = 0.0f;
-        this->vY -= 900.0f;
-        this->vX *= -2.0f;
-        this->debutWallJump = (float)SDL_GetTicks() / 1000.0f;
+        this->vY -= this->acceleration * 3.0f;
     }
     else if (((float)SDL_GetTicks()/1000.0f)-this->debutSaut <= this->tempsSaut){
-        this->vY -= vY;
+        this->vY -= this->acceleration;
     }
-    else if (((float)SDL_GetTicks()/1000.0f)-this->debutWallJump <= 0.2f){
-        this->vX *= -1.5;
+    else if (this->wallJumpOk && this->canWallJump(map) && this->timeOfChargeWallJump >= 0.3f) {
+        this->wallJumpOk = false;
+        if (this->vY > 0.0f)
+            this->vY = 0.0f;
+        this->vY -= this->acceleration * 10.0f;
+        this->vX *= -2.0f;
+        this->dirWallJump = 'N';
+        if (this->vX < 0.0f)
+            this->dirWallJump = 'L';
+        else if (this->vX > 0.0f)
+            this->dirWallJump = 'R';
+        this->debutWallJump = (float)SDL_GetTicks() / 1000.0f;
     }
-
-    if (this->timeOnWall >= 0.5f)
-        this->wallJumpOk = true;
+    else if (((float)SDL_GetTicks()/1000.0f)-this->debutWallJump <= this->tempsSaut){
+        this->vY -= this->acceleration;
+        if (this->dirWallJump == 'L' && this->vX > 0.0f)
+            this->vX *= -1;
+        else if (this->dirWallJump == 'R' && this->vX < 0.0f)
+            this->vX *= -1;
+    }
 
     int x1 = ((int)this->x) / map->getSquarreSize();
     int x2 = ((int)this->x + this->w/2) / map->getSquarreSize();
     int x3 = ((int)this->x + this->w) / map->getSquarreSize();
     int y = ((int)this->y + this->h) / map->getSquarreSize() + 1;
-    if (map->test(x1, y, 'D') + map->test(x2, y, 'D') + map->test(x3, y, 'D') < 3)
+    if (map->test(x1, y, 'D') + map->test(x2, y, 'D') + map->test(x3, y, 'D') < 3){
         this->sautOk = true;
+        this->wallJumpOk = true;
+    }
 }
 
 void Personnage::move(float delta, Camera& camera, Map *map) {
-    if (this->canWallJump(map))
-        this->timeOnWall += delta;
+    if (this->wallJumpOk && this->canWallJump(map))
+        this->timeOfChargeWallJump += delta;
     else
-        this->timeOnWall = 0.0f;
+        this->timeOfChargeWallJump = 0.0f;
+
     if (this->isInTuile(map, "eau", x, y))
         this->graviteEffet = 0.5f;
     else
         this->graviteEffet = 1.0f;
+
     if (this->mouvementPossibleX(map, delta))
         this->x += this->vX * delta;
     if(this->mouvementPossibleY(map, delta))
         this->y += this->vY * delta;
-}
-
-
-float Personnage::getAcceleration() {
-    return this->acceleration;
 }
 
 

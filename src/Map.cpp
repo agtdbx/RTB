@@ -3,7 +3,7 @@
 //
 
 #include "../include/Map.h"
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #include <iostream>
 #include <fstream>
 #include <vector>
