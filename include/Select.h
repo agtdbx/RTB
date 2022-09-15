@@ -15,14 +15,14 @@ private:
     char *text;
     std::vector<char*> values;
     bool extend;
-    SDL_Color colorOff, colorOn, borderColor;
+    SDL_Color textColor, colorOff, colorOn, borderColor;
 
     void mouseOnButton();
     bool clicOnButton();
 
 public:
     Select();
-    Select(char *text, int textSize, int textAlign, int x, int y, int width, int height, SDL_Color colorOff, SDL_Color colorOn, std::vector<char*> values, int borderSize, SDL_Color borderColor);
+    Select(char *text, int textSize, int textAlign, SDL_Color textColor, int x, int y, int width, int height, SDL_Color colorOff, SDL_Color colorOn, std::vector<char*> values, int borderSize, SDL_Color borderColor);
     ~Select();
 
     bool draw(SDL_Renderer *renderer);

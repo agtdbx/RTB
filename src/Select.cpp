@@ -68,7 +68,7 @@ Select::Select() {
 
 }
 
-Select::Select(char *text, int textSize, int textAlign, int x, int y, int width, int height, SDL_Color colorOff, SDL_Color colorOn, std::vector<char*> values, int borderSize, SDL_Color borderColor) {
+Select::Select(char *text, int textSize, int textAlign, SDL_Color textColor, int x, int y, int width, int height, SDL_Color colorOff, SDL_Color colorOn, std::vector<char*> values, int borderSize, SDL_Color borderColor) {
     this->text = text;
     this->textSize = textSize;
     this->x = x;
@@ -78,6 +78,7 @@ Select::Select(char *text, int textSize, int textAlign, int x, int y, int width,
     this->colorOff = colorOff;
     this->colorOn = colorOn;
     this->textAlign = textAlign;
+    this->textColor = textColor;
     this->extend = false;
     this->values = values;
     this->borderSize = borderSize;
@@ -102,8 +103,7 @@ bool Select::draw(SDL_Renderer *renderer) {
 
     SDL_Rect rect = {this->x, this->y, this->w, this->h}; // Création du carré (x, y, width, height)
     SDL_RenderFillRect(renderer, &rect); // Dessin du carré
-    SDL_Color color = {0, 0, 0, 255};
-    drawText(renderer, this->text, this->textSize, this->x + this->w/2, this->y, this->textAlign, color);
+    drawText(renderer, this->text, this->textSize, this->x + this->w/2, this->y, this->textAlign, this->textColor);
 
     SDL_SetRenderDrawColor(renderer, this->borderColor.r, this->borderColor.g, this->borderColor.b, this->borderColor.a);
     for (int i = 0; i < this->borderSize; ++i){
@@ -126,7 +126,7 @@ bool Select::draw(SDL_Renderer *renderer) {
             }
             SDL_Rect rect = {this->x, this->y + (i+1)*40, this->w, this->h};
             SDL_RenderFillRect(renderer, &rect);
-            drawText(renderer, this->values[i], this->textSize, this->x + this->w/2, this->y + (i+1)*40, this->textAlign, color);
+            drawText(renderer, this->values[i], this->textSize, this->x + this->w/2, this->y + (i+1)*40, this->textAlign, this->textColor);
         }
     }
 

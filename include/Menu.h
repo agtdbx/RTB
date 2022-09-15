@@ -5,7 +5,7 @@
 #ifndef RTB_MENU_H
 #define RTB_MENU_H
 
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #include "../include/Button.h"
 #include "../include/Select.h"
 #include "../include/Switch.h"
@@ -27,6 +27,8 @@ private:
     butRetourOptions;
     Select butChoixRes;
     Switch fullScreen;
+    SDL_Color color, textColor;
+    SDL_Texture *background;
 
     void initButton();
     void input();

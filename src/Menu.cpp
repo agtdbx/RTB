@@ -17,47 +17,46 @@
 
 void Menu::initButton() {
     SDL_Color colorOff = {255, 255, 255, 0};
-    SDL_Color colorOn = {200, 200, 200, 100};
-    SDL_Color black = {0, 0, 0, 255};
+    SDL_Color colorOn = {100, 100, 100, 100};
     SDL_Color blue = {0, 0, 255, 100};
 
     //Menu principal
-    this->butJouer = Button("Jouer", 40, 1, this->winW/2 - 100, this->winH/2 - 100, 200, 50, colorOff, colorOn, 2, black);
-    this->butOptions = Button("Options", 40, 1,this->winW/2 - 100, this->winH/2, 200, 50, colorOff, colorOn,2, black);
-    this->butQuitter = Button("Quitter", 40, 1, this->winW/2 - 100, this->winH/2 + 100, 200, 50, colorOff, colorOn,2, black);
+    this->butJouer = Button("Jouer", 40, 1, this->textColor, this->winW/2 - 100, this->winH/2 - 100, 200, 50, colorOff, colorOn, 2, this->color);
+    this->butOptions = Button("Options", 40, 1, this->textColor,this->winW/2 - 100, this->winH/2, 200, 50, colorOff, colorOn,2, this->color);
+    this->butQuitter = Button("Quitter", 40, 1, this->textColor, this->winW/2 - 100, this->winH/2 + 100, 200, 50, colorOff, colorOn,2, this->color);
 
     //Choix des niveaux
-    this->butlvl1 = Button("1", 40, 1,this->winW/2 - 25 - 75, this->winH/3, 50, 50, colorOff, colorOn,2, black);
-    this->butlvl2 = Button("2", 40, 1,this->winW/2 - 25, this->winH/3, 50, 50, colorOff, colorOn,2, black);
-    this->butlvl3 = Button("3", 40, 1,this->winW/2 - 25 + 75, this->winH/3, 50, 50, colorOff, colorOn,2, black);
-    this->butlvl4 = Button("4", 40, 1,this->winW/2 - 25 - 75, this->winH/3 + 75, 50, 50, colorOff, colorOn,2, black);
-    this->butRetourJouer = Button("Retour", 40, 1, this->winW/2 - 100, this->winH-50 - 100, 200, 50, colorOff, colorOn,2, black);
+    this->butlvl1 = Button("1", 40, 1, this->textColor,this->winW/2 - 25 - 75, this->winH/3, 50, 50, colorOff, colorOn,2, this->color);
+    this->butlvl2 = Button("2", 40, 1, this->textColor,this->winW/2 - 25, this->winH/3, 50, 50, colorOff, colorOn,2, this->color);
+    this->butlvl3 = Button("3", 40, 1, this->textColor,this->winW/2 - 25 + 75, this->winH/3, 50, 50, colorOff, colorOn,2, this->color);
+    this->butlvl4 = Button("4", 40, 1, this->textColor,this->winW/2 - 25 - 75, this->winH/3 + 75, 50, 50, colorOff, colorOn,2, this->color);
+    this->butRetourJouer = Button("Retour", 40, 1, this->textColor, this->winW/2 - 100, this->winH-50 - 100, 200, 50, colorOff, colorOn,2, this->color);
 
     //Options
     //Graphic
-    this->butGraphics = Button("Graphique", 30, 2, this->spacingWithScreen + this->borderSize, 75 + this->spacingWithScreen, 250-this->borderSize*2, 75-this->borderSize*2, colorOff, colorOn,0, black);
+    this->butGraphics = Button("Graphique", 30, 2, this->textColor, this->spacingWithScreen + this->borderSize, 75 + this->spacingWithScreen, 250-this->borderSize*2, 75-this->borderSize*2, colorOff, colorOn,0, this->color);
     std::vector<char*> choixRes = {"1280x720", "1280x800", "1920x1080", "2560x1440"};
 
-    this->butChoixRes = Select("1920x1080", 30, 1, this->winW/2 + 110, 250, 160, 40, colorOff, colorOn, choixRes, 2, black);
-    this->fullScreen = Switch(this->winW/2 - 20, 340, 80, 20, colorOff, blue, 2, black);
+    this->butChoixRes = Select("1920x1080", 30, 1, this->textColor, this->winW/2 + 110, 250, 160, 40, colorOff, colorOn, choixRes, 2, this->color);
+    this->fullScreen = Switch(this->winW/2 - 20, 340, 80, 20, colorOff, blue, 2, this->color);
 
     //Sonore
-    this->butSonore = Button("Sonore", 30, 2, this->spacingWithScreen + this->borderSize, 75*2 + this->spacingWithScreen - this->borderSize, 250-this->borderSize*2, 75-this->borderSize*2, colorOff, colorOn,0, black);
-    this->butMusiqueMoins = Button("-", 30, 1, this->winW/2 - 55, 235, 25, 35, colorOff, colorOn, 0, black);
-    this->butMusiquePlus = Button("+", 30, 1, this->winW/2 + 35, 235, 25, 35, colorOff, colorOn, 0, black);
-    this->butSonMoins = Button("-", 30, 1, this->winW/2 - 55, 335, 25, 35, colorOff, colorOn, 0, black);
-    this->butSonPlus = Button("+", 30, 1, this->winW/2 + 35, 335, 25, 35, colorOff, colorOn, 0, black);
+    this->butSonore = Button("Sonore", 30, 2, this->textColor, this->spacingWithScreen + this->borderSize, 75*2 + this->spacingWithScreen - this->borderSize, 250-this->borderSize*2, 75-this->borderSize*2, colorOff, colorOn,0, this->color);
+    this->butMusiqueMoins = Button("-", 30, 1, this->textColor, this->winW/2 - 55, 235, 25, 35, colorOff, colorOn, 0, this->color);
+    this->butMusiquePlus = Button("+", 30, 1, this->textColor, this->winW/2 + 35, 235, 25, 35, colorOff, colorOn, 0, this->color);
+    this->butSonMoins = Button("-", 30, 1, this->textColor, this->winW/2 - 55, 335, 25, 35, colorOff, colorOn, 0, this->color);
+    this->butSonPlus = Button("+", 30, 1, this->textColor, this->winW/2 + 35, 335, 25, 35, colorOff, colorOn, 0, this->color);
 
     //Clavier
-    this->butKeyBinding = Button("Clavier", 30, 2, this->spacingWithScreen + this->borderSize, 75*3 + this->spacingWithScreen - this->borderSize*2, 250-this->borderSize*2, 75-this->borderSize*2, colorOff, colorOn,0, black);
-    this->butBindGauche = Button("Changer", 30, 1, this->winW - 140 - 200, 200, 140, 40, colorOff, colorOn, 2, black);
-    this->butBindDroite= Button("Changer", 30, 1, this->winW - 140 - 200, 260, 140, 40, colorOff, colorOn, 2, black);
-    this->butBindSaut = Button("Changer", 30, 1, this->winW - 140 - 200, 320, 140, 40, colorOff, colorOn, 2, black);
+    this->butKeyBinding = Button("Clavier", 30, 2, this->textColor, this->spacingWithScreen + this->borderSize, 75*3 + this->spacingWithScreen - this->borderSize*2, 250-this->borderSize*2, 75-this->borderSize*2, colorOff, colorOn,0, this->color);
+    this->butBindGauche = Button("Changer", 30, 1, this->textColor, this->winW - 140 - 200, 200, 140, 40, colorOff, colorOn, 2, this->color);
+    this->butBindDroite= Button("Changer", 30, 1, this->textColor, this->winW - 140 - 200, 260, 140, 40, colorOff, colorOn, 2, this->color);
+    this->butBindSaut = Button("Changer", 30, 1, this->textColor, this->winW - 140 - 200, 320, 140, 40, colorOff, colorOn, 2, this->color);
 
     //Credit
-    this->butCredit = Button("Credit", 30,2, this->spacingWithScreen + this->borderSize, 75*4 + this->spacingWithScreen - this->borderSize*3, 250-this->borderSize*2, 75-this->borderSize*2, colorOff, colorOn,0, black);
+    this->butCredit = Button("Credit", 30,2, this->textColor, this->spacingWithScreen + this->borderSize, 75*4 + this->spacingWithScreen - this->borderSize*3, 250-this->borderSize*2, 75-this->borderSize*2, colorOff, colorOn,0, this->color);
 
-    this->butRetourOptions = Button("Retour", 40, 1, this->winW/2 - 100, this->winH-50 - 100, 200, 50, colorOff, colorOn,2, black);
+    this->butRetourOptions = Button("Retour", 40, 1, this->textColor, this->winW/2 - 100, this->winH-50 - 100, 200, 50, colorOff, colorOn,2, this->color);
 }
 
 
@@ -89,6 +88,8 @@ void Menu::tick() {
         case 0:
             if (this->butJouer.clicOnButton()){
                 fenetre = 1;
+                float wait = (float)SDL_GetTicks()/1000.0f;
+                while ((float)SDL_GetTicks()/1000.0f - wait < 0.1);
             }
             else if (this->butOptions.clicOnButton()){
                 fenetre = 20;
@@ -252,10 +253,12 @@ void Menu::render() {
     SDL_SetRenderDrawColor(this->renderer, 255, 255, 255, 255);
     SDL_RenderClear(this->renderer);
 
-    SDL_Color color = {0, 0, 0, 255};
+    SDL_Rect dst = {0, 0, this->winW, this->winH};
+    SDL_RenderCopy(this->renderer, this->background, NULL, &dst);
+
     switch (this->fenetre) {
         case 0:
-            drawText(this->renderer, "Road To Back !", 80, this->winW/2, 50, 1, color);
+            drawText(this->renderer, "Road To Back !", 80, this->winW/2, 50, 1, this->textColor);
             this->butJouer.draw(this->renderer);
             this->butOptions.draw(this->renderer);
             this->butQuitter.draw(this->renderer);
@@ -263,7 +266,7 @@ void Menu::render() {
             break;
 
         case 1:
-            drawText(this->renderer, "Road To Back !", 80, this->winW/2, 50, 1, color);
+            drawText(this->renderer, "Road To Back !", 80, this->winW/2, 50, 1, this->textColor);
             if(this->niveauUnlock >= 1){
                 this->butlvl1.draw(this->renderer);
             }
@@ -280,8 +283,8 @@ void Menu::render() {
             break;
 
         case 20:{
-            drawText(this->renderer, "Road To Back !", 80, this->winW/2, 10, 1, color);
-            drawText(this->renderer, "Options graphique", 50, this->winW/2, 100, 1, color);
+            drawText(this->renderer, "Road To Back !", 80, this->winW/2, 10, 1, this->textColor);
+            drawText(this->renderer, "Options graphique", 50, this->winW/2, 100, 1, this->textColor);
             SDL_SetRenderDrawColor(this->renderer, 150, 150, 150, 100);
             SDL_Rect rect = {this->spacingWithScreen + this->borderSize, 75 + this->spacingWithScreen, 250-this->borderSize*2, 75-this->borderSize*2};
             SDL_RenderFillRect(this->renderer, &rect);
@@ -293,8 +296,8 @@ void Menu::render() {
             break;}
 
         case 21:{
-            drawText(this->renderer, "Road To Back !", 80, this->winW/2, 10, 1, color);
-            drawText(this->renderer, "Options sonore", 50, this->winW/2, 100, 1, color);
+            drawText(this->renderer, "Road To Back !", 80, this->winW/2, 10, 1, this->textColor);
+            drawText(this->renderer, "Options sonore", 50, this->winW/2, 100, 1, this->textColor);
             SDL_SetRenderDrawColor(this->renderer, 150, 150, 150, 100);
             SDL_Rect rect = {this->spacingWithScreen + this->borderSize, 75*2 + this->spacingWithScreen - this->borderSize, 250-this->borderSize*2, 75-this->borderSize*2};
             SDL_RenderFillRect(this->renderer, &rect);
@@ -306,8 +309,8 @@ void Menu::render() {
             break;}
 
         case 22:{
-            drawText(this->renderer, "Road To Back !", 80, this->winW/2, 10, 1, color);
-            drawText(this->renderer, "Options clavier", 50, this->winW/2, 100, 1, color);
+            drawText(this->renderer, "Road To Back !", 80, this->winW/2, 10, 1, this->textColor);
+            drawText(this->renderer, "Options clavier", 50, this->winW/2, 100, 1, this->textColor);
             SDL_SetRenderDrawColor(this->renderer, 150, 150, 150, 100);
             SDL_Rect rect = {this->spacingWithScreen + this->borderSize, 75*3 + this->spacingWithScreen - this->borderSize*2, 250-this->borderSize*2, 75-this->borderSize*2};
             SDL_RenderFillRect(this->renderer, &rect);
@@ -319,8 +322,8 @@ void Menu::render() {
             break;}
 
         case 23:{
-            drawText(this->renderer, "Road To Back !", 80, this->winW/2, 10, 1, color);
-            drawText(this->renderer, "Credit", 50, this->winW/2, 100, 1, color);
+            drawText(this->renderer, "Road To Back !", 80, this->winW/2, 10, 1, this->textColor);
+            drawText(this->renderer, "Credit", 50, this->winW/2, 100, 1, this->textColor);
             SDL_SetRenderDrawColor(this->renderer, 150, 150, 150, 100);
             SDL_Rect rect = {this->spacingWithScreen + this->borderSize, 75*4 + this->spacingWithScreen - this->borderSize*3, 250-this->borderSize*2, 75-this->borderSize*2};
             SDL_RenderFillRect(this->renderer, &rect);
@@ -332,8 +335,8 @@ void Menu::render() {
             break;}
 
         case 221:
-            drawText(this->renderer, "Road To Back !", 80, this->winW/2, 10, 1, color);
-            drawText(this->renderer, "Appuis sur un touche", 50, this->winW/2, this->winH/2, 1, color);
+            drawText(this->renderer, "Road To Back !", 80, this->winW/2, 10, 1, this->textColor);
+            drawText(this->renderer, "Appuis sur un touche", 50, this->winW/2, this->winH/2, 1, this->textColor);
             break;
     }
 
@@ -341,7 +344,7 @@ void Menu::render() {
 }
 
 void Menu::drawBaseOptions() {
-    SDL_SetRenderDrawColor(this->renderer, 0, 0, 0, 255);
+    SDL_SetRenderDrawColor(this->renderer, this->color.r, this->color.g, this->color.b, this->color.a);
     int x = 0;
     int y = 0;
     int width = 250;
@@ -352,18 +355,17 @@ void Menu::drawBaseOptions() {
         SDL_RenderDrawRect(this->renderer, &rect);
     }
 
-    SDL_Color color = {0, 0, 0, 255};
-    drawText(this->renderer, "Options", 40, x+width/2+this->spacingWithScreen+this->borderSize, y+ height/6 +this->spacingWithScreen+this->borderSize, 1, color);
+    drawText(this->renderer, "Options", 40, x+width/2+this->spacingWithScreen+this->borderSize, y+ height/6 +this->spacingWithScreen+this->borderSize, 1, this->textColor);
 
     //Case exterieure
-    SDL_SetRenderDrawColor(this->renderer, 0, 0, 0, 255);
+    SDL_SetRenderDrawColor(this->renderer, this->color.r, this->color.g, this->color.b, this->color.a);
     for (int i = 0; i < this->borderSize; ++i){
         SDL_Rect rect = {0+this->spacingWithScreen+i, 0+this->spacingWithScreen+i, 250-i*2, winH-this->spacingWithScreen*2-i*2};
         SDL_RenderDrawRect(this->renderer, &rect);
     }
 
     //Case graphique
-    SDL_SetRenderDrawColor(this->renderer, 0, 0, 0, 255);
+    SDL_SetRenderDrawColor(this->renderer, this->color.r, this->color.g, this->color.b, this->color.a);
     y = height - this->borderSize;
     for (int i = 0; i < this->borderSize; ++i){
         SDL_Rect rect = {x+this->spacingWithScreen+i, y+this->spacingWithScreen+i, width-i*2, height-i*2};
@@ -372,7 +374,7 @@ void Menu::drawBaseOptions() {
     this->butGraphics.draw(this->renderer);
 
     //Case sonore
-    SDL_SetRenderDrawColor(this->renderer, 0, 0, 0, 255);
+    SDL_SetRenderDrawColor(this->renderer, this->color.r, this->color.g, this->color.b, this->color.a);
     y = height*2 - this->borderSize*2;
     for (int i = 0; i < this->borderSize; ++i){
         SDL_Rect rect = {x+this->spacingWithScreen+i, y+this->spacingWithScreen+i, width-i*2, height-i*2};
@@ -381,7 +383,7 @@ void Menu::drawBaseOptions() {
     this->butSonore.draw(this->renderer);
 
     //Case keyBinding
-    SDL_SetRenderDrawColor(this->renderer, 0, 0, 0, 255);
+    SDL_SetRenderDrawColor(this->renderer, this->color.r, this->color.g, this->color.b, this->color.a);
     y = height*3 - this->borderSize*3;
     for (int i = 0; i < this->borderSize; ++i){
         SDL_Rect rect = {x+this->spacingWithScreen+i, y+this->spacingWithScreen+i, width-i*2, height-i*2};
@@ -390,7 +392,7 @@ void Menu::drawBaseOptions() {
     this->butKeyBinding.draw(this->renderer);
 
     //Case credit
-    SDL_SetRenderDrawColor(this->renderer, 0, 0, 0, 255);
+    SDL_SetRenderDrawColor(this->renderer, this->color.r, this->color.g, this->color.b, this->color.a);
     y = height*4 - this->borderSize*4;
     for (int i = 0; i < this->borderSize; ++i){
         SDL_Rect rect = {x+this->spacingWithScreen+i, y+this->spacingWithScreen+i, width-i*2, height-i*2};
@@ -401,10 +403,8 @@ void Menu::drawBaseOptions() {
 
 
 void Menu::drawGraphicOptions() {
-    SDL_Color color = {0, 0, 0, 255};
-
     //Choix résolution
-    drawText(this->renderer, "Resolution de l'ecran :", 30, this->winW/2 - 200, 250, 0, color);
+    drawText(this->renderer, "Resolution de l'ecran :", 30, this->winW/2 - 200, 250, 0, this->textColor);
     bool changeChoix = this->butChoixRes.draw(this->renderer);
 
     if (changeChoix){
@@ -412,7 +412,7 @@ void Menu::drawGraphicOptions() {
     }
 
     //Pleins écran
-    drawText(this->renderer, "Plein ecran :", 30, this->winW/2 - 200, 330, 0, color);
+    drawText(this->renderer, "Plein ecran :", 30, this->winW/2 - 200, 330, 0, this->textColor);
     bool fullScreen = this->fullScreen.draw(this->renderer);
 
     if (fullScreen){
@@ -422,24 +422,22 @@ void Menu::drawGraphicOptions() {
 
 
 void Menu::drawSoundsOptions() {
-    SDL_Color color = {0, 0, 0, 255};
-
     //Réglage de la musique
-    drawText(this->renderer, "Musique", 30, this->winW/2, 200, 1, color);
+    drawText(this->renderer, "Musique", 30, this->winW/2, 200, 1, this->textColor);
     char text[10] = "000000000";
     snprintf(text, sizeof(text), "%i", this->volumeMusique);
-    drawText(this->renderer, text, 25, this->winW/2 - 5, 240, 1, color);
-    drawText(this->renderer, "%", 25, this->winW/2 + 25, 240, 1, color);
+    drawText(this->renderer, text, 25, this->winW/2 - 5, 240, 1, this->textColor);
+    drawText(this->renderer, "%", 25, this->winW/2 + 25, 240, 1, this->textColor);
 
     this->butMusiqueMoins.draw(this->renderer);
     this->butMusiquePlus.draw(this->renderer);
 
     //Réglage du son
-    drawText(this->renderer, "Son", 30, this->winW/2, 300, 1, color);
+    drawText(this->renderer, "Son", 30, this->winW/2, 300, 1, this->textColor);
     char text2[10] = "000000000";
     snprintf(text2, sizeof(text2), "%i", this->volumeSon);
-    drawText(this->renderer, text2, 25, this->winW/2 - 5, 340, 1, color);
-    drawText(this->renderer, "%", 25, this->winW/2 + 25, 340, 1, color);
+    drawText(this->renderer, text2, 25, this->winW/2 - 5, 340, 1, this->textColor);
+    drawText(this->renderer, "%", 25, this->winW/2 + 25, 340, 1, this->textColor);
 
     this->butSonMoins.draw(this->renderer);
     this->butSonPlus.draw(this->renderer);
@@ -447,26 +445,37 @@ void Menu::drawSoundsOptions() {
 
 
 void Menu::drawKeyboardOptions() {
-    SDL_Color color = {0, 0, 0, 255};
     //Bind déplacement à gauche
-    drawText(this->renderer, "Deplacement a gauche :", 30, this->winW/2, 200, 3, color);
-    drawText(this->renderer, this->drawKeyBind(this->toucheGauche), 30, this->winW/2 + 5, 200, 0, color);
+    drawText(this->renderer, "Deplacement a gauche :", 30, this->winW/2, 200, 3, this->textColor);
+    drawText(this->renderer, this->drawKeyBind(this->toucheGauche), 30, this->winW/2 + 5, 200, 0, this->textColor);
     this->butBindGauche.draw(this->renderer);
 
     //Bind déplacement à droite
-    drawText(this->renderer, "Deplacement a droite :", 30, this->winW/2, 260, 3, color);
-    drawText(this->renderer, this->drawKeyBind(this->toucheDroite), 30, this->winW/2 + 5, 260, 0, color);
+    drawText(this->renderer, "Deplacement a droite :", 30, this->winW/2, 260, 3, this->textColor);
+    drawText(this->renderer, this->drawKeyBind(this->toucheDroite), 30, this->winW/2 + 5, 260, 0, this->textColor);
     this->butBindDroite.draw(this->renderer);
 
     //Bind saut
-    drawText(this->renderer, "Saut :", 30, this->winW/2, 320, 3, color);
-    drawText(this->renderer, this->drawKeyBind(this->toucheSaut), 30, this->winW/2 + 5, 320, 0, color);
+    drawText(this->renderer, "Saut :", 30, this->winW/2, 320, 3, this->textColor);
+    drawText(this->renderer, this->drawKeyBind(this->toucheSaut), 30, this->winW/2 + 5, 320, 0, this->textColor);
     this->butBindSaut.draw(this->renderer);
 }
 
 
 void Menu::drawCredit() {
+    // Createur
+    drawText(this->renderer, "Jeu creer par", 35, this->winW/2, 200, 1, this->textColor);
+    drawText(this->renderer, "Auguste Deroubaix", 50, this->winW/2, 250, 1, this->textColor);
 
+    // Musiques
+    drawText(this->renderer, "Musiques", 35, this->winW/3, 320, 1, this->textColor);
+
+    // Images
+    drawText(this->renderer, "Images", 35, this->winW/3 * 2, 320, 1, this->textColor);
+    drawText(this->renderer, "Fond du menu : Nrin", 25, this->winW/3 * 2, 370, 1, this->textColor);
+
+    // Version
+    drawText(this->renderer, "Alpha 1.0", 35, this->winW/2, this->winH - 200, 1, this->textColor);
 }
 
 
@@ -654,6 +663,9 @@ Menu::Menu(SDL_Window *window, SDL_Renderer *renderer, int winW, int winH) {
     this->toucheSaut = 44;
     this->niveauUnlock = 4;
     this->levelLoad = 0;
+    this->color = {100, 100, 100, 255};
+    this->textColor = {150, 150, 150, 255};
+    this->background = getTexture(this->renderer, "menuBackground");
 
     this->initButton();
 
@@ -687,6 +699,8 @@ bool Menu::start() {
         SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
         SDL_SetRenderDrawColor(this->renderer, 255, 255, 255, 255);
         SDL_RenderClear(this->renderer);
+        SDL_Rect dst = {0, 0, this->winW, this->winH};
+        SDL_RenderCopy(this->renderer, this->background, NULL, &dst);
         drawText(this->renderer, "Chargement ...", 40, this->winW / 2, this->winH / 2, 1, {0, 0, 0, 255});
         SDL_RenderPresent(this->renderer);
     }

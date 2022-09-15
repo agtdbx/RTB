@@ -17,12 +17,11 @@
 
 //Private methods
 void Game::initButton() {
-    SDL_Color colorOff = {255, 255, 255, 100};
-    SDL_Color colorOn = {200, 200, 200, 150};
-    SDL_Color black = {0, 0, 0, 255};
-    this->butContinuer = Button("Continuer", 40, 1, this->winW/2 - 100, this->winH/2 - 75, 200, 50, colorOff, colorOn,2, black);
-    this->butQuitter = Button("Quitter", 40, 1, this->winW/2 - 100, this->winH/2 + 25, 200, 50, colorOff, colorOn,2, black);
-    this->butRetourMenu = Button("Retour au menu", 40, 1, this->winW/2 - 150, this->winH/2 - 75, 300, 50, colorOff, colorOn,2, black);
+    SDL_Color colorOff = {255, 255, 255, 0};
+    SDL_Color colorOn = {100, 100, 100, 100};
+    this->butContinuer = Button("Continuer", 40, 1, this->textColor, this->winW/2 - 100, this->winH/2 - 75, 200, 50, colorOff, colorOn,2, this->color);
+    this->butQuitter = Button("Quitter", 40, 1, this->textColor, this->winW/2 - 100, this->winH/2 + 25, 200, 50, colorOff, colorOn,2, this->color);
+    this->butRetourMenu = Button("Retour au menu", 40, 1, this->textColor, this->winW/2 - 150, this->winH/2 - 75, 300, 50, colorOff, colorOn,2, this->color);
 }
 
 void Game::input() {
@@ -246,6 +245,8 @@ Game::Game(SDL_Renderer *renderer, int winW, int winH) {
     this->gravity = 40.0f * (20.0f / 24.0f);
     this->fpsUnlimited = false;
     this->background = Background(this->renderer, this->winW, this->winH);
+    this->color = {100, 100, 100, 255};
+    this->textColor = {150, 150, 150, 255};
 
     this->initButton();
 }
@@ -267,7 +268,7 @@ void Game::start() {
         }
     }
     float wait = (float)SDL_GetTicks()/1000.0f;
-    while ((float)SDL_GetTicks()/1000.0f - wait < 0.2){}
+    while ((float)SDL_GetTicks()/1000.0f - wait < 0.2);
 }
 
 

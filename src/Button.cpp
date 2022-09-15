@@ -29,7 +29,7 @@ Button::Button() {
 
 }
 
-Button::Button(char *text, int textSize, int textAlign, int x, int y, int width, int height, SDL_Color colorOff, SDL_Color colorOn, int borderSize, SDL_Color borderColor) {
+Button::Button(char *text, int textSize, int textAlign, SDL_Color textColor, int x, int y, int width, int height, SDL_Color colorOff, SDL_Color colorOn, int borderSize, SDL_Color borderColor) {
     this->text = text;
     this->textSize = textSize;
     this->x = x;
@@ -39,6 +39,7 @@ Button::Button(char *text, int textSize, int textAlign, int x, int y, int width,
     this->colorOff = colorOff;
     this->colorOn = colorOn;
     this->textAlign = textAlign;
+    this->textColor = textColor;
     this->borderSize = borderSize;
     this->borderColor = borderColor;
 }
@@ -59,8 +60,7 @@ void Button::draw(SDL_Renderer *renderer) {
     }
     SDL_Rect rect = {this->x, this->y, this->w, this->h}; // Création du carré (x, y, width, height)
     SDL_RenderFillRect(renderer, &rect); // Dessin du carré
-    SDL_Color color = {0, 0, 0, 255};
-    drawText(renderer, this->text, this->textSize, this->x + this->w/2, this->y, this->textAlign, color);
+    drawText(renderer, this->text, this->textSize, this->x + this->w/2, this->y, this->textAlign, this->textColor);
 
     SDL_SetRenderDrawColor(renderer, this->borderColor.r, this->borderColor.g, this->borderColor.b, this->borderColor.a);
     for (int i = 0; i < this->borderSize; ++i){

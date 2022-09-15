@@ -23,6 +23,7 @@ private:
     Map map;
     Camera camera;
     Background background;
+    SDL_Color color, textColor;
 
     void initButton();
     void input();
