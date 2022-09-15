@@ -83,5 +83,6 @@ SDL_Texture *getTexture(SDL_Renderer *renderer, std::string spritename)
     char *img = const_cast<char*>(path.c_str());
     SDL_Surface *surface = IMG_Load(img);
     SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
+    SDL_FreeSurface(surface);
     return texture;
 }

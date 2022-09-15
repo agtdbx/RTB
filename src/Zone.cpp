@@ -39,6 +39,7 @@ Zone::Zone(int x, int y, std::string type, int squareSize, SDL_Renderer *rendere
         this->color = {120, 120, 120, 255};
         this->sprite = getTexture(renderer, "checkpoint");
     }
+    this->active = false;
 }
 
 
@@ -51,6 +52,7 @@ Zone::Zone(int x, int y, int id, int squareSize, SDL_Renderer *renderer) {
     this->color = {50, 200, 50, 255};
     this->sprite = getTexture(renderer, "checkpoint");
     this->squareSize = squareSize;
+    this->active = false;
 }
 
 
@@ -63,9 +65,12 @@ void Zone::draw(SDL_Renderer *renderer, Camera camera) {
     SDL_SetRenderDrawColor(renderer, this->color.r, this->color.g, this->color.b, this->color.a);
     int x = this->x * this->squareSize - camera.getX();
     int y = this->y * this->squareSize - camera.getY();
-    SDL_Rect rect = {x, y, this->w * this->squareSize, this->h * this->squareSize};
+    SDL_Rect part = {0, 0, 60, 90};
+    if (this->active)
+        part = {70, 0, 60, 90};
+    SDL_Rect pos = {x, y, this->w * this->squareSize, this->h * this->squareSize};
     //SDL_RenderFillRect(renderer, &rect);
-    SDL_RenderCopy(renderer, this->sprite, NULL, &rect);
+    SDL_RenderCopy(renderer, this->sprite, &part, &pos);
     /*if (this->color.r == 200){
         drawText(renderer, "D", 20, x + this->w*10, y, 2, {0, 0, 0, 255});
     }
@@ -102,4 +107,9 @@ int Zone::getId() {
 
 void Zone::setId(int id) {
     this->id = id;
+}
+
+
+void Zone::activate() {
+    this->active = true;
 }

@@ -38,7 +38,7 @@ public:
     int getWidth();
     int getHeigth();
     std::vector<Zone> getCheckpoint();
-    Zone testCheckpoint(float x, float y, int w, int h);
+    Zone *testCheckpoint(float x, float y, int w, int h);
     void set(int x, int y, Tuile t);
     void addCheckpoint(Zone checkpoint);
     void removeCheckpoint(int id);

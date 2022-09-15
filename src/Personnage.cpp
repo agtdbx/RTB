@@ -148,6 +148,7 @@ Personnage::Personnage(float x, float y,  int squareSize, SDL_Renderer *renderer
     this->timeOnWall = 0.0f;
     this->wallJumpOk = false;
     this->debutSaut = 0.0f;
+    this->viewDir = 'R';
     this->sprite = getTexture(renderer, "perso");
 }
 
@@ -161,8 +162,11 @@ void Personnage::draw(SDL_Renderer *renderer, Camera camera) {
     SDL_SetRenderDrawColor(renderer, 0, 0, 200, 50);
     int x = this->x - camera.getX();
     int y = this->y - camera.getY();
-    SDL_Rect rect = {x, y, this->w, this->h};
-    SDL_RenderCopy(renderer, this->sprite, NULL, &rect);
+    SDL_Rect part = {0, 0, 60, 90};
+    if (this->viewDir == 'L')
+        part = {70, 0, 60, 90};
+    SDL_Rect pos = {x, y, this->w, this->h};
+    SDL_RenderCopy(renderer, this->sprite, &part, &pos);
 }
 
 
@@ -174,10 +178,14 @@ void Personnage::deplacementX(char direction, Map *map) {
     else if (!this->inAir(map))
         this->speedModifier = 1.0f;
 
-    if (direction == 'g')
+    if (direction == 'g'){
         this->vX = -this->vitesse * this->speedModifier;
-    else if (direction == 'd')
+        this->viewDir = 'L';
+    }
+    else if (direction == 'd'){
         this->vX = this->vitesse * this->speedModifier;
+        this->viewDir = 'R';
+    }
     else {
         float frotement = 0.0f;
         if (this->isOverTuile(map, "glace", this->x, this->y))

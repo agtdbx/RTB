@@ -57,9 +57,9 @@ void Tuile::draw(SDL_Renderer *renderer, Camera camera) {
         //SDL_SetRenderDrawColor(renderer, this->color.r, this->color.g, this->color.b, this->color.a);
         int x = this->x*this->size - camera.getX();
         int y = this->y*this->size  - camera.getY();
-        SDL_Rect rect = {x, y, this->size, this->size};
+        SDL_Rect pos = {x, y, this->size, this->size};
         //SDL_RenderFillRect(renderer, &rect);
-        SDL_RenderCopy(renderer, this->sprite, NULL, &rect);
+        SDL_RenderCopy(renderer, this->sprite, NULL, &pos);
     }
 }
 

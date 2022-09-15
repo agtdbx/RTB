@@ -167,11 +167,14 @@ Zone Map::getEnd() {
 }
 
 
-Zone Map::testCheckpoint(float x, float y, int w, int h) {
-    Zone rep = Zone(0, 0, -2, 30, NULL);
+Zone *Map::testCheckpoint(float x, float y, int w, int h) {
+    Zone *rep = NULL;
 
-    for (Zone checkpoint : this->checkpoints){
-        if (checkpoint.getX()*this->squareSize <= (x + w) && (checkpoint.getX()*this->squareSize + 3*this->squareSize) >= x && checkpoint.getY()*this->squareSize <= (y + h) && (checkpoint.getY()*this->squareSize + 3*this->squareSize) >= y){
+    for (int i = 0; i < this->checkpoints.size(); i++){
+        Zone *checkpoint = &this->checkpoints[i];
+        if (checkpoint->getX()*this->squareSize <= (x + w) && (checkpoint->getX()*this->squareSize + 3*this->squareSize) >= x &&
+            checkpoint->getY()*this->squareSize <= (y + h) && (checkpoint->getY()*this->squareSize + 3*this->squareSize) >= y){
+            checkpoint->activate();
             rep = checkpoint;
         }
     }

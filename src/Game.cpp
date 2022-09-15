@@ -49,14 +49,13 @@ void Game::input() {
 
 
 void Game::tick() {
+    float delta = ((float)SDL_GetTicks()/1000.0f) - this->lastTime;
     if (this->perso.atFin(&this->map)){
         this->fenetre = 2;
     }
     if (this->fenetre == 0){
         int keylen;
         const unsigned char *keyboard = SDL_GetKeyboardState(&keylen);
-
-        float delta = ((float)SDL_GetTicks()/1000.0f) - this->lastTime;
 
         if (keyboard[SDL_SCANCODE_F3]) {
             this->showFps = !this->showFps;
@@ -85,11 +84,11 @@ void Game::tick() {
         if (this->perso.isMort(&this->map))
             this->perso.respawn();
 
-        Zone checkpoint = this->map.testCheckpoint(this->perso.getX(), this->perso.getY(), this->perso.getWidth(), this->perso.getHeight());
+        Zone *checkpoint = this->map.testCheckpoint(this->perso.getX(), this->perso.getY(), this->perso.getWidth(), this->perso.getHeight());
 
-        if (checkpoint.getId() > this->checkpointProgression){
-            this->checkpointProgression = checkpoint.getId();
-            this->perso.setRespawn(checkpoint.getX() * this->map.getSquarreSize(), checkpoint.getY() * this->map.getSquarreSize());
+        if (checkpoint != NULL && checkpoint->getId() > this->checkpointProgression){
+            this->checkpointProgression = checkpoint->getId();
+            this->perso.setRespawn(checkpoint->getX() * this->map.getSquarreSize(), checkpoint->getY() * this->map.getSquarreSize());
         }
         this->camera.tick(this->perso.getX(), this->perso.getY(), this->perso.getVx(), this->perso.getVy(), this->perso.getWidth(), this->perso.getHeight(), &this->background);
     }
@@ -102,6 +101,9 @@ void Game::tick() {
         }
     }
     else{
+        this->perso.deplacementX('n', &this->map);
+        this->perso.addVy(this->gravity);
+        this->perso.move(delta, this->camera, &this->map);
         if (this->butRetourMenu.clicOnButton()){
             this->run = false;
         }

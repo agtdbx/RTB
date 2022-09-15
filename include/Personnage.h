@@ -15,6 +15,7 @@ private:
     int w, h;
     float x, y, vX, vY, vitesse, acceleration, debutSaut, tempsSaut, respawnX, respawnY, graviteEffet, speedModifier, timeOnWall, debutWallJump;
     bool sautOk, wallJumpOk;
+    char viewDir;
     SDL_Texture *sprite;
 
     bool isOnTuile(Map *map, std::string nomTuile, float x, float y);

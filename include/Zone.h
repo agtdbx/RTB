@@ -13,6 +13,7 @@
 class Zone {
 private:
     int x, y, w, h, id, squareSize;
+    bool active;
     SDL_Color color;
     SDL_Texture *sprite;
 
@@ -28,6 +29,7 @@ public:
     int getY();
     int getId();
     void setId(int id);
+    void activate();
 };
 
 
