@@ -8,68 +8,84 @@
 
 
 // Private methodes
-bool Personnage::isOnTuile(Map map, std::string nomTuile, float x, float y) {
-    int x1 = (int)(x) / map.getSquarreSize();
-    int x2 = (int)(x + this->w/2) / map.getSquarreSize();
-    int x3 = (int)(x + this->w) / map.getSquarreSize();
-    int y4 = (int)(y + this->h) / map.getSquarreSize();
+bool Personnage::isOnTuile(Map *map, std::string nomTuile, float x, float y) {
+    int x1 = (int)(x) / map->getSquarreSize();
+    int x2 = (int)(x + this->w/2) / map->getSquarreSize();
+    int x3 = (int)(x + this->w) / map->getSquarreSize();
+    int y4 = (int)(y + this->h) / map->getSquarreSize();
 
-    if (map.get(x1, y4).getType() == nomTuile || map.get(x2, y4).getType() == nomTuile || map.get(x3, y4).getType() == nomTuile)
+    if (map->get(x1, y4).getType() == nomTuile || map->get(x2, y4).getType() == nomTuile || map->get(x3, y4).getType() == nomTuile)
         return true;
     return false;
 }
 
 
-bool Personnage::isOverTuile(Map map, std::string nomTuile, float x, float y) {
-    int x1 = (int)(x) / map.getSquarreSize();
-    int x2 = (int)(x + this->w/2) / map.getSquarreSize();
-    int x3 = (int)(x + this->w) / map.getSquarreSize();
-    int y4 = (int)(y + this->h) / map.getSquarreSize() + 1;
+bool Personnage::isOverTuile(Map *map, std::string nomTuile, float x, float y) {
+    int x1 = (int)(x) / map->getSquarreSize();
+    int x2 = (int)(x + this->w/2) / map->getSquarreSize();
+    int x3 = (int)(x + this->w) / map->getSquarreSize();
+    int y4 = (int)(y + this->h) / map->getSquarreSize() + 1;
 
-    if (map.get(x1, y4).getType() == nomTuile || map.get(x2, y4).getType() == nomTuile || map.get(x3, y4).getType() == nomTuile)
+    if (map->get(x1, y4).getType() == nomTuile || map->get(x2, y4).getType() == nomTuile || map->get(x3, y4).getType() == nomTuile)
         return true;
     return false;
 }
 
 
-bool Personnage::isInTuile(Map map, std::string nomTuile, float x, float y) {
-    int x1 = (int)(x) / map.getSquarreSize();
-    int x2 = (int)(x + this->w/2) / map.getSquarreSize();
-    int x3 = (int)(x + this->w) / map.getSquarreSize();
-    int y1 = (int)(y) / map.getSquarreSize();
-    int y2 = (int)(y + this->h/3) / map.getSquarreSize();
-    int y3 = (int)(y + (this->h/3)*2) / map.getSquarreSize();
-    int y4 = (int)(y + this->h) / map.getSquarreSize();
+bool Personnage::isInTuile(Map *map, std::string nomTuile, float x, float y) {
+    int x1 = (int)(x) / map->getSquarreSize();
+    int x2 = (int)(x + this->w/2) / map->getSquarreSize();
+    int x3 = (int)(x + this->w) / map->getSquarreSize();
+    int y1 = (int)(y) / map->getSquarreSize();
+    int y2 = (int)(y + this->h/3) / map->getSquarreSize();
+    int y3 = (int)(y + (this->h/3)*2) / map->getSquarreSize();
+    int y4 = (int)(y + this->h) / map->getSquarreSize();
 
-    if (map.get(x1, y1).getType() == nomTuile || map.get(x2, y1).getType() == nomTuile || map.get(x3, y1).getType() == nomTuile ||
-        map.get(x1, y2).getType() == nomTuile || map.get(x2, y2).getType() == nomTuile || map.get(x3, y2).getType() == nomTuile ||
-        map.get(x1, y3).getType() == nomTuile || map.get(x2, y3).getType() == nomTuile || map.get(x3, y3).getType() == nomTuile ||
-        map.get(x1, y4).getType() == nomTuile || map.get(x2, y4).getType() == nomTuile || map.get(x3, y4).getType() == nomTuile)
+    if (map->get(x1, y1).getType() == nomTuile || map->get(x2, y1).getType() == nomTuile || map->get(x3, y1).getType() == nomTuile ||
+        map->get(x1, y2).getType() == nomTuile || map->get(x2, y2).getType() == nomTuile || map->get(x3, y2).getType() == nomTuile ||
+        map->get(x1, y3).getType() == nomTuile || map->get(x2, y3).getType() == nomTuile || map->get(x3, y3).getType() == nomTuile ||
+        map->get(x1, y4).getType() == nomTuile || map->get(x2, y4).getType() == nomTuile || map->get(x3, y4).getType() == nomTuile)
             return true;
     return false;
 }
 
 
-bool Personnage::inAir(Map map) {
-    int x1 = (int)(this->x) / map.getSquarreSize();
-    int x2 = (int)(this->x + this->w/2) / map.getSquarreSize();
-    int x3 = (int)(this->x + this->w) / map.getSquarreSize();
-    int y1 = (int)(this->y) / map.getSquarreSize();
-    int y2 = (int)(this->y + this->h/3) / map.getSquarreSize();
-    int y3 = (int)(this->y + (this->h/3)*2) / map.getSquarreSize();
-    int y4 = (int)(this->y + this->h) / map.getSquarreSize();
-    int y5 = (int)(y + this->h) / map.getSquarreSize() + 1;
+bool Personnage::inAir(Map *map) {
+    int x1 = (int)(this->x) / map->getSquarreSize();
+    int x2 = (int)(this->x + this->w/2) / map->getSquarreSize();
+    int x3 = (int)(this->x + this->w) / map->getSquarreSize();
+    int y1 = (int)(this->y) / map->getSquarreSize();
+    int y2 = (int)(this->y + this->h/3) / map->getSquarreSize();
+    int y3 = (int)(this->y + (this->h/3)*2) / map->getSquarreSize();
+    int y4 = (int)(this->y + this->h) / map->getSquarreSize();
+    int y5 = (int)(y + this->h) / map->getSquarreSize() + 1;
 
-    if (map.get(x1, y1).getType() == "air" && map.get(x2, y1).getType() == "air" && map.get(x3, y1).getType() == "air" &&
-        map.get(x1, y2).getType() == "air" && map.get(x2, y2).getType() == "air" && map.get(x3, y2).getType() == "air" &&
-        map.get(x1, y3).getType() == "air" && map.get(x2, y3).getType() == "air" && map.get(x3, y3).getType() == "air" &&
-        map.get(x1, y4).getType() == "air" && map.get(x2, y4).getType() == "air" && map.get(x3, y4).getType() == "air" &&
-        map.get(x1, y5).getType() == "air" && map.get(x2, y5).getType() == "air" && map.get(x3, y5).getType() == "air")
+    if (map->get(x1, y1).getType() == "air" && map->get(x2, y1).getType() == "air" && map->get(x3, y1).getType() == "air" &&
+        map->get(x1, y2).getType() == "air" && map->get(x2, y2).getType() == "air" && map->get(x3, y2).getType() == "air" &&
+        map->get(x1, y3).getType() == "air" && map->get(x2, y3).getType() == "air" && map->get(x3, y3).getType() == "air" &&
+        map->get(x1, y4).getType() == "air" && map->get(x2, y4).getType() == "air" && map->get(x3, y4).getType() == "air" &&
+        map->get(x1, y5).getType() == "air" && map->get(x2, y5).getType() == "air" && map->get(x3, y5).getType() == "air")
         return true;
     return false;
 }
 
-bool Personnage::mouvementPossibleX(Map map, float delta) {
+bool Personnage::canWallJump(Map *map) {
+    int dirAdd = 0;
+
+    if (this->vX < 0.0f)
+        dirAdd = -1;
+    else if (this->vX > 0.0f)
+        dirAdd = 3;
+
+    int x = (int)(this->x) / map->getSquarreSize() + dirAdd;
+    int y4 = (int)(this->y + this->h) / map->getSquarreSize();
+
+    if (map->get(x, y4).getType() == "mur")
+        return true;
+    return false;
+}
+
+bool Personnage::mouvementPossibleX(Map *map, float delta) {
     float x = this->x + (this->vX * delta);
     float y = this->y;
 
@@ -84,18 +100,17 @@ bool Personnage::mouvementPossibleX(Map map, float delta) {
 }
 
 
-bool Personnage::mouvementPossibleY(Map map, float delta) {
+bool Personnage::mouvementPossibleY(Map *map, float delta) {
     float x = this->x;
     float y = this->y + (this->vY * delta);
 
-    if (this->isInTuile(map, "mur", x, y) || this->isInTuile(map, "glace", x, y) || (this->vY > 0.0f && this->isOnTuile(map, "plateforme", x, y)))
+    if (this->isInTuile(map, "slime", x, y))
+        this->vY *= -1.0f;
+    else if (this->isInTuile(map, "mur", x, y) || this->isInTuile(map, "glace", x, y) || (this->vY > 0.0f && this->isOnTuile(map, "plateforme", x, y)))
     {
         this->vY = 0.0f;
         return false;
     }
-
-    if (this->isInTuile(map, "slime", x, y))
-        this->vY *= -1.0f;
 
     return true;
 }
@@ -130,6 +145,9 @@ Personnage::Personnage(float x, float y,  int squareSize, SDL_Renderer *renderer
     this->sautOk = false;
     this->graviteEffet = 1.0f;
     this->speedModifier = 1.0f;
+    this->timeOnWall = 0.0f;
+    this->wallJumpOk = false;
+    this->debutSaut = 0.0f;
     this->sprite = getTexture(renderer, "perso");
 }
 
@@ -148,7 +166,7 @@ void Personnage::draw(SDL_Renderer *renderer, Camera camera) {
 }
 
 
-void Personnage::deplacementX(char direction, Map map) {
+void Personnage::deplacementX(char direction, Map *map) {
     if (this->isOverTuile(map, "glace", this->x, this->y))
         this->speedModifier = 1.3f;
     else if (this->isInTuile(map, "eau", this->x, this->y))
@@ -228,26 +246,47 @@ void Personnage::stopVy() {
     this->vY = 0.0f;
 }
 
-void Personnage::saut(float vY, Map map) {
-    if (this->sautOk){
+void Personnage::saut(float vY, Map *map) {
+    if (this->sautOk) {
         this->sautOk = false;
-        this->debutSaut = (float)SDL_GetTicks()/1000.0f;
-        this->vY -= vY*3;
+        this->wallJumpOk = false;
+        this->timeOnWall = 0.0f;
+        this->debutSaut = (float)SDL_GetTicks() / 1000.0f;
+        this->vY -= vY * 3.0f;
+    }
+    else if (this->wallJumpOk) {
+        this->sautOk = false;
+        this->wallJumpOk = false;
+        this->timeOnWall = 0.0f;
+        if (this->vY > 0.0f)
+            this->vY = 0.0f;
+        this->vY -= 900.0f;
+        this->vX *= -2.0f;
+        this->debutWallJump = (float)SDL_GetTicks() / 1000.0f;
     }
     else if (((float)SDL_GetTicks()/1000.0f)-this->debutSaut <= this->tempsSaut){
         this->vY -= vY;
     }
-
-    int x1 = ((int)this->x) / map.getSquarreSize();
-    int x2 = ((int)this->x + this->w/2) / map.getSquarreSize();
-    int x3 = ((int)this->x + this->w) / map.getSquarreSize();
-    int y = ((int)this->y + this->h) / map.getSquarreSize() + 1;
-    if (map.test(x1, y, 'D') + map.test(x2, y, 'D') + map.test(x3, y, 'D') < 3){
-        this->sautOk = true;
+    else if (((float)SDL_GetTicks()/1000.0f)-this->debutWallJump <= 0.2f){
+        this->vX *= -1.5;
     }
+
+    if (this->timeOnWall >= 0.5f)
+        this->wallJumpOk = true;
+
+    int x1 = ((int)this->x) / map->getSquarreSize();
+    int x2 = ((int)this->x + this->w/2) / map->getSquarreSize();
+    int x3 = ((int)this->x + this->w) / map->getSquarreSize();
+    int y = ((int)this->y + this->h) / map->getSquarreSize() + 1;
+    if (map->test(x1, y, 'D') + map->test(x2, y, 'D') + map->test(x3, y, 'D') < 3)
+        this->sautOk = true;
 }
 
-void Personnage::move(float delta, Camera& camera, Map map) {
+void Personnage::move(float delta, Camera& camera, Map *map) {
+    if (this->canWallJump(map))
+        this->timeOnWall += delta;
+    else
+        this->timeOnWall = 0.0f;
     if (this->isInTuile(map, "eau", x, y))
         this->graviteEffet = 0.5f;
     else
@@ -294,10 +333,10 @@ int Personnage::getHeight() {
 }
 
 
-bool Personnage::atFin(Map map) {
-    int x = this->x / map.getSquarreSize();
-    int y = this->y / map.getSquarreSize();
-    return map.getEnd().inZone(x, y) || map.getEnd().inZone(x + 2, y) || map.getEnd().inZone(x, y + 3) || map.getEnd().inZone(x + 2, y + 3);
+bool Personnage::atFin(Map *map) {
+    int x = this->x / map->getSquarreSize();
+    int y = this->y / map->getSquarreSize();
+    return map->getEnd().inZone(x, y) || map->getEnd().inZone(x + 2, y) || map->getEnd().inZone(x, y + 3) || map->getEnd().inZone(x + 2, y + 3);
 }
 
 
@@ -314,7 +353,7 @@ void Personnage::setRespawn(float x, float y) {
     this->respawnY = y;
 }
 
-bool Personnage::isMort(Map map) {
+bool Personnage::isMort(Map *map) {
     float x = this->x;
     float y = this->y;
 

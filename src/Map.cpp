@@ -77,16 +77,19 @@ Map::~Map() {
 
 
 void Map::draw(SDL_Renderer *renderer, Camera camera, int winW, int winH) {
-    int minX = -20;
-    int minY = -20;
-    for (int i = 0; i < this->w; ++i) {
-        for (int j = 0; j < this->h; ++j) {
-            if (minX <= i*this->squareSize - camera.getX() && i*this->squareSize - camera.getX() <= winW && minY <= j*this->squareSize - camera.getY() && j*this->squareSize - camera.getY() <= winH){
-                this->map[i][j].draw(renderer, camera);
-            }
+    int minX = -this->squareSize;
+    int minY = -this->squareSize;
+    int maxX = (camera.getX() + winW) / this->squareSize + 1;
+    int maxY = (camera.getY() + winH) / this->squareSize + 1;
+    int x = camera.getX() / this->squareSize;
+    while (x < maxX && x < this->w) {
+        int y = camera.getY() / this->squareSize;
+        while (y < maxY && y < this->h) {
+            this->map[x][y].draw(renderer, camera);
+            y++;
         }
+        x++;
     }
-
     this->start.draw(renderer, camera);
     this->end.draw(renderer, camera);
 

@@ -19,7 +19,7 @@ private:
     bool run, continuer;
     char toucheABind;
     Button butJouer, butOptions, butQuitter,
-    butlvl1, butlvl2, butlvl3, butRetourJouer,
+    butlvl1, butlvl2, butlvl3, butlvl4, butRetourJouer,
     butGraphics,
     butSonore, butMusiqueMoins, butMusiquePlus, butSonMoins, butSonPlus,
     butKeyBinding, butBindGauche, butBindDroite, butBindSaut,

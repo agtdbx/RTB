@@ -53,7 +53,6 @@ void Background::addCamY(float value) {
 void Background::draw(SDL_Renderer *renderer) {
     int x = 0;
     int y = 0;
-
     while (y <= this->fenH / 320 + 1)
     {
         x = 0;

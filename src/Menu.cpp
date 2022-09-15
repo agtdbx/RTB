@@ -30,6 +30,7 @@ void Menu::initButton() {
     this->butlvl1 = Button("1", 40, 1,this->winW/2 - 25 - 75, this->winH/3, 50, 50, colorOff, colorOn,2, black);
     this->butlvl2 = Button("2", 40, 1,this->winW/2 - 25, this->winH/3, 50, 50, colorOff, colorOn,2, black);
     this->butlvl3 = Button("3", 40, 1,this->winW/2 - 25 + 75, this->winH/3, 50, 50, colorOff, colorOn,2, black);
+    this->butlvl4 = Button("4", 40, 1,this->winW/2 - 25 - 75, this->winH/3 + 75, 50, 50, colorOff, colorOn,2, black);
     this->butRetourJouer = Button("Retour", 40, 1, this->winW/2 - 100, this->winH-50 - 100, 200, 50, colorOff, colorOn,2, black);
 
     //Options
@@ -104,17 +105,23 @@ void Menu::tick() {
                 this->fenetre = 0;
                 this->levelLoad = 1;
             }
-            if (this->butlvl2.clicOnButton() && this->niveauUnlock >= 2){
+            else if (this->butlvl2.clicOnButton() && this->niveauUnlock >= 2){
                 this->run = false;
                 this->continuer = true;
                 this->fenetre = 0;
                 this->levelLoad = 2;
             }
-            if (this->butlvl3.clicOnButton() && this->niveauUnlock >= 3){
+            else if (this->butlvl3.clicOnButton() && this->niveauUnlock >= 3){
                 this->run = false;
                 this->continuer = true;
                 this->fenetre = 0;
                 this->levelLoad = 3;
+            }
+            else if (this->butlvl4.clicOnButton() && this->niveauUnlock >= 4){
+                this->run = false;
+                this->continuer = true;
+                this->fenetre = 0;
+                this->levelLoad = 4;
             }
             else if (this->butRetourJouer.clicOnButton()){
                 this->fenetre = 0;
@@ -265,6 +272,9 @@ void Menu::render() {
             }
             if(this->niveauUnlock >= 3){
                 this->butlvl3.draw(this->renderer);
+            }
+            if(this->niveauUnlock >= 4){
+                this->butlvl4.draw(this->renderer);
             }
             this->butRetourJouer.draw(this->renderer);
             break;
@@ -502,6 +512,8 @@ void Menu::setScreenSize() {
     this->butlvl2.setY(this->winH/3);
     this->butlvl3.setX(this->winW/2 - 25 + 75);
     this->butlvl3.setY(this->winH/3);
+    this->butlvl4.setX(this->winW/2 - 25 - 75);
+    this->butlvl4.setY(this->winH/3 + 75);
     this->butRetourJouer.setX(this->winW/2 - 100);
     this->butRetourJouer.setY(this->winH-50 - 100);
 
@@ -640,7 +652,7 @@ Menu::Menu(SDL_Window *window, SDL_Renderer *renderer, int winW, int winH) {
     this->toucheGauche = 20;
     this->toucheDroite = 7;
     this->toucheSaut = 44;
-    this->niveauUnlock = 3;
+    this->niveauUnlock = 4;
     this->levelLoad = 0;
 
     this->initButton();
@@ -671,10 +683,13 @@ bool Menu::start() {
     }
     this->saveOptions();
 
-    /*SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
-    SDL_SetRenderDrawColor(this->renderer, 255, 255, 255, 255);
-    SDL_RenderClear(this->renderer);
-    drawText(this->renderer, "Chargement ...", 40, this->winW / 2, this->winH / 2, 1, {0, 0, 0, 255});*/
+    if (this->continuer){
+        SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+        SDL_SetRenderDrawColor(this->renderer, 255, 255, 255, 255);
+        SDL_RenderClear(this->renderer);
+        drawText(this->renderer, "Chargement ...", 40, this->winW / 2, this->winH / 2, 1, {0, 0, 0, 255});
+        SDL_RenderPresent(this->renderer);
+    }
 
     return this->continuer;
 }

@@ -49,7 +49,7 @@ void Game::input() {
 
 
 void Game::tick() {
-    if (this->perso.atFin(this->map)){
+    if (this->perso.atFin(&this->map)){
         this->fenetre = 2;
     }
     if (this->fenetre == 0){
@@ -66,23 +66,23 @@ void Game::tick() {
         }
 
         if (keyboard[this->toucheGauche]) {
-            this->perso.deplacementX('g', this->map);
+            this->perso.deplacementX('g', &this->map);
         }
         else if (keyboard[this->toucheDroite]) {
-            this->perso.deplacementX('d', this->map);
+            this->perso.deplacementX('d', &this->map);
         }
         else{
-            this->perso.deplacementX('n', this->map);
+            this->perso.deplacementX('n', &this->map);
         }
 
         if (keyboard[this->toucheSaut]) {
-            this->perso.saut(this->perso.getAcceleration(), this->map);
+            this->perso.saut(this->perso.getAcceleration(), &this->map);
         }
 
         this->perso.addVy(this->gravity);
-        this->perso.move(delta, this->camera, this->map);
+        this->perso.move(delta, this->camera, &this->map);
 
-        if (this->perso.isMort(this->map))
+        if (this->perso.isMort(&this->map))
             this->perso.respawn();
 
         Zone checkpoint = this->map.testCheckpoint(this->perso.getX(), this->perso.getY(), this->perso.getWidth(), this->perso.getHeight());
@@ -281,6 +281,10 @@ void Game::initLevel(int levelNum) {
 
         case 3:
             this->loadMap("test3");
+            break;
+
+        case 4:
+            this->loadMap("test4");
             break;
     }
     this->perso = Personnage(this->map.getStart().getX() * this->map.getSquarreSize(), this->map.getStart().getY() * this->map.getSquarreSize(), this->map.getSquarreSize(), this->renderer);

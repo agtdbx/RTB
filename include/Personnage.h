@@ -13,16 +13,17 @@
 class Personnage {
 private:
     int w, h;
-    float x, y, vX, vY, vitesse, acceleration, debutSaut, tempsSaut, respawnX, respawnY, graviteEffet, speedModifier;
-    bool sautOk;
+    float x, y, vX, vY, vitesse, acceleration, debutSaut, tempsSaut, respawnX, respawnY, graviteEffet, speedModifier, timeOnWall, debutWallJump;
+    bool sautOk, wallJumpOk;
     SDL_Texture *sprite;
 
-    bool isOnTuile(Map map, std::string nomTuile, float x, float y);
-    bool isOverTuile(Map map, std::string nomTuile, float x, float y);
-    bool isInTuile(Map map, std::string nomTuile, float x, float y);
-    bool inAir(Map map);
-    bool mouvementPossibleX(Map map, float delta);
-    bool mouvementPossibleY(Map map, float delta);
+    bool isOnTuile(Map *map, std::string nomTuile, float x, float y);
+    bool isOverTuile(Map *map, std::string nomTuile, float x, float y);
+    bool isInTuile(Map *map, std::string nomTuile, float x, float y);
+    bool inAir(Map *map);
+    bool canWallJump(Map *map);
+    bool mouvementPossibleX(Map *map, float delta);
+    bool mouvementPossibleY(Map *map, float delta);
 
 public:
     Personnage();
@@ -30,14 +31,14 @@ public:
     ~Personnage();
 
     void draw(SDL_Renderer *renderer, Camera camera);
-    void deplacementX(char direction, Map map);
+    void deplacementX(char direction, Map *map);
     void addVx(float vX);
     void stopVx();
     void deplacementY(float vY);
     void addVy(float vY);
     void stopVy();
-    void saut(float vY, Map map);
-    void move(float delta, Camera& camera, Map map);
+    void saut(float vY, Map *map);
+    void move(float delta, Camera& camera, Map *map);
     float getAcceleration();
     float getX();
     float getY();
@@ -45,10 +46,10 @@ public:
     float getVy();
     int getWidth();
     int getHeight();
-    bool atFin(Map map);
+    bool atFin(Map *map);
     void respawn();
     void setRespawn(float x, float y);
-    bool isMort(Map map);
+    bool isMort(Map *map);
 };
 
 
