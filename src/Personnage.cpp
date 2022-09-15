@@ -249,6 +249,8 @@ void Personnage::saut(Map *map) {
     if (this->sautOk) {
         this->sautOk = false;
         this->debutSaut = (float)SDL_GetTicks() / 1000.0f;
+        if (this->isOnTuile(map, "slime", this->x, this->y) || isOverTuile(map, "slime", this->x, this->y))
+            this->vY -= this->acceleration * 6.0f;
         this->vY -= this->acceleration * 3.0f;
     }
     else if (((float)SDL_GetTicks()/1000.0f)-this->debutSaut <= this->tempsSaut){

@@ -63,25 +63,35 @@ void Game::tick() {
             this->fps = 1.0f / delta;
         }
 
-        if (keyboard[this->toucheGauche]) {
-            this->perso.deplacementX('g', &this->map);
-        }
-        else if (keyboard[this->toucheDroite]) {
-            this->perso.deplacementX('d', &this->map);
-        }
-        else{
-            this->perso.deplacementX('n', &this->map);
-        }
+        if (!this->perso.isMort(&this->map)){
+            if (keyboard[this->toucheGauche]) {
+                this->perso.deplacementX('g', &this->map);
+            }
+            else if (keyboard[this->toucheDroite]) {
+                this->perso.deplacementX('d', &this->map);
+            }
+            else{
+                this->perso.deplacementX('n', &this->map);
+            }
 
-        if (keyboard[this->toucheSaut]) {
-            this->perso.saut(&this->map);
+            if (keyboard[this->toucheSaut]) {
+                this->perso.saut(&this->map);
+            }
+
+            this->perso.addVy(this->gravity);
+            this->perso.move(delta, this->camera, &this->map);
         }
-
-        this->perso.addVy(this->gravity);
-        this->perso.move(delta, this->camera, &this->map);
-
-        if (this->perso.isMort(&this->map))
+        else if (SDL_GetTicks()/1000.0f - this->lastRespawnTime >= 1.0f && this->canRespawn){
             this->perso.respawn();
+            this->canRespawn = false;
+        }
+        else if (!this->canRespawn){
+            this->lastRespawnTime = SDL_GetTicks()/1000.0f;
+            this->canRespawn = true;
+        }
+
+
+
 
         Zone *checkpoint = this->map.testCheckpoint(this->perso.getX(), this->perso.getY(), this->perso.getWidth(), this->perso.getHeight());
 
@@ -119,7 +129,8 @@ void Game::render() {
 
     this->map.draw(this->renderer, this->camera, this->winW, this->winH);
 
-    this->perso.draw(this->renderer, this->camera);
+    if (!this->perso.isMort(&map))
+        this->perso.draw(this->renderer, this->camera);
     switch (this->fenetre) {
         case 0:
 
@@ -247,6 +258,8 @@ Game::Game(SDL_Renderer *renderer, int winW, int winH) {
     this->background = Background(this->renderer, this->winW, this->winH);
     this->color = {100, 100, 100, 255};
     this->textColor = {150, 150, 150, 255};
+    this->lastRespawnTime = 0.0f;
+    this->canRespawn = false;
 
     this->initButton();
 }

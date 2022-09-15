@@ -16,10 +16,10 @@ class Game {
 private:
     SDL_Renderer *renderer;
     int winW, winH, fenetre, volumeMusique, volumeSon, toucheGauche, toucheDroite, toucheSaut, checkpointProgression;
-    bool run, showFps, fpsUnlimited;
+    bool run, showFps, fpsUnlimited, canRespawn;
     Button butContinuer, butQuitter, butRetourMenu;
     Personnage perso;
-    float lastTime, fps, gravity;
+    float lastTime, fps, gravity, lastRespawnTime;
     Map map;
     Camera camera;
     Background background;
