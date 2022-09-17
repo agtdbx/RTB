@@ -262,7 +262,6 @@ void Menu::render() {
             this->butJouer.draw(this->renderer);
             this->butOptions.draw(this->renderer);
             this->butQuitter.draw(this->renderer);
-
             break;
 
         case 1:
@@ -339,7 +338,6 @@ void Menu::render() {
             drawText(this->renderer, "Appuis sur un touche", 50, this->winW/2, this->winH/2, 1, this->textColor);
             break;
     }
-
     SDL_RenderPresent(this->renderer);
 }
 
@@ -604,7 +602,7 @@ void Menu::saveOptions() {
     Json::Value json;
     // Sauvegarde des options
     std::ofstream myfile;
-    myfile.open ("../data/saves/options.json"); // Ouverture du fichier
+    myfile.open ("./data/saves/options.json"); // Ouverture du fichier
 
     json["resolution"] = this->butChoixRes.getValue();
     json["winW"] = this->winW;
@@ -626,8 +624,9 @@ void Menu::saveOptions() {
 
 void Menu::loadOptions() {
     Json::Value json;
-    std::ifstream myfile ("../data/saves/options.json");// Ouverture du fichier
-    myfile >> json;
+    Json::Reader reader;
+    std::ifstream myfile ("./data/saves/options.json");// Ouverture du fichier
+    reader.parse(myfile, json);
 
     this->butChoixRes.setValue(json["resolution"].asString());
     this->winW = json["winW"].asInt();
@@ -639,6 +638,8 @@ void Menu::loadOptions() {
     this->toucheDroite = json["toucheDroite"].asInt();
     this->toucheSaut = json["toucheSaut"].asInt();
     this->niveauUnlock = json["niveauUnlock"].asInt();
+
+    myfile.close();
 }
 
 
@@ -684,9 +685,9 @@ Menu::~Menu() {
 bool Menu::start() {
     this->run = true;
     this->continuer = false;
-    this->levelLoad = 0;
+    this->levelLoad = 0;;
     while(this->run){
-        if (((float)SDL_GetTicks()/1000) - this->lastTime > 1.0/30){
+        if (((float)SDL_GetTicks()/1000) - this->lastTime > 1.0f/30.0f){
             this->lastTime = (float)SDL_GetTicks()/1000;
             this->input();
             this->tick();

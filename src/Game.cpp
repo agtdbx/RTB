@@ -164,7 +164,7 @@ void Game::loadMap(std::string filename) {
     bool test = false;
     DIR *d;
     struct dirent *dir;
-    d = opendir("../data/levels/");
+    d = opendir("./data/levels/");
     if (d){
         while ((dir = readdir(d)) != NULL){
             std::string file_name = dir->d_name;
@@ -180,7 +180,7 @@ void Game::loadMap(std::string filename) {
     if (test){
         Json::Value json;
 
-        std::string filepath = "../data/levels/";
+        std::string filepath = "./data/levels/";
         filepath.append(file);
 
         std::ifstream myfile(filepath);
