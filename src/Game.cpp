@@ -295,7 +295,7 @@ void Game::start() {
 void Game::initLevel(int levelNum) {
     switch (levelNum) {
         case 1:
-            this->loadMap("test");
+            this->loadMap("test1");
             break;
 
         case 2:
