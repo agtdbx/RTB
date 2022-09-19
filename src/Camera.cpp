@@ -35,7 +35,7 @@ float Camera::getY() {
 }
 
 
-void Camera::tick(float x, float y, float vX, float vY, int w, int h, Background *background) {
+void Camera::tick(float x, float y, float vX, float vY, int w, int h, Background *background, float delta) {
     this->x = x - (this->winW / 2);
     this->y = y - (this->winH / 2);
 
@@ -57,8 +57,8 @@ void Camera::tick(float x, float y, float vX, float vY, int w, int h, Background
         vY = 0.0f;
     }
 
-    background->addCamX(vX / 300.0f);
-    background->addCamY(vY / 300.0f);
+    background->addCamX(vX * delta);
+    background->addCamY(vY * delta);
 }
 
 

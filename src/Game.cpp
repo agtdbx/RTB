@@ -90,16 +90,13 @@ void Game::tick() {
             this->canRespawn = true;
         }
 
-
-
-
         Zone *checkpoint = this->map.testCheckpoint(this->perso.getX(), this->perso.getY(), this->perso.getWidth(), this->perso.getHeight());
 
         if (checkpoint != NULL && checkpoint->getId() > this->checkpointProgression){
             this->checkpointProgression = checkpoint->getId();
             this->perso.setRespawn(checkpoint->getX() * this->map.getSquarreSize(), checkpoint->getY() * this->map.getSquarreSize());
         }
-        this->camera.tick(this->perso.getX(), this->perso.getY(), this->perso.getVx(), this->perso.getVy(), this->perso.getWidth(), this->perso.getHeight(), &this->background);
+        this->camera.tick(this->perso.getX(), this->perso.getY(), this->perso.getVx(), this->perso.getVy(), this->perso.getWidth(), this->perso.getHeight(), &this->background, delta);
     }
     else if (this->fenetre == 1) {
         if (this->butContinuer.clicOnButton()){

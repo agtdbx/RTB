@@ -256,7 +256,7 @@ void Personnage::saut(Map *map) {
     else if (((float)SDL_GetTicks()/1000.0f)-this->debutSaut <= this->tempsSaut){
         this->vY -= this->acceleration;
     }
-    else if (this->wallJumpOk && this->canWallJump(map) && this->timeOfChargeWallJump >= 0.3f) {
+    else if (this->wallJumpOk && this->canWallJump(map) && ((float)SDL_GetTicks()/1000.0f)-this->debutSaut > this->tempsSaut * 3.0f && this->timeOfChargeWallJump >= 0.1f) {
         this->wallJumpOk = false;
         if (this->vY > 0.0f)
             this->vY = 0.0f;
@@ -293,7 +293,7 @@ void Personnage::move(float delta, Camera& camera, Map *map) {
     else
         this->timeOfChargeWallJump = 0.0f;
 
-    if (this->isInTuile(map, "eau", x, y))
+    if (this->isInTuile(map, "eau", x, y) || (this->canWallJump(map) && this->vY > 0.0f))
         this->graviteEffet = 0.5f;
     else
         this->graviteEffet = 1.0f;
@@ -359,7 +359,9 @@ bool Personnage::isMort(Map *map) {
     float x = this->x;
     float y = this->y;
 
-    if (this->isInTuile(map, "pique", x, y)){;
+    if (this->isInTuile(map, "pique", x, y)){
+        this->vX = 0.0f;
+        this->vY = 0.0f;
         return true;
     }
 

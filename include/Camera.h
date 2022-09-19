@@ -17,7 +17,7 @@ public:
 
     float getX();
     float getY();
-    void tick(float x, float y, float vX, float vY, int w, int h, Background *background);
+    void tick(float x, float y, float vX, float vY, int w, int h, Background *background, float delta);
     void setWindowSize(float w, float h);
     void setMapSize(float w, float h, float mapSize);
 };
