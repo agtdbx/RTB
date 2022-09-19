@@ -7,6 +7,8 @@
 #include <SDL2/SDL.h>
 #include "../include/Functions.h"
 
+#include <iostream>
+
 //Private methods
 void Button::mouseOnButton() {
     int x, y;
@@ -46,7 +48,7 @@ Button::Button(char *text, int textSize, int textAlign, SDL_Color textColor, int
 
 
 Button::~Button() {
-
+    
 }
 
 

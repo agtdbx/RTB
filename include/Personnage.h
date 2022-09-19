@@ -36,7 +36,8 @@ public:
     void addVx(float vX);
     void deplacementY(float vY);
     void addVy(float vY);
-    void saut(Map *map);
+    bool saut(Map *map);
+    bool walljump(Map *map);
     void move(float delta, Camera& camera, Map *map);
     float getX();
     float getY();

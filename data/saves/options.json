@@ -5,8 +5,8 @@
    "toucheDroite" : 7,
    "toucheGauche" : 4,
    "toucheSaut" : 44,
-   "volumeMusique" : 100,
-   "volumeSon" : 100,
+   "volumeMusique" : 50,
+   "volumeSon" : 70,
    "winH" : 1080,
    "winW" : 1920
 }

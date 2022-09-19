@@ -87,116 +87,147 @@ void Menu::tick() {
     switch (this->fenetre) {
         case 0:
             if (this->butJouer.clicOnButton()){
+                Mix_PlayChannel(-1, this->button_clic_sound, 0);
                 fenetre = 1;
                 float wait = (float)SDL_GetTicks()/1000.0f;
                 while ((float)SDL_GetTicks()/1000.0f - wait < 0.1);
             }
             else if (this->butOptions.clicOnButton()){
+                Mix_PlayChannel(-1, this->button_clic_sound, 0);
                 fenetre = 20;
             }
             else if (this->butQuitter.clicOnButton()){
+                Mix_PlayChannel(-1, this->button_clic_sound, 0);
                 this->run = false;
             }
             break;
 
         case 1:
             if (this->butlvl1.clicOnButton() && this->niveauUnlock >= 1){
+                Mix_PlayChannel(-1, this->button_clic_sound, 0);
                 this->run = false;
                 this->continuer = true;
                 this->fenetre = 0;
                 this->levelLoad = 1;
             }
             else if (this->butlvl2.clicOnButton() && this->niveauUnlock >= 2){
+                Mix_PlayChannel(-1, this->button_clic_sound, 0);
                 this->run = false;
                 this->continuer = true;
                 this->fenetre = 0;
                 this->levelLoad = 2;
             }
             else if (this->butlvl3.clicOnButton() && this->niveauUnlock >= 3){
+                Mix_PlayChannel(-1, this->button_clic_sound, 0);
                 this->run = false;
                 this->continuer = true;
                 this->fenetre = 0;
                 this->levelLoad = 3;
             }
             else if (this->butlvl4.clicOnButton() && this->niveauUnlock >= 4){
+                Mix_PlayChannel(-1, this->button_clic_sound, 0);
                 this->run = false;
                 this->continuer = true;
                 this->fenetre = 0;
                 this->levelLoad = 4;
             }
             else if (this->butRetourJouer.clicOnButton()){
+                Mix_PlayChannel(-1, this->button_clic_sound, 0);
                 this->fenetre = 0;
             }
             break;
 
         case 20:
             if (this->butSonore.clicOnButton()){
+                Mix_PlayChannel(-1, this->button_clic_sound, 0);
                 fenetre = 21;
             }
             else if (this->butKeyBinding.clicOnButton()){
+                Mix_PlayChannel(-1, this->button_clic_sound, 0);
                 fenetre = 22;
             }
             else if(this->butCredit.clicOnButton()){
+                Mix_PlayChannel(-1, this->button_clic_sound, 0);
                 fenetre = 23;
             }
             else if (this->butRetourOptions.clicOnButton()){
+                Mix_PlayChannel(-1, this->button_clic_sound, 0);
                 this->fenetre = 0;
             }
             break;
 
         case 21:
             if (this->butGraphics.clicOnButton()){
+                Mix_PlayChannel(-1, this->button_clic_sound, 0);
                 fenetre = 20;
             }
             else if (this->butKeyBinding.clicOnButton()){
+                Mix_PlayChannel(-1, this->button_clic_sound, 0);
                 fenetre = 22;
             }
             else if(this->butCredit.clicOnButton()){
+                Mix_PlayChannel(-1, this->button_clic_sound, 0);
                 fenetre = 23;
             }
             else if (this->butRetourOptions.clicOnButton()){
+                Mix_PlayChannel(-1, this->button_clic_sound, 0);
                 this->fenetre = 0;
             }
             else if (this->butMusiqueMoins.clicOnButton() && this->volumeMusique >= 5 && (float)SDL_GetTicks()/1000 - this->lastClic > 0.3){
+                Mix_PlayChannel(-1, this->button_clic_sound, 0);
                 this->volumeMusique -= 5;
                 this->lastClic = (float)SDL_GetTicks()/1000;
+                Mix_VolumeMusic(this->volumeMusique);
             }
             else if (this->butMusiquePlus.clicOnButton() && this->volumeMusique <= 95 && (float)SDL_GetTicks()/1000 - this->lastClic > 0.3){
+                Mix_PlayChannel(-1, this->button_clic_sound, 0);
                 this->volumeMusique += 5;
                 this->lastClic = (float)SDL_GetTicks()/1000;
+                Mix_VolumeMusic(this->volumeMusique);
             }
             else if (this->butSonMoins.clicOnButton() && this->volumeSon >= 5 && (float)SDL_GetTicks()/1000 - this->lastClic > 0.3){
+                Mix_PlayChannel(-1, this->button_clic_sound, 0);
                 this->volumeSon -= 5;
                 this->lastClic = (float)SDL_GetTicks()/1000;
+                Mix_Volume(-1, this->volumeSon);
             }
             else if (this->butSonPlus.clicOnButton() && this->volumeSon <= 95 && (float)SDL_GetTicks()/1000 - this->lastClic > 0.3){
+                Mix_PlayChannel(-1, this->button_clic_sound, 0);
                 this->volumeSon += 5;
                 this->lastClic = (float)SDL_GetTicks()/1000;
+                Mix_Volume(-1, this->volumeSon);
             }
             break;
 
         case 22:
             if (this->butGraphics.clicOnButton()){
+                Mix_PlayChannel(-1, this->button_clic_sound, 0);
                 fenetre = 20;
             }
             else if (this->butSonore.clicOnButton()){
+                Mix_PlayChannel(-1, this->button_clic_sound, 0);
                 fenetre = 21;
             }
             else if(this->butCredit.clicOnButton()){
+                Mix_PlayChannel(-1, this->button_clic_sound, 0);
                 fenetre = 23;
             }
             else if (this->butRetourOptions.clicOnButton()){
+                Mix_PlayChannel(-1, this->button_clic_sound, 0);
                 this->fenetre = 0;
             }
             else if (this->butBindGauche.clicOnButton()){
+                Mix_PlayChannel(-1, this->button_clic_sound, 0);
                 this->fenetre = 221;
                 this->toucheABind = 'G';
             }
             else if (this->butBindDroite.clicOnButton()){
+                Mix_PlayChannel(-1, this->button_clic_sound, 0);
                 this->fenetre = 221;
                 this->toucheABind = 'D';
             }
             else if (this->butBindSaut.clicOnButton()){
+                Mix_PlayChannel(-1, this->button_clic_sound, 0);
                 this->fenetre = 221;
                 this->toucheABind = 'S';
             }
@@ -204,15 +235,19 @@ void Menu::tick() {
 
         case 23:
             if (this->butGraphics.clicOnButton()){
+                Mix_PlayChannel(-1, this->button_clic_sound, 0);
                 fenetre = 20;
             }
             else if (this->butSonore.clicOnButton()){
+                Mix_PlayChannel(-1, this->button_clic_sound, 0);
                 fenetre = 21;
             }
             else if(this->butKeyBinding.clicOnButton()){
+                Mix_PlayChannel(-1, this->button_clic_sound, 0);
                 fenetre = 22;
             }
             else if (this->butRetourOptions.clicOnButton()){
+                Mix_PlayChannel(-1, this->button_clic_sound, 0);
                 this->fenetre = 0;
             }
             break;
@@ -667,6 +702,8 @@ Menu::Menu(SDL_Window *window, SDL_Renderer *renderer, int winW, int winH) {
     this->color = {100, 100, 100, 255};
     this->textColor = {150, 150, 150, 255};
     this->background = getTexture(this->renderer, "menuBackground");
+    this->menu_theme = Mix_LoadMUS("./data/sounds/menu_theme.wav");
+    this->button_clic_sound = Mix_LoadWAV("./data/sounds/button.wav");
 
     this->initButton();
 
@@ -678,14 +715,18 @@ Menu::Menu(SDL_Window *window, SDL_Renderer *renderer, int winW, int winH) {
 
 
 Menu::~Menu() {
-
+    Mix_FreeMusic(this->menu_theme);
+    Mix_FreeChunk(this->button_clic_sound);
 }
 
 
 bool Menu::start() {
     this->run = true;
     this->continuer = false;
-    this->levelLoad = 0;;
+    this->levelLoad = 0;
+    Mix_PlayMusic(this->menu_theme, -1);
+    Mix_VolumeMusic(this->volumeMusique);
+    Mix_Volume(-1, this->volumeSon);
     while(this->run){
         if (((float)SDL_GetTicks()/1000) - this->lastTime > 1.0f/30.0f){
             this->lastTime = (float)SDL_GetTicks()/1000;
@@ -694,6 +735,7 @@ bool Menu::start() {
             this->render();
         }
     }
+    Mix_HaltMusic();
     this->saveOptions();
 
     if (this->continuer){

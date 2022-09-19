@@ -6,6 +6,8 @@
 #define RTB_MENU_H
 
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+#include <SDL2/SDL_mixer.h>
 #include "../include/Button.h"
 #include "../include/Select.h"
 #include "../include/Switch.h"
@@ -29,6 +31,8 @@ private:
     Switch fullScreen;
     SDL_Color color, textColor;
     SDL_Texture *background;
+    Mix_Music *menu_theme;
+    Mix_Chunk *button_clic_sound;
 
     void initButton();
     void input();

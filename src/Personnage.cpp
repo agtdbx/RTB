@@ -245,18 +245,33 @@ void Personnage::addVy(float vY) {
 }
 
 
-void Personnage::saut(Map *map) {
+bool Personnage::saut(Map *map) {
     if (this->sautOk) {
         this->sautOk = false;
         this->debutSaut = (float)SDL_GetTicks() / 1000.0f;
-        if (this->isOnTuile(map, "slime", this->x, this->y) || isOverTuile(map, "slime", this->x, this->y))
-            this->vY -= this->acceleration * 6.0f;
-        this->vY -= this->acceleration * 3.0f;
+        this->vY -= this->acceleration * 10.0f;
+        return true;
     }
     else if (((float)SDL_GetTicks()/1000.0f)-this->debutSaut <= this->tempsSaut){
-        this->vY -= this->acceleration;
+        this->vY -= this->acceleration * 2.5f;
     }
-    else if (this->wallJumpOk && this->canWallJump(map) && ((float)SDL_GetTicks()/1000.0f)-this->debutSaut > this->tempsSaut * 3.0f && this->timeOfChargeWallJump >= 0.1f) {
+    else if (((float)SDL_GetTicks()/1000.0f)-this->debutSaut > this->tempsSaut * 2.0f)
+    {
+        int x1 = ((int)this->x) / map->getSquarreSize();
+        int x2 = ((int)this->x + this->w/2) / map->getSquarreSize();
+        int x3 = ((int)this->x + this->w) / map->getSquarreSize();
+        int y = ((int)this->y + this->h) / map->getSquarreSize() + 1;
+        if (map->test(x1, y, 'D') + map->test(x2, y, 'D') + map->test(x3, y, 'D') < 3){
+            this->sautOk = true;
+            this->wallJumpOk = true;
+        }
+    }
+    
+    return false;
+}
+
+bool Personnage::walljump(Map *map) {
+    if (this->wallJumpOk && this->canWallJump(map) && ((float)SDL_GetTicks()/1000.0f)-this->debutSaut > this->tempsSaut * 3.0f && this->timeOfChargeWallJump >= 0.1f) {
         this->wallJumpOk = false;
         if (this->vY > 0.0f)
             this->vY = 0.0f;
@@ -268,6 +283,7 @@ void Personnage::saut(Map *map) {
         else if (this->vX > 0.0f)
             this->dirWallJump = 'R';
         this->debutWallJump = (float)SDL_GetTicks() / 1000.0f;
+        return true;
     }
     else if (((float)SDL_GetTicks()/1000.0f)-this->debutWallJump <= this->tempsSaut){
         this->vY -= this->acceleration;
@@ -276,15 +292,7 @@ void Personnage::saut(Map *map) {
         else if (this->dirWallJump == 'R' && this->vX < 0.0f)
             this->vX *= -1;
     }
-
-    int x1 = ((int)this->x) / map->getSquarreSize();
-    int x2 = ((int)this->x + this->w/2) / map->getSquarreSize();
-    int x3 = ((int)this->x + this->w) / map->getSquarreSize();
-    int y = ((int)this->y + this->h) / map->getSquarreSize() + 1;
-    if (map->test(x1, y, 'D') + map->test(x2, y, 'D') + map->test(x3, y, 'D') < 3){
-        this->sautOk = true;
-        this->wallJumpOk = true;
-    }
+    return false;
 }
 
 void Personnage::move(float delta, Camera& camera, Map *map) {

@@ -75,7 +75,10 @@ void Game::tick() {
             }
 
             if (keyboard[this->toucheSaut]) {
-                this->perso.saut(&this->map);
+                if (this->perso.saut(&this->map))
+                    Mix_PlayChannel(-1, this->jump_sound, 0);
+                if (this->perso.walljump(&this->map))
+                    Mix_PlayChannel(-1, this->walljump_sound, 0);
             }
 
             this->perso.addVy(this->gravity);
@@ -257,19 +260,25 @@ Game::Game(SDL_Renderer *renderer, int winW, int winH) {
     this->textColor = {150, 150, 150, 255};
     this->lastRespawnTime = 0.0f;
     this->canRespawn = false;
+    this->game_theme = Mix_LoadMUS("./data/sounds/game_theme.wav");
+    this->jump_sound = Mix_LoadWAV("./data/sounds/jump.wav");
+    this->walljump_sound = Mix_LoadWAV("./data/sounds/walljump.wav");
 
     this->initButton();
 }
 
 
 Game::~Game() {
-
+    Mix_FreeMusic(this->game_theme);
+    Mix_FreeChunk(this->jump_sound);
+    Mix_FreeChunk(this->walljump_sound);
 }
 
 
 void Game::start() {
     this->run = true;
     this->fenetre = 0;
+    Mix_PlayMusic(this->game_theme, -1);
     while(this->run){
         if (((float)SDL_GetTicks()/1000) - this->lastTime >= 1.0f/60.0f || this->fpsUnlimited){
             this->input();
@@ -277,6 +286,7 @@ void Game::start() {
             this->render();
         }
     }
+    Mix_HaltMusic();
     float wait = (float)SDL_GetTicks()/1000.0f;
     while ((float)SDL_GetTicks()/1000.0f - wait < 0.2);
 }

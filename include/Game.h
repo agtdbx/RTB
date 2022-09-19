@@ -6,6 +6,7 @@
 #define RTB_GAME_H
 
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_mixer.h>
 #include "../include/Button.h"
 #include "../include/Personnage.h"
 #include "../include/Map.h"
@@ -24,6 +25,8 @@ private:
     Camera camera;
     Background background;
     SDL_Color color, textColor;
+    Mix_Music *game_theme;
+    Mix_Chunk *jump_sound, *walljump_sound;
 
     void initButton();
     void input();

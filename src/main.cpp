@@ -10,8 +10,8 @@
 int main() {
     SDL_Init(SDL_INIT_EVERYTHING);
     TTF_Init();
-    IMG_Init(SDL_INIT_EVERYTHING);
-    Mix_Init(SDL_INIT_EVERYTHING);
+    IMG_Init(IMG_INIT_PNG);
+    Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
 
     int winW = 1920;
     int winH = 1080;
@@ -37,6 +37,9 @@ int main() {
             game.start();
         }
     }
+
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
 
     Mix_Quit();
     IMG_Quit();
