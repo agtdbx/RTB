@@ -103,7 +103,7 @@ void Menu::tick() {
             break;
 
         case 1:
-            if (this->butlvl1.clicOnButton() && this->niveauUnlock >= 1){
+            if (this->butlvl1.clicOnButton()){
                 Mix_PlayChannel(-1, this->button_clic_sound, 0);
                 this->run = false;
                 this->continuer = true;
@@ -301,9 +301,7 @@ void Menu::render() {
 
         case 1:
             drawText(this->renderer, "Road To Back !", 80, this->winW/2, 50, 1, this->textColor);
-            if(this->niveauUnlock >= 1){
-                this->butlvl1.draw(this->renderer);
-            }
+            this->butlvl1.draw(this->renderer);
             if(this->niveauUnlock >= 2){
                 this->butlvl2.draw(this->renderer);
             }
@@ -502,6 +500,8 @@ void Menu::drawCredit() {
 
     // Musiques
     drawText(this->renderer, "Musiques", 35, this->winW/3, 320, 1, this->textColor);
+    drawText(this->renderer, "Musique menu : Context Sensitive", 25, this->winW/3, 370, 1, this->textColor);
+    drawText(this->renderer, "Musique jeu : Context Sensitive", 25, this->winW/3, 370, 1, this->textColor);
 
     // Images
     drawText(this->renderer, "Images", 35, this->winW/3 * 2, 320, 1, this->textColor);
@@ -789,4 +789,10 @@ int Menu::getWinWidth() {
 
 int Menu::getWinHeight() {
     return this->winH;
+}
+
+
+void Menu::setLevelUnlock(int level){
+    if (this->niveauUnlock <= level && level < 3)
+        this->niveauUnlock = level + 1;
 }

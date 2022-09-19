@@ -62,6 +62,7 @@ public:
     int getToucheSaut();
     int getWinWidth();
     int getWinHeight();
+    void setLevelUnlock(int level);
 };
 
 

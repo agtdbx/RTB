@@ -25,17 +25,15 @@ int main() {
     Game game = Game(renderer, winW, winH);
 
     bool run = true;
-    bool continuer = true;
     while (run){
-        continuer = menu.start();
-        if (!continuer){
-            run = false;
-        }
-        else{
+        if (menu.start()){
             game.setVariables(menu.getVolumeSon(), menu.getVolumeMusique(), menu.getToucheGauche(), menu.getToucheDroite(), menu.getToucheSaut(), menu.getWinWidth(), menu.getWinHeight());
             game.initLevel(menu.getNumLevel());
-            game.start();
+            int lvl = game.start();
+            menu.setLevelUnlock(lvl);
         }
+        else
+            run = false;
     }
 
     SDL_DestroyRenderer(renderer);

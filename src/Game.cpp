@@ -106,6 +106,7 @@ void Game::tick() {
             this->fenetre = 0;
         }
         else if (this->butQuitter.clicOnButton()){
+            this->levelInGame = 0;
             this->run = false;
         }
     }
@@ -263,6 +264,7 @@ Game::Game(SDL_Renderer *renderer, int winW, int winH) {
     this->game_theme = Mix_LoadMUS("./data/sounds/game_theme.wav");
     this->jump_sound = Mix_LoadWAV("./data/sounds/jump.wav");
     this->walljump_sound = Mix_LoadWAV("./data/sounds/walljump.wav");
+    this->levelInGame = 0;
 
     this->initButton();
 }
@@ -275,7 +277,7 @@ Game::~Game() {
 }
 
 
-void Game::start() {
+int Game::start() {
     this->run = true;
     this->fenetre = 0;
     Mix_PlayMusic(this->game_theme, -1);
@@ -289,6 +291,7 @@ void Game::start() {
     Mix_HaltMusic();
     float wait = (float)SDL_GetTicks()/1000.0f;
     while ((float)SDL_GetTicks()/1000.0f - wait < 0.2);
+    return this->levelInGame;
 }
 
 
@@ -310,6 +313,7 @@ void Game::initLevel(int levelNum) {
             this->loadMap("test4");
             break;
     }
+    this->levelInGame = levelNum;
     this->perso = Personnage(this->map.getStart().getX() * this->map.getSquarreSize(), this->map.getStart().getY() * this->map.getSquarreSize(), this->map.getSquarreSize(), this->renderer);
     this->camera.setWindowSize(this->winW, this->winH);
     this->camera.setMapSize(this->map.getWidth(), this->map.getHeigth(), this->map.getSquarreSize());
