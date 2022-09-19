@@ -501,7 +501,7 @@ void Menu::drawCredit() {
     // Musiques
     drawText(this->renderer, "Musiques", 35, this->winW/3, 320, 1, this->textColor);
     drawText(this->renderer, "Musique menu : Context Sensitive", 25, this->winW/3, 370, 1, this->textColor);
-    drawText(this->renderer, "Musique jeu : Context Sensitive", 25, this->winW/3, 370, 1, this->textColor);
+    drawText(this->renderer, "Musique jeu : Context Sensitive", 25, this->winW/3, 410, 1, this->textColor);
 
     // Images
     drawText(this->renderer, "Images", 35, this->winW/3 * 2, 320, 1, this->textColor);
@@ -717,6 +717,7 @@ Menu::Menu(SDL_Window *window, SDL_Renderer *renderer, int winW, int winH) {
 Menu::~Menu() {
     Mix_FreeMusic(this->menu_theme);
     Mix_FreeChunk(this->button_clic_sound);
+    SDL_DestroyTexture(this->background);
 }
 
 

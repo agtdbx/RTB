@@ -281,6 +281,8 @@ int Game::start() {
     this->run = true;
     this->fenetre = 0;
     Mix_PlayMusic(this->game_theme, -1);
+    Mix_VolumeMusic(this->volumeMusique);
+    Mix_Volume(-1, this->volumeSon);
     while(this->run){
         if (((float)SDL_GetTicks()/1000) - this->lastTime >= 1.0f/60.0f || this->fpsUnlimited){
             this->input();
