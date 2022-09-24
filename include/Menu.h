@@ -5,6 +5,8 @@
 #ifndef RTB_MENU_H
 #define RTB_MENU_H
 
+#include <iostream>
+#include <vector>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_mixer.h>
@@ -16,12 +18,13 @@ class Menu {
 private:
     SDL_Window *window;
     SDL_Renderer *renderer;
-    int winW, winH, fenetre, spacingWithScreen, borderSize, volumeMusique, volumeSon, toucheGauche, toucheDroite, toucheSaut, niveauUnlock, levelLoad;
+    int winW, winH, fenetre, spacingWithScreen, borderSize, volumeMusique, volumeSon, toucheGauche, toucheDroite, toucheSaut, lastLevelComplete, nb_levels, levelLoad;
     float lastClic, lastTime;
     bool run, continuer;
     char toucheABind;
+    std::vector<Button> butlvls;
     Button butJouer, butOptions, butQuitter,
-    butlvl1, butlvl2, butlvl3, butlvl4, butRetourJouer,
+    butRetourJouer,
     butGraphics,
     butSonore, butMusiqueMoins, butMusiquePlus, butSonMoins, butSonPlus,
     butKeyBinding, butBindGauche, butBindDroite, butBindSaut,
@@ -62,7 +65,7 @@ public:
     int getToucheSaut();
     int getWinWidth();
     int getWinHeight();
-    void setLevelUnlock(int level);
+    void setLastLevelComplete(int level);
 };
 
 

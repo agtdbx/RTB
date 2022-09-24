@@ -94,3 +94,10 @@ void Button::setX(int x) {
 void Button::setY(int y) {
     this->y = y;
 }
+
+void Button::setColors(SDL_Color colorOff, SDL_Color colorOn, SDL_Color textColor, SDL_Color borderColor) {
+    this->colorOff = colorOff;
+    this->colorOn = colorOn;
+    this->textColor = textColor;
+    this->borderColor = borderColor;
+}

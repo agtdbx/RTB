@@ -25,6 +25,7 @@ public:
     bool clicOnButton();
     void setX(int x);
     void setY(int y);
+    void setColors(SDL_Color colorOff, SDL_Color colorOn, SDL_Color textColor, SDL_Color borderColor);
 };
 
 

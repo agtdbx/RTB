@@ -26,10 +26,10 @@ void Menu::initButton() {
     this->butQuitter = Button("Quitter", 40, 1, this->textColor, this->winW/2 - 100, this->winH/2 + 100, 200, 50, colorOff, colorOn,2, this->color);
 
     //Choix des niveaux
-    this->butlvl1 = Button("1", 40, 1, this->textColor,this->winW/2 - 25 - 75, this->winH/3, 50, 50, colorOff, colorOn,2, this->color);
-    this->butlvl2 = Button("2", 40, 1, this->textColor,this->winW/2 - 25, this->winH/3, 50, 50, colorOff, colorOn,2, this->color);
-    this->butlvl3 = Button("3", 40, 1, this->textColor,this->winW/2 - 25 + 75, this->winH/3, 50, 50, colorOff, colorOn,2, this->color);
-    this->butlvl4 = Button("4", 40, 1, this->textColor,this->winW/2 - 25 - 75, this->winH/3 + 75, 50, 50, colorOff, colorOn,2, this->color);
+    this->butlvls.push_back(Button("1", 40, 1, this->textColor,this->winW/2 - 25 - 75, this->winH/3, 50, 50, colorOff, colorOn,2, this->color));
+    this->butlvls.push_back(Button("2", 40, 1, this->textColor,this->winW/2 - 25, this->winH/3, 50, 50, colorOff, colorOn,2, this->color));
+    this->butlvls.push_back(Button("3", 40, 1, this->textColor,this->winW/2 - 25 + 75, this->winH/3, 50, 50, colorOff, colorOn,2, this->color));
+    this->butlvls.push_back(Button("4", 40, 1, this->textColor,this->winW/2 - 25 - 75, this->winH/3 + 75, 50, 50, colorOff, colorOn,2, this->color));
     this->butRetourJouer = Button("Retour", 40, 1, this->textColor, this->winW/2 - 100, this->winH-50 - 100, 200, 50, colorOff, colorOn,2, this->color);
 
     //Options
@@ -103,32 +103,15 @@ void Menu::tick() {
             break;
 
         case 1:
-            if (this->butlvl1.clicOnButton()){
-                Mix_PlayChannel(-1, this->button_clic_sound, 0);
-                this->run = false;
-                this->continuer = true;
-                this->levelLoad = 1;
+            for (int i = 0; i < this->nb_levels; i++) {
+                if (this->lastLevelComplete >= i && this->butlvls[i].clicOnButton()){
+                    Mix_PlayChannel(-1, this->button_clic_sound, 0);
+                    this->run = false;
+                    this->continuer = true;
+                    this->levelLoad = i + 1;
+                }
             }
-            else if (this->butlvl2.clicOnButton() && this->niveauUnlock >= 2){
-                Mix_PlayChannel(-1, this->button_clic_sound, 0);
-                this->run = false;
-                this->continuer = true;
-                this->levelLoad = 2;
-            }
-            else if (this->butlvl3.clicOnButton() && this->niveauUnlock >= 3){
-                Mix_PlayChannel(-1, this->button_clic_sound, 0);
-                this->run = false;
-                this->continuer = true;
-                this->levelLoad = 3;
-            }
-            else if (this->butlvl4.clicOnButton() && this->niveauUnlock >= 4){
-                Mix_PlayChannel(-1, this->button_clic_sound, 0);
-                this->run = false;
-                this->continuer = true;
-                this->fenetre = 0;
-                this->levelLoad = 4;
-            }
-            else if (this->butRetourJouer.clicOnButton()){
+            if (this->butRetourJouer.clicOnButton()){
                 Mix_PlayChannel(-1, this->button_clic_sound, 0);
                 this->fenetre = 0;
             }
@@ -298,15 +281,8 @@ void Menu::render() {
 
         case 1:
             drawText(this->renderer, "Road To Back !", 80, this->winW/2, 50, 1, this->textColor);
-            this->butlvl1.draw(this->renderer);
-            if(this->niveauUnlock >= 2){
-                this->butlvl2.draw(this->renderer);
-            }
-            if(this->niveauUnlock >= 3){
-                this->butlvl3.draw(this->renderer);
-            }
-            if(this->niveauUnlock >= 4){
-                this->butlvl4.draw(this->renderer);
+            for (int i = 0; i < this->nb_levels; i++) {
+                this->butlvls[i].draw(this->renderer);
             }
             this->butRetourJouer.draw(this->renderer);
             break;
@@ -545,14 +521,14 @@ void Menu::setScreenSize() {
     this->butQuitter.setY(this->winH/2 + 100);
 
     //Choix des niveaux
-    this->butlvl1.setX(this->winW/2 - 25 - 75);
-    this->butlvl1.setY(this->winH/3);
-    this->butlvl2.setX(this->winW/2 - 25);
-    this->butlvl2.setY(this->winH/3);
-    this->butlvl3.setX(this->winW/2 - 25 + 75);
-    this->butlvl3.setY(this->winH/3);
-    this->butlvl4.setX(this->winW/2 - 25 - 75);
-    this->butlvl4.setY(this->winH/3 + 75);
+    this->butlvls[0].setX(this->winW/2 - 25 - 75);
+    this->butlvls[0].setY(this->winH/3);
+    this->butlvls[1].setX(this->winW/2 - 25);
+    this->butlvls[1].setY(this->winH/3);
+    this->butlvls[2].setX(this->winW/2 - 25 + 75);
+    this->butlvls[2].setY(this->winH/3);
+    this->butlvls[3].setX(this->winW/2 - 25 - 75);
+    this->butlvls[3].setY(this->winH/3 + 75);
     this->butRetourJouer.setX(this->winW/2 - 100);
     this->butRetourJouer.setY(this->winH-50 - 100);
 
@@ -645,7 +621,7 @@ void Menu::saveOptions() {
     json["toucheGauche"] = this->toucheGauche;
     json["toucheDroite"] = this->toucheDroite;
     json["toucheSaut"] = this->toucheSaut;
-    json["niveauUnlock"] = this->niveauUnlock;
+    json["lastLevelComplete"] = this->lastLevelComplete;
 
     Json::StyledWriter writer;
     myfile << writer.write(json);
@@ -669,7 +645,7 @@ void Menu::loadOptions() {
     this->toucheGauche = json["toucheGauche"].asInt();
     this->toucheDroite = json["toucheDroite"].asInt();
     this->toucheSaut = json["toucheSaut"].asInt();
-    this->niveauUnlock = json["niveauUnlock"].asInt();
+    this->lastLevelComplete = json["lastLevelComplete"].asInt();
 
     myfile.close();
 }
@@ -694,17 +670,19 @@ Menu::Menu(SDL_Window *window, SDL_Renderer *renderer, int winW, int winH) {
     this->toucheGauche = 20;
     this->toucheDroite = 7;
     this->toucheSaut = 44;
-    this->niveauUnlock = 4;
+    this->lastLevelComplete = 4;
     this->levelLoad = 0;
     this->color = {100, 100, 100, 255};
     this->textColor = {150, 150, 150, 255};
     this->background = getTexture(this->renderer, "menuBackground");
     this->menu_theme = Mix_LoadMUS("./data/sounds/menu_theme.wav");
     this->button_clic_sound = Mix_LoadWAV("./data/sounds/button.wav");
+    this->nb_levels = 3;
 
     this->initButton();
 
     this->loadOptions();
+    this->setLastLevelComplete(0);
 
     this->setScreenSize();
     this->setScreenMode();
@@ -742,7 +720,7 @@ bool Menu::start() {
         SDL_RenderClear(this->renderer);
         SDL_Rect dst = {0, 0, this->winW, this->winH};
         SDL_RenderCopy(this->renderer, this->background, NULL, &dst);
-        drawText(this->renderer, "Chargement ...", 40, this->winW / 2, this->winH / 2, 1, {0, 0, 0, 255});
+        drawText(this->renderer, "Chargement ...", 40, this->winW / 2, this->winH / 2, 1, this->color);
         SDL_RenderPresent(this->renderer);
     }
 
@@ -790,7 +768,22 @@ int Menu::getWinHeight() {
 }
 
 
-void Menu::setLevelUnlock(int level){
-    if (this->niveauUnlock <= level && level < 3)
-        this->niveauUnlock = level + 1;
+void Menu::setLastLevelComplete(int level){
+    if (this->lastLevelComplete <= level)
+        this->lastLevelComplete = level;
+
+    SDL_Color colorOff = {255, 255, 255, 0};
+    SDL_Color colorOn = {100, 100, 100, 100};
+
+    SDL_Color lvl_complete = {50, 255, 50, 255};
+    SDL_Color lvl_lock = {255, 50, 50, 255};
+
+    for (int i = 0; i < this->nb_levels; i++) {
+        if (i < this->lastLevelComplete)
+            this->butlvls[i].setColors(colorOff, colorOn, lvl_complete, lvl_complete);
+        else if (i == this->lastLevelComplete)
+            this->butlvls[i].setColors(colorOff, colorOn, this->textColor, this->color);
+        else
+            this->butlvls[i].setColors(colorOff, colorOff, lvl_lock, lvl_lock);
+    }
 }

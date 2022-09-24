@@ -30,7 +30,7 @@ int main() {
             game.setVariables(menu.getVolumeSon(), menu.getVolumeMusique(), menu.getToucheGauche(), menu.getToucheDroite(), menu.getToucheSaut(), menu.getWinWidth(), menu.getWinHeight());
             game.initLevel(menu.getNumLevel());
             int lvl = game.start();
-            menu.setLevelUnlock(lvl);
+            menu.setLastLevelComplete(lvl);
         }
         else
             run = false;
