@@ -677,7 +677,7 @@ Menu::Menu(SDL_Window *window, SDL_Renderer *renderer, int winW, int winH) {
     this->background = getTexture(this->renderer, "menuBackground");
     this->menu_theme = Mix_LoadMUS("./data/sounds/menu_theme.wav");
     this->button_clic_sound = Mix_LoadWAV("./data/sounds/button.wav");
-    this->nb_levels = 3;
+    this->nb_levels = 4;
 
     this->initButton();
 

@@ -139,9 +139,9 @@ Personnage::Personnage(float x, float y,  int squareSize, SDL_Renderer *renderer
     this->vX = 0.0f;
     this->vY = 0.0f;
     this->vitesse = 500.0f;
-    this->acceleration = 50.0f;
+    this->acceleration = 20.0f;
     this->debutSaut = 0.0f;
-    this->tempsSaut = 0.1f;
+    this->tempsSaut = 0.15f;
     this->sautOk = false;
     this->graviteEffet = 1.0f;
     this->speedModifier = 1.0f;
@@ -189,9 +189,9 @@ void Personnage::deplacementX(char direction, Map *map) {
     else {
         float frotement = 0.0f;
         if (this->isOverTuile(map, "glace", this->x, this->y))
-            frotement = 10.0f;
+            frotement = 20.0f;
         else if (this->inAir(map))
-            frotement = 40.0f;
+            frotement = 60.0f;
         else if (this->isInTuile(map, "eau", this->x, this->y))
             frotement = 80.0f;
         if (frotement != 0.0f)
@@ -249,13 +249,13 @@ bool Personnage::saut(Map *map) {
     if (this->sautOk) {
         this->sautOk = false;
         this->debutSaut = (float)SDL_GetTicks() / 1000.0f;
-        this->vY -= this->acceleration * 10.0f;
+        this->vY -= 500.0f;
         if (this->vY < -1000.0f)
             this->vY = -1000.0f;
         return true;
     }
     else if (((float)SDL_GetTicks()/1000.0f)-this->debutSaut <= this->tempsSaut){
-        this->vY -= this->acceleration * 3.0f;
+        this->vY -= 100.0f;
     }
     else if (((float)SDL_GetTicks()/1000.0f)-this->debutSaut > this->tempsSaut * 2.0f)
     {
@@ -277,7 +277,7 @@ bool Personnage::walljump(Map *map) {
         this->wallJumpOk = false;
         if (this->vY > 0.0f)
             this->vY = 0.0f;
-        this->vY -= this->acceleration * 10.0f;
+        this->vY -= 500.0f;
         this->vX *= -2.0f;
         this->dirWallJump = 'N';
         if (this->vX < 0.0f)
@@ -288,7 +288,7 @@ bool Personnage::walljump(Map *map) {
         return true;
     }
     else if (((float)SDL_GetTicks()/1000.0f)-this->debutWallJump <= this->tempsSaut){
-        this->vY -= this->acceleration;
+        this->vY -= 50.0f;
         if (this->dirWallJump == 'L' && this->vX > 0.0f)
             this->vX *= -1;
         else if (this->dirWallJump == 'R' && this->vX < 0.0f)
