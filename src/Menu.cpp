@@ -107,21 +107,18 @@ void Menu::tick() {
                 Mix_PlayChannel(-1, this->button_clic_sound, 0);
                 this->run = false;
                 this->continuer = true;
-                this->fenetre = 0;
                 this->levelLoad = 1;
             }
             else if (this->butlvl2.clicOnButton() && this->niveauUnlock >= 2){
                 Mix_PlayChannel(-1, this->button_clic_sound, 0);
                 this->run = false;
                 this->continuer = true;
-                this->fenetre = 0;
                 this->levelLoad = 2;
             }
             else if (this->butlvl3.clicOnButton() && this->niveauUnlock >= 3){
                 Mix_PlayChannel(-1, this->button_clic_sound, 0);
                 this->run = false;
                 this->continuer = true;
-                this->fenetre = 0;
                 this->levelLoad = 3;
             }
             else if (this->butlvl4.clicOnButton() && this->niveauUnlock >= 4){
