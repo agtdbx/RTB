@@ -138,7 +138,7 @@ Personnage::Personnage(float x, float y,  int squareSize, SDL_Renderer *renderer
     this->h = 3 * squareSize - 1;
     this->vX = 0.0f;
     this->vY = 0.0f;
-    this->vitesse = 500.0f;
+    this->vitesse = 600.0f;
     this->acceleration = 20.0f;
     this->debutSaut = 0.0f;
     this->tempsSaut = 0.15f;
