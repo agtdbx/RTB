@@ -12,18 +12,6 @@ bool Personnage::isOnTuile(Map *map, std::string nomTuile, float x, float y) {
     int x1 = (int)(x) / map->getSquarreSize();
     int x2 = (int)(x + this->w/2) / map->getSquarreSize();
     int x3 = (int)(x + this->w) / map->getSquarreSize();
-    int y4 = (int)(y + this->h) / map->getSquarreSize();
-
-    if (map->get(x1, y4).getType() == nomTuile || map->get(x2, y4).getType() == nomTuile || map->get(x3, y4).getType() == nomTuile)
-        return true;
-    return false;
-}
-
-
-bool Personnage::isOverTuile(Map *map, std::string nomTuile, float x, float y) {
-    int x1 = (int)(x) / map->getSquarreSize();
-    int x2 = (int)(x + this->w/2) / map->getSquarreSize();
-    int x3 = (int)(x + this->w) / map->getSquarreSize();
     int y4 = (int)(y + this->h) / map->getSquarreSize() + 1;
 
     if (map->get(x1, y4).getType() == nomTuile || map->get(x2, y4).getType() == nomTuile || map->get(x3, y4).getType() == nomTuile)
@@ -37,14 +25,16 @@ bool Personnage::isInTuile(Map *map, std::string nomTuile, float x, float y) {
     int x2 = (int)(x + this->w/2) / map->getSquarreSize();
     int x3 = (int)(x + this->w) / map->getSquarreSize();
     int y1 = (int)(y) / map->getSquarreSize();
-    int y2 = (int)(y + this->h/3) / map->getSquarreSize();
-    int y3 = (int)(y + (this->h/3)*2) / map->getSquarreSize();
-    int y4 = (int)(y + this->h) / map->getSquarreSize();
+    int y2 = (int)(y + this->h/4) / map->getSquarreSize();
+    int y3 = (int)(y + (this->h/4)*2) / map->getSquarreSize();
+    int y4 = (int)(y + (this->h/4)*3) / map->getSquarreSize();
+    int y5 = (int)(y + this->h) / map->getSquarreSize();
 
     if (map->get(x1, y1).getType() == nomTuile || map->get(x2, y1).getType() == nomTuile || map->get(x3, y1).getType() == nomTuile ||
         map->get(x1, y2).getType() == nomTuile || map->get(x2, y2).getType() == nomTuile || map->get(x3, y2).getType() == nomTuile ||
         map->get(x1, y3).getType() == nomTuile || map->get(x2, y3).getType() == nomTuile || map->get(x3, y3).getType() == nomTuile ||
-        map->get(x1, y4).getType() == nomTuile || map->get(x2, y4).getType() == nomTuile || map->get(x3, y4).getType() == nomTuile)
+        map->get(x1, y4).getType() == nomTuile || map->get(x2, y4).getType() == nomTuile || map->get(x3, y4).getType() == nomTuile ||
+        map->get(x1, y5).getType() == nomTuile || map->get(x2, y5).getType() == nomTuile || map->get(x3, y5).getType() == nomTuile)
             return true;
     return false;
 }
@@ -75,7 +65,7 @@ bool Personnage::canWallJump(Map *map) {
     if (this->vX < 0.0f)
         dirAdd = -1;
     else if (this->vX > 0.0f)
-        dirAdd = 3;
+        dirAdd = 2;
 
     int x = (int)(this->x) / map->getSquarreSize() + dirAdd;
     int y4 = (int)(this->y + this->h) / map->getSquarreSize();
@@ -88,7 +78,15 @@ bool Personnage::canWallJump(Map *map) {
 bool Personnage::mouvementPossibleX(Map *map, float delta) {
     float x = this->x + (this->vX * delta);
     float y = this->y;
+    int i = 2;
 
+    while ((this->isInTuile(map, "mur", x, y) || this->isInTuile(map, "glace", x, y)) && i < 10)
+    {
+        this->vX /= 2.0f;
+        x = this->x + (this->vX * delta);
+        i++;
+    }
+    
     if (this->isInTuile(map, "mur", x, y) || this->isInTuile(map, "glace", x, y))
     {
         this->vX = 0.0f;
@@ -106,7 +104,16 @@ bool Personnage::mouvementPossibleY(Map *map, float delta) {
 
     if (this->isInTuile(map, "slime", x, y))
         this->vY *= -1.0f;
-    else if (this->isInTuile(map, "mur", x, y) || this->isInTuile(map, "glace", x, y) || (this->vY > 0.0f && this->isOnTuile(map, "plateforme", x, y)))
+    else if (this->isInTuile(map, "plateforme", x, y) && this->vY > 0.0f)
+    {
+        if (this->isOnTuile(map, "air", this->x, this->y - map->getSquarreSize()) &&
+            this->isOnTuile(map, "air", x, y - map->getSquarreSize()) == false)
+        {
+            this->vY = 0.0f;
+            return false;
+        }
+    }
+    else if (this->isInTuile(map, "mur", x, y) || this->isInTuile(map, "glace", x, y))
     {
         this->vY = 0.0f;
         return false;
@@ -141,7 +148,7 @@ Personnage::Personnage(float x, float y,  int squareSize, SDL_Renderer *renderer
     this->vitesse = 600.0f;
     this->acceleration = 20.0f;
     this->debutSaut = 0.0f;
-    this->tempsSaut = 0.15f;
+    this->tempsSaut = 0.1f;
     this->sautOk = false;
     this->graviteEffet = 1.0f;
     this->speedModifier = 1.0f;
@@ -171,7 +178,7 @@ void Personnage::draw(SDL_Renderer *renderer, Camera camera) {
 
 
 void Personnage::deplacementX(char direction, Map *map) {
-    if (this->isOverTuile(map, "glace", this->x, this->y))
+    if (this->isOnTuile(map, "glace", this->x, this->y))
         this->speedModifier = 1.3f;
     else if (this->isInTuile(map, "eau", this->x, this->y))
         this->speedModifier = 0.7f;
@@ -188,7 +195,7 @@ void Personnage::deplacementX(char direction, Map *map) {
     }
     else {
         float frotement = 0.0f;
-        if (this->isOverTuile(map, "glace", this->x, this->y))
+        if (this->isOnTuile(map, "glace", this->x, this->y))
             frotement = 20.0f;
         else if (this->inAir(map))
             frotement = 60.0f;
@@ -218,6 +225,9 @@ void Personnage::addVx(float vX) {
     if (this->vX > 1000.0f){
         this->vX = 1000.0f;
     }
+    else if (this->vX < -1000.0f) {
+        this->vX = -1000.0f;
+    }
 }
 
 
@@ -245,39 +255,41 @@ void Personnage::addVy(float vY) {
 }
 
 
-bool Personnage::saut(Map *map) {
-    if (this->sautOk) {
+bool Personnage::saut(Map *map, bool space_pressed) {
+    if (this->sautOk && space_pressed) {
         this->sautOk = false;
         this->debutSaut = (float)SDL_GetTicks() / 1000.0f;
-        this->vY -= 500.0f;
+        this->vY -= 200.0f;
         if (this->vY < -1000.0f)
             this->vY = -1000.0f;
         return true;
     }
-    else if (((float)SDL_GetTicks()/1000.0f)-this->debutSaut <= this->tempsSaut){
-        this->vY -= 100.0f;
+    else if (((float)SDL_GetTicks()/1000.0f)-this->debutSaut <= this->tempsSaut && space_pressed){
+        this->vY -= 120.0f;
     }
     else if (((float)SDL_GetTicks()/1000.0f)-this->debutSaut > this->tempsSaut * 2.0f)
     {
-        int x1 = ((int)this->x) / map->getSquarreSize();
-        int x2 = ((int)this->x + this->w/2) / map->getSquarreSize();
-        int x3 = ((int)this->x + this->w) / map->getSquarreSize();
-        int y = ((int)this->y + this->h) / map->getSquarreSize() + 1;
-        if (map->test(x1, y, 'D') + map->test(x2, y, 'D') + map->test(x3, y, 'D') < 3 || this->isInTuile(map, "eau", this->x, this->y)){
+        if ((this->vY == 0.0f && (this->isOnTuile(map, "mur", this->x, this->y) || this->isOnTuile(map, "glace", this->x, this->y) || this->isOnTuile(map, "plateforme", this->x, this->y)))
+            || this->isOnTuile(map, "slime", this->x, this->y)){
             this->sautOk = true;
             this->wallJumpOk = true;
         }
+        else
+            this->sautOk = false;
     }
     
     return false;
 }
 
-bool Personnage::walljump(Map *map) {
-    if (this->wallJumpOk && this->canWallJump(map) && ((float)SDL_GetTicks()/1000.0f)-this->debutSaut > this->tempsSaut * 3.0f && this->timeOfChargeWallJump >= 0.1f) {
+bool Personnage::walljump(Map *map, bool space_pressed) {
+    if (this->wallJumpOk && this->canWallJump(map) && space_pressed && this->timeOfChargeWallJump >= 0.05f
+        && ((float)SDL_GetTicks()/1000.0f)-this->debutSaut > this->tempsSaut * 2.0f) {
         this->wallJumpOk = false;
         if (this->vY > 0.0f)
             this->vY = 0.0f;
-        this->vY -= 500.0f;
+        else if (this->vY < -300.0f)
+            this->vY = -300.0f;
+        this->vY -= 200.0f;
         this->vX *= -2.0f;
         this->dirWallJump = 'N';
         if (this->vX < 0.0f)
@@ -288,12 +300,14 @@ bool Personnage::walljump(Map *map) {
         return true;
     }
     else if (((float)SDL_GetTicks()/1000.0f)-this->debutWallJump <= this->tempsSaut){
-        this->vY -= 50.0f;
+        this->vY -= 75.0f;
         if (this->dirWallJump == 'L' && this->vX > 0.0f)
-            this->vX *= -1;
+            this->vX *= -0.5;
         else if (this->dirWallJump == 'R' && this->vX < 0.0f)
-            this->vX *= -1;
+            this->vX *= -0.5;
     }
+    else if (((float)SDL_GetTicks()/1000.0f) - this->debutWallJump > 2.0f)
+        this->wallJumpOk = true;
     return false;
 }
 

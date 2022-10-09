@@ -74,12 +74,10 @@ void Game::tick() {
                 this->perso.deplacementX('n', &this->map);
             }
 
-            if (keyboard[this->toucheSaut]) {
-                if (this->perso.saut(&this->map))
-                    Mix_PlayChannel(-1, this->jump_sound, 0);
-                if (this->perso.walljump(&this->map))
-                    Mix_PlayChannel(-1, this->walljump_sound, 0);
-            }
+            if (this->perso.saut(&this->map, keyboard[this->toucheSaut]))
+                Mix_PlayChannel(-1, this->jump_sound, 0);
+            if (this->perso.walljump(&this->map, keyboard[this->toucheSaut]))
+                Mix_PlayChannel(-1, this->walljump_sound, 0);
 
             this->perso.addVy(this->gravity);
             this->perso.move(delta, this->camera, &this->map);

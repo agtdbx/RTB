@@ -19,7 +19,6 @@ private:
     SDL_Texture *sprite;
 
     bool isOnTuile(Map *map, std::string nomTuile, float x, float y);
-    bool isOverTuile(Map *map, std::string nomTuile, float x, float y);
     bool isInTuile(Map *map, std::string nomTuile, float x, float y);
     bool inAir(Map *map);
     bool canWallJump(Map *map);
@@ -36,8 +35,8 @@ public:
     void addVx(float vX);
     void deplacementY(float vY);
     void addVy(float vY);
-    bool saut(Map *map);
-    bool walljump(Map *map);
+    bool saut(Map *map, bool space_pressed);
+    bool walljump(Map *map, bool space_pressed);
     void move(float delta, Camera& camera, Map *map);
     float getX();
     float getY();

@@ -115,7 +115,6 @@ bool Map::test(int x, int y, char direction) {
     return false;
 }
 
-
 int Map::touch(int x, int y) {
     if (x >= 0 && x < this->map.size() && y >= 0 && y < this->map[0].size()){
         return this->map[x][y].touch();
