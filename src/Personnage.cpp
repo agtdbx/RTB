@@ -102,18 +102,22 @@ bool Personnage::mouvementPossibleY(Map *map, float delta) {
     float x = this->x;
     float y = this->y + (this->vY * delta);
 
-    if (this->isInTuile(map, "slime", x, y))
+    if (this->isInTuile(map, "slime", x, y)){
         this->vY *= -1.0f;
-    else if (this->isInTuile(map, "plateforme", x, y) && this->vY > 0.0f)
+        return true;
+    }
+        
+    if (this->isInTuile(map, "plateforme", x, y) && this->vY > 0.0f)
     {
-        if (this->isOnTuile(map, "air", this->x, this->y - map->getSquarreSize()) &&
-            this->isOnTuile(map, "air", x, y - map->getSquarreSize()) == false)
+        if (this->isOnTuile(map, "plateforme", this->x, this->y - map->getSquarreSize()) == false &&
+            this->isOnTuile(map, "plateforme", x, y - map->getSquarreSize()))
         {
             this->vY = 0.0f;
             return false;
         }
     }
-    else if (this->isInTuile(map, "mur", x, y) || this->isInTuile(map, "glace", x, y))
+    
+    if (this->isInTuile(map, "mur", x, y) || this->isInTuile(map, "glace", x, y))
     {
         this->vY = 0.0f;
         return false;
@@ -317,7 +321,9 @@ void Personnage::move(float delta, Camera& camera, Map *map) {
     else
         this->timeOfChargeWallJump = 0.0f;
 
-    if (this->isInTuile(map, "eau", x, y) || (this->canWallJump(map) && this->vY > 0.0f))
+    if (this->isInTuile(map, "eau", this->x, this->y))
+        this->graviteEffet = 0.1f;
+    else if ((this->canWallJump(map) && this->vY > 0.0f))
         this->graviteEffet = 0.5f;
     else
         this->graviteEffet = 1.0f;
