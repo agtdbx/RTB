@@ -413,8 +413,8 @@ bool Personnage::walljump(Map *map, bool space_pressed) {
         this->wallJumpOk = false;
         if (this->vY > 0.0f)
             this->vY = 0.0f;
-        else if (this->vY < -300.0f)
-            this->vY = -300.0f;
+        else if (this->vY < -200.0f)
+            this->vY = -200.0f;
         this->vY -= 200.0f;
         this->vX *= -2.0f;
         this->dirWallJump = 'N';
@@ -447,7 +447,18 @@ void Personnage::move(float delta, Camera& camera, Map *map) {
     else
         this->graviteEffet = 1.0f;
 
-    this->inWater = this->isInWater(map);
+    // Vérification quand on passe en mode nage pour éviter d'être dans un mur
+    if (!this->inWater && (this->isInWater(map) && !this->isInTuile(map, "air", this->x, this->y))) {
+        int x = (int)this->x / map->getSquarreSize();
+        int y = (int)this->y / map->getSquarreSize();
+
+        if (!map->get(x + 2, y).isPassable(this->viewDir) ||
+            !map->get(x + 3, y + 1).isPassable(this->viewDir) ||
+            !map->get(x + 3, y + 2).isPassable(this->viewDir) ){
+            this->x -= map->getSquarreSize();
+            }
+    }
+    this->inWater = this->isInWater(map) && !this->isInTuile(map, "air", this->x, this->y);
     if (this->inWater){
         if (this->vX > this->nageVitesse || this->vX < -this->nageVitesse)
             this->vX /= 1.1f;
@@ -527,7 +538,12 @@ bool Personnage::isMort(Map *map) {
     float x = this->x;
     float y = this->y;
 
-    if (this->isInTuile(map, "pique", x, y)){
+    if (!this->inWater && this->isInTuile(map, "pique", x, y)){
+        this->vX = 0.0f;
+        this->vY = 0.0f;
+        return true;
+    }
+    else if (this->inWater && this->isInTuileWater(map, "pique", x, y)){
         this->vX = 0.0f;
         this->vY = 0.0f;
         return true;

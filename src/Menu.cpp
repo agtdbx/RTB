@@ -709,14 +709,14 @@ Menu::Menu(SDL_Window *window, SDL_Renderer *renderer, int winW, int winH) {
     this->toucheBas = 44;
     this->toucheDroite = 7;
     this->toucheSaut = 44;
-    this->lastLevelComplete = 4;
+    this->lastLevelComplete = 0;
     this->levelLoad = 0;
     this->color = {100, 100, 100, 255};
     this->textColor = {150, 150, 150, 255};
     this->background = getTexture(this->renderer, "menuBackground");
     this->menu_theme = Mix_LoadMUS("./data/sounds/menu_theme.wav");
     this->button_clic_sound = Mix_LoadWAV("./data/sounds/button.wav");
-    this->nb_levels = 4;
+    this->nb_levels = 3;
 
     this->initButton();
 
