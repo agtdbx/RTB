@@ -27,7 +27,7 @@ int main() {
     bool run = true;
     while (run){
         if (menu.start()){
-            game.setVariables(menu.getVolumeSon(), menu.getVolumeMusique(), menu.getToucheGauche(), menu.getToucheDroite(), menu.getToucheSaut(), menu.getWinWidth(), menu.getWinHeight());
+            game.setVariables(  menu.getVolumeSon() , menu.getVolumeMusique(), menu.getToucheHaut(), menu.getToucheBas() , menu.getToucheGauche(), menu.getToucheDroite(), menu.getToucheSaut(), menu.getWinWidth(), menu.getWinHeight());
             game.initLevel(menu.getNumLevel());
             int lvl = game.start();
             menu.setLastLevelComplete(lvl);

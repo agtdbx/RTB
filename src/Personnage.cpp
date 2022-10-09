@@ -40,6 +40,27 @@ bool Personnage::isInTuile(Map *map, std::string nomTuile, float x, float y) {
 }
 
 
+bool Personnage::isInTuileWater(Map *map, std::string nomTuile, float x, float y) {
+    int x1 = (int)(x) / map->getSquarreSize();
+    int x2 = (int)(x + this->h / 4) / map->getSquarreSize();
+    int x3 = (int)(x + (this->h / 4) * 2) / map->getSquarreSize();
+    int x4 = (int)(x + (this->h / 4) * 3) / map->getSquarreSize();
+    int x5 = (int)(x + this->h) / map->getSquarreSize();
+
+    int y1 = (int)(y) / map->getSquarreSize();
+    int y2 = (int)(y + this->w/2) / map->getSquarreSize();
+    int y3 = (int)(y + this->w) / map->getSquarreSize();
+
+    if (map->get(x1, y1).getType() == nomTuile || map->get(x1, y2).getType() == nomTuile || map->get(x1, y3).getType() == nomTuile ||
+        map->get(x2, y1).getType() == nomTuile || map->get(x2, y2).getType() == nomTuile || map->get(x2, y3).getType() == nomTuile ||
+        map->get(x3, y1).getType() == nomTuile || map->get(x3, y2).getType() == nomTuile || map->get(x3, y3).getType() == nomTuile ||
+        map->get(x4, y1).getType() == nomTuile || map->get(x4, y2).getType() == nomTuile || map->get(x4, y3).getType() == nomTuile ||
+        map->get(x5, y1).getType() == nomTuile || map->get(x5, y2).getType() == nomTuile || map->get(x5, y3).getType() == nomTuile)
+            return true;
+    return false;
+}
+
+
 bool Personnage::inAir(Map *map) {
     int x1 = (int)(this->x) / map->getSquarreSize();
     int x2 = (int)(this->x + this->w/2) / map->getSquarreSize();
@@ -70,7 +91,7 @@ bool Personnage::canWallJump(Map *map) {
     int x = (int)(this->x) / map->getSquarreSize() + dirAdd;
     int y4 = (int)(this->y + this->h) / map->getSquarreSize();
 
-    if (map->get(x, y4).getType() == "mur")
+    if (map->get(x, y4).getType() == "mur" || map->get(x, y4).getType() == "glace")
         return true;
     return false;
 }
@@ -127,6 +148,49 @@ bool Personnage::mouvementPossibleY(Map *map, float delta) {
 }
 
 
+bool Personnage::nagePossibleX(Map *map, float delta) {
+    float x = this->x + (this->vX * delta);
+    float y = this->y;
+    int i = 2;
+
+    while ((this->isInTuileWater(map, "mur", x, y) || this->isInTuileWater(map, "glace", x, y)) && i < 10)
+    {
+        this->vX /= 2.0f;
+        x = this->x + (this->vX * delta);
+        i++;
+    }
+    
+    if (this->isInTuileWater(map, "mur", x, y) || this->isInTuileWater(map, "glace", x, y))
+    {
+        this->vX = 0.0f;
+        return false;
+    }
+    return true;
+}
+
+
+bool Personnage::nagePossibleY(Map *map, float delta) {
+    float x = this->x;
+    float y = this->y + (this->vY * delta);
+        
+    int i = 2;
+
+    while ((this->isInTuileWater(map, "mur", x, y) || this->isInTuileWater(map, "glace", x, y)) && i < 10)
+    {
+        this->vY /= 2.0f;
+        y = this->y + (this->vY * delta);
+        i++;
+    }
+    
+    if (this->isInTuileWater(map, "mur", x, y) || this->isInTuileWater(map, "glace", x, y))
+    {
+        this->vY = 0.0f;
+        return false;
+    }
+    return true;
+}
+
+
 // Public methodes
 Personnage::Personnage() {
     this->x = 50.0f;
@@ -143,22 +207,29 @@ Personnage::Personnage() {
 Personnage::Personnage(float x, float y,  int squareSize, SDL_Renderer *renderer) {
     this->respawnX = x;
     this->respawnY = y;
+
     this->x = x;
     this->y = y;
     this->w = 2 * squareSize - 1;
     this->h = 3 * squareSize - 1;
     this->vX = 0.0f;
     this->vY = 0.0f;
+
     this->vitesse = 600.0f;
     this->acceleration = 20.0f;
+    this->speedModifier = 1.0f;
+    this->nageAcceleration = 5.0f;
+    this->nageVitesse = 150.0f;
+    this->inWater = false;
+
     this->debutSaut = 0.0f;
     this->tempsSaut = 0.1f;
     this->sautOk = false;
     this->graviteEffet = 1.0f;
-    this->speedModifier = 1.0f;
     this->wallJumpOk = false;
     this->debutWallJump = 0.0f;
     this->timeOfChargeWallJump = 0.0f;
+
     this->viewDir = 'R';
     this->sprite = getTexture(renderer, "perso");
 }
@@ -174,9 +245,17 @@ void Personnage::draw(SDL_Renderer *renderer, Camera camera) {
     int x = this->x - camera.getX();
     int y = this->y - camera.getY();
     SDL_Rect part = {0, 0, 60, 90};
-    if (this->viewDir == 'L')
-        part = {70, 0, 60, 90};
     SDL_Rect pos = {x, y, this->w, this->h};
+    if (!this->inWater) {
+        if (this->viewDir == 'L')
+            part = {70, 0, 60, 90};
+    }
+    else {
+        part = {0, 100, 90, 60};
+        if (this->viewDir == 'L')
+            part = {0, 170, 90, 60};
+        pos = {x, y, this->h, this->w};
+    }
     SDL_RenderCopy(renderer, this->sprite, &part, &pos);
 }
 
@@ -259,6 +338,50 @@ void Personnage::addVy(float vY) {
 }
 
 
+void Personnage::nageX(char direction){
+    this->sautOk = true;
+    this->wallJumpOk = true;
+    if (direction == 'g') {
+        this->vX -= this->nageAcceleration;
+        this->viewDir = 'L';
+    }
+    else if (direction == 'd') {
+        this->vX += this->nageAcceleration;
+        this->viewDir = 'R';
+    }
+    else {
+        if (this->vX > 5.0f)
+            this->vX -= 5.0f;
+        else if (this->vX < -5.0f)
+            this->vX += 5.0f;
+        else
+            this->vX = 0.0f;
+    }
+    if (this->vX < -this->nageVitesse || this->vX > this->nageVitesse)
+            this->vX /= 1.1f;
+}
+
+
+void Personnage::nageY(char direction){
+    this->sautOk = true;
+    this->wallJumpOk = true;
+    if (direction == 'h')
+        this->vY -= this->nageAcceleration;
+    else if (direction == 'b')
+        this->vY += this->nageAcceleration;
+    else {
+        if (this->vY > 5.0f)
+            this->vY -= 5.0f;
+        else if (this->vY < -5.0f)
+            this->vY += 5.0f;
+        else
+            this->vY = 0.0f;
+    }
+    if (this->vY < -this->nageVitesse || this->vY > this->nageVitesse)
+        this->vY /= 1.1f;
+}
+
+
 bool Personnage::saut(Map *map, bool space_pressed) {
     if (this->sautOk && space_pressed) {
         this->sautOk = false;
@@ -281,12 +404,11 @@ bool Personnage::saut(Map *map, bool space_pressed) {
         else
             this->sautOk = false;
     }
-    
     return false;
 }
 
 bool Personnage::walljump(Map *map, bool space_pressed) {
-    if (this->wallJumpOk && this->canWallJump(map) && space_pressed && this->timeOfChargeWallJump >= 0.05f
+    if (this->wallJumpOk && this->canWallJump(map) && space_pressed && this->timeOfChargeWallJump >= 0.1f
         && ((float)SDL_GetTicks()/1000.0f)-this->debutSaut > this->tempsSaut * 2.0f) {
         this->wallJumpOk = false;
         if (this->vY > 0.0f)
@@ -310,28 +432,44 @@ bool Personnage::walljump(Map *map, bool space_pressed) {
         else if (this->dirWallJump == 'R' && this->vX < 0.0f)
             this->vX *= -0.5;
     }
-    else if (((float)SDL_GetTicks()/1000.0f) - this->debutWallJump > 2.0f)
-        this->wallJumpOk = true;
     return false;
 }
 
-void Personnage::move(float delta, Camera& camera, Map *map) {
+
+void Personnage::move(float delta, Camera& camera, Map *map) {   
     if (this->wallJumpOk && this->canWallJump(map))
         this->timeOfChargeWallJump += delta;
     else
         this->timeOfChargeWallJump = 0.0f;
 
-    if (this->isInTuile(map, "eau", this->x, this->y))
-        this->graviteEffet = 0.1f;
-    else if ((this->canWallJump(map) && this->vY > 0.0f))
+    if ((this->canWallJump(map) && this->vY > 0.0f))
         this->graviteEffet = 0.5f;
     else
         this->graviteEffet = 1.0f;
 
-    if (this->mouvementPossibleX(map, delta))
-        this->x += this->vX * delta;
-    if(this->mouvementPossibleY(map, delta))
-        this->y += this->vY * delta;
+    this->inWater = this->isInWater(map);
+    if (this->inWater){
+        if (this->vX > this->nageVitesse || this->vX < -this->nageVitesse)
+            this->vX /= 1.1f;
+        if (this->vY > this->nageVitesse || this->vY < -this->nageVitesse)
+            this->vY /= 1.1f;
+
+        if (this->nagePossibleX(map, delta))
+            this->x += this->vX * delta;
+        if(this->nagePossibleY(map, delta))
+            this->y += this->vY * delta;
+    }
+    else {
+        if (this->mouvementPossibleX(map, delta))
+            this->x += this->vX * delta;
+        if(this->mouvementPossibleY(map, delta))
+            this->y += this->vY * delta;
+
+        if (this->x >= ((map->getWidth() - 3) * map->getSquarreSize()))
+            this->x = ((map->getWidth() - 3) * map->getSquarreSize());
+        if (this->y >= ((map->getHeigth() - 4) * map->getSquarreSize()))
+            this->y = ((map->getHeigth() - 4) * map->getSquarreSize());
+    }
 }
 
 
@@ -396,4 +534,8 @@ bool Personnage::isMort(Map *map) {
     }
 
     return false;
+}
+
+bool Personnage::isInWater(Map *map) {
+    return this->isInTuile(map, "eau", this->x, this->y);
 }

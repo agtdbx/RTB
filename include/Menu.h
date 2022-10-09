@@ -18,7 +18,10 @@ class Menu {
 private:
     SDL_Window *window;
     SDL_Renderer *renderer;
-    int winW, winH, fenetre, spacingWithScreen, borderSize, volumeMusique, volumeSon, toucheGauche, toucheDroite, toucheSaut, lastLevelComplete, nb_levels, levelLoad;
+    int winW, winH, fenetre, spacingWithScreen, borderSize,
+    volumeMusique, volumeSon,
+    toucheHaut, toucheBas, toucheGauche, toucheDroite, toucheSaut,
+    lastLevelComplete, nb_levels, levelLoad;
     float lastClic, lastTime;
     bool run, continuer;
     char toucheABind;
@@ -27,7 +30,7 @@ private:
     butRetourJouer,
     butGraphics,
     butSonore, butMusiqueMoins, butMusiquePlus, butSonMoins, butSonPlus,
-    butKeyBinding, butBindGauche, butBindDroite, butBindSaut,
+    butKeyBinding, butBindHaut, butBindBas, butBindGauche, butBindDroite, butBindSaut,
     butCredit,
     butRetourOptions;
     Select butChoixRes;
@@ -60,6 +63,8 @@ public:
     int getNumLevel();
     int getVolumeSon();
     int getVolumeMusique();
+    int getToucheHaut();
+    int getToucheBas();
     int getToucheGauche();
     int getToucheDroite();
     int getToucheSaut();

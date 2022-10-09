@@ -49,9 +49,11 @@ void Menu::initButton() {
 
     //Clavier
     this->butKeyBinding = Button("Clavier", 30, 2, this->textColor, this->spacingWithScreen + this->borderSize, 75*3 + this->spacingWithScreen - this->borderSize*2, 250-this->borderSize*2, 75-this->borderSize*2, colorOff, colorOn,0, this->color);
-    this->butBindGauche = Button("Changer", 30, 1, this->textColor, this->winW - 140 - 200, 200, 140, 40, colorOff, colorOn, 2, this->color);
-    this->butBindDroite= Button("Changer", 30, 1, this->textColor, this->winW - 140 - 200, 260, 140, 40, colorOff, colorOn, 2, this->color);
-    this->butBindSaut = Button("Changer", 30, 1, this->textColor, this->winW - 140 - 200, 320, 140, 40, colorOff, colorOn, 2, this->color);
+    this->butBindHaut   = Button("Changer", 30, 1, this->textColor, this->winW - 140 - 200, 200, 140, 40, colorOff, colorOn, 2, this->color);
+    this->butBindBas    = Button("Changer", 30, 1, this->textColor, this->winW - 140 - 200, 260, 140, 40, colorOff, colorOn, 2, this->color);
+    this->butBindGauche = Button("Changer", 30, 1, this->textColor, this->winW - 140 - 200, 320, 140, 40, colorOff, colorOn, 2, this->color);
+    this->butBindDroite = Button("Changer", 30, 1, this->textColor, this->winW - 140 - 200, 380, 140, 40, colorOff, colorOn, 2, this->color);
+    this->butBindSaut   = Button("Changer", 30, 1, this->textColor, this->winW - 140 - 200, 440, 140, 40, colorOff, colorOn, 2, this->color);
 
     //Credit
     this->butCredit = Button("Credit", 30,2, this->textColor, this->spacingWithScreen + this->borderSize, 75*4 + this->spacingWithScreen - this->borderSize*3, 250-this->borderSize*2, 75-this->borderSize*2, colorOff, colorOn,0, this->color);
@@ -196,6 +198,16 @@ void Menu::tick() {
                 Mix_PlayChannel(-1, this->button_clic_sound, 0);
                 this->fenetre = 0;
             }
+            else if (this->butBindHaut.clicOnButton()){
+                Mix_PlayChannel(-1, this->button_clic_sound, 0);
+                this->fenetre = 221;
+                this->toucheABind = 'H';
+            }
+            else if (this->butBindBas.clicOnButton()){
+                Mix_PlayChannel(-1, this->button_clic_sound, 0);
+                this->fenetre = 221;
+                this->toucheABind = 'B';
+            }
             else if (this->butBindGauche.clicOnButton()){
                 Mix_PlayChannel(-1, this->button_clic_sound, 0);
                 this->fenetre = 221;
@@ -246,7 +258,13 @@ void Menu::tick() {
             }
 
             if (key > 0){
-                if (this->toucheABind == 'G'){
+                if (this->toucheABind == 'H'){
+                    this->toucheHaut = key;
+                }
+                else if (this->toucheABind == 'B'){
+                    this->toucheBas = key;
+                }
+                else if (this->toucheABind == 'G'){
                     this->toucheGauche = key;
                 }
                 else if (this->toucheABind == 'D'){
@@ -341,7 +359,7 @@ void Menu::render() {
 
         case 221:
             drawText(this->renderer, "Road To Back !", 80, this->winW/2, 10, 1, this->textColor);
-            drawText(this->renderer, "Appuis sur un touche", 50, this->winW/2, this->winH/2, 1, this->textColor);
+            drawText(this->renderer, "Appuis sur une touche", 50, this->winW/2, this->winH/2, 1, this->textColor);
             break;
     }
     SDL_RenderPresent(this->renderer);
@@ -449,19 +467,29 @@ void Menu::drawSoundsOptions() {
 
 
 void Menu::drawKeyboardOptions() {
+    //Bind déplacement en haut
+    drawText(this->renderer, "Deplacement en haut :", 30, this->winW/2, 200, 3, this->textColor);
+    drawText(this->renderer, this->drawKeyBind(this->toucheHaut), 30, this->winW/2 + 5, 200, 0, this->textColor);
+    this->butBindHaut.draw(this->renderer);
+
+    //Bind déplacement en bas
+    drawText(this->renderer, "Deplacement en bas :", 30, this->winW/2, 260, 3, this->textColor);
+    drawText(this->renderer, this->drawKeyBind(this->toucheBas), 30, this->winW/2 + 5, 260, 0, this->textColor);
+    this->butBindBas.draw(this->renderer);
+
     //Bind déplacement à gauche
-    drawText(this->renderer, "Deplacement a gauche :", 30, this->winW/2, 200, 3, this->textColor);
-    drawText(this->renderer, this->drawKeyBind(this->toucheGauche), 30, this->winW/2 + 5, 200, 0, this->textColor);
+    drawText(this->renderer, "Deplacement a gauche :", 30, this->winW/2, 320, 3, this->textColor);
+    drawText(this->renderer, this->drawKeyBind(this->toucheGauche), 30, this->winW/2 + 5, 320, 0, this->textColor);
     this->butBindGauche.draw(this->renderer);
 
     //Bind déplacement à droite
-    drawText(this->renderer, "Deplacement a droite :", 30, this->winW/2, 260, 3, this->textColor);
-    drawText(this->renderer, this->drawKeyBind(this->toucheDroite), 30, this->winW/2 + 5, 260, 0, this->textColor);
+    drawText(this->renderer, "Deplacement a droite :", 30, this->winW/2, 380, 3, this->textColor);
+    drawText(this->renderer, this->drawKeyBind(this->toucheDroite), 30, this->winW/2 + 5, 380, 0, this->textColor);
     this->butBindDroite.draw(this->renderer);
 
     //Bind saut
-    drawText(this->renderer, "Saut :", 30, this->winW/2, 320, 3, this->textColor);
-    drawText(this->renderer, this->drawKeyBind(this->toucheSaut), 30, this->winW/2 + 5, 320, 0, this->textColor);
+    drawText(this->renderer, "Saut :", 30, this->winW/2, 440, 3, this->textColor);
+    drawText(this->renderer, this->drawKeyBind(this->toucheSaut), 30, this->winW/2 + 5, 440, 0, this->textColor);
     this->butBindSaut.draw(this->renderer);
 }
 
@@ -521,14 +549,19 @@ void Menu::setScreenSize() {
     this->butQuitter.setY(this->winH/2 + 100);
 
     //Choix des niveaux
-    this->butlvls[0].setX(this->winW/2 - 25 - 75);
-    this->butlvls[0].setY(this->winH/3);
-    this->butlvls[1].setX(this->winW/2 - 25);
-    this->butlvls[1].setY(this->winH/3);
-    this->butlvls[2].setX(this->winW/2 - 25 + 75);
-    this->butlvls[2].setY(this->winH/3);
-    this->butlvls[3].setX(this->winW/2 - 25 - 75);
-    this->butlvls[3].setY(this->winH/3 + 75);
+    int x = -1;
+    int y = 0;
+
+    for (int i = 0; i < nb_levels; i++){
+        this->butlvls[i].setX(this->winW/2 - 25 + (x * 75));
+        this->butlvls[i].setY(this->winH/3 + (y * 75));
+
+        x++;
+        if (x > 1){
+            x = -1;
+            y++;
+        }
+    }
     this->butRetourJouer.setX(this->winW/2 - 100);
     this->butRetourJouer.setY(this->winH-50 - 100);
 
@@ -618,6 +651,8 @@ void Menu::saveOptions() {
     json["fullscreen"] = this->fullScreen.isActive();
     json["volumeMusique"] = this->volumeMusique;
     json["volumeSon"] = this->volumeSon;
+    json["toucheHaut"] = this->toucheHaut;
+    json["toucheBas"] = this->toucheBas;
     json["toucheGauche"] = this->toucheGauche;
     json["toucheDroite"] = this->toucheDroite;
     json["toucheSaut"] = this->toucheSaut;
@@ -642,6 +677,8 @@ void Menu::loadOptions() {
     this->fullScreen.setActive(json["fullscreen"].asBool());
     this->volumeMusique = json["volumeMusique"].asInt();
     this->volumeSon = json["volumeSon"].asInt();
+    this->toucheHaut= json["toucheHaut"].asInt();
+    this->toucheBas= json["toucheBas"].asInt();
     this->toucheGauche = json["toucheGauche"].asInt();
     this->toucheDroite = json["toucheDroite"].asInt();
     this->toucheSaut = json["toucheSaut"].asInt();
@@ -668,6 +705,8 @@ Menu::Menu(SDL_Window *window, SDL_Renderer *renderer, int winW, int winH) {
     this->volumeSon = 100;
     this->toucheABind = 'X';
     this->toucheGauche = 20;
+    this->toucheHaut = 7;
+    this->toucheBas = 44;
     this->toucheDroite = 7;
     this->toucheSaut = 44;
     this->lastLevelComplete = 4;
@@ -740,6 +779,16 @@ int Menu::getVolumeSon() {
 
 int Menu::getVolumeMusique() {
     return this->volumeMusique;
+}
+
+
+int Menu::getToucheHaut() {
+    return this->toucheHaut;
+}
+
+
+int Menu::getToucheBas() {
+    return this->toucheBas;
 }
 
 

@@ -16,7 +16,10 @@
 class Game {
 private:
     SDL_Renderer *renderer;
-    int winW, winH, fenetre, volumeMusique, volumeSon, toucheGauche, toucheDroite, toucheSaut, checkpointProgression, levelInGame;
+    int winW, winH, fenetre,
+    volumeMusique, volumeSon,
+    toucheHaut, toucheBas, toucheGauche, toucheDroite, toucheSaut,
+    checkpointProgression, levelInGame;
     bool run, showFps, fpsUnlimited, canRespawn;
     Button butContinuer, butQuitter, butRetourMenu;
     Personnage perso;
@@ -40,7 +43,7 @@ public:
 
     int start();
     void initLevel(int levelNum);
-    void setVariables(int volumeSon, int volumeMusique, int toucheGauche, int toucheDroite, int toucheSaut, int winWidth, int winHeight);
+    void setVariables(int volumeSon, int volumeMusique, int toucheHaut, int toucheBas, int toucheGauche, int toucheDroite, int toucheSaut, int winWidth, int winHeight);
 };
 
 

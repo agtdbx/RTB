@@ -64,22 +64,44 @@ void Game::tick() {
         }
 
         if (!this->perso.isMort(&this->map)){
-            if (keyboard[this->toucheGauche]) {
-                this->perso.deplacementX('g', &this->map);
+            if (this->perso.isInWater(&map)){
+                if (keyboard[this->toucheHaut]) {
+                    this->perso.nageY('h');
+                }
+                else if (keyboard[this->toucheBas]) {
+                    this->perso.nageY('b');
+                }
+                else{
+                    this->perso.nageY('n');
+                }
+                if (keyboard[this->toucheGauche]) {
+                    this->perso.nageX('g');
+                }
+                else if (keyboard[this->toucheDroite]) {
+                    this->perso.nageX('d');
+                }
+                else{
+                    this->perso.nageX('n');
+                }
             }
-            else if (keyboard[this->toucheDroite]) {
-                this->perso.deplacementX('d', &this->map);
-            }
-            else{
-                this->perso.deplacementX('n', &this->map);
-            }
+            else {
+                if (keyboard[this->toucheGauche]) {
+                    this->perso.deplacementX('g', &this->map);
+                }
+                else if (keyboard[this->toucheDroite]) {
+                    this->perso.deplacementX('d', &this->map);
+                }
+                else{
+                    this->perso.deplacementX('n', &this->map);
+                }
 
-            if (this->perso.saut(&this->map, keyboard[this->toucheSaut]))
-                Mix_PlayChannel(-1, this->jump_sound, 0);
-            if (this->perso.walljump(&this->map, keyboard[this->toucheSaut]))
-                Mix_PlayChannel(-1, this->walljump_sound, 0);
+                if (this->perso.saut(&this->map, keyboard[this->toucheSaut]))
+                    Mix_PlayChannel(-1, this->jump_sound, 0);
+                if (this->perso.walljump(&this->map, keyboard[this->toucheSaut]))
+                    Mix_PlayChannel(-1, this->walljump_sound, 0);
 
-            this->perso.addVy(this->gravity);
+                this->perso.addVy(this->gravity);
+            }
             this->perso.move(delta, this->camera, &this->map);
         }
         else if (SDL_GetTicks()/1000.0f - this->lastRespawnTime >= 1.0f && this->canRespawn){
@@ -245,6 +267,8 @@ Game::Game(SDL_Renderer *renderer, int winW, int winH) {
     this->fenetre = 0;
     this->volumeSon = 100;
     this->volumeMusique = 100;
+    this->toucheHaut = 26;
+    this->toucheBas = 22;
     this->toucheGauche = 20;
     this->toucheDroite = 7;
     this->toucheSaut = 44;
@@ -322,9 +346,11 @@ void Game::initLevel(int levelNum) {
 }
 
 
-void Game::setVariables(int volumeSon, int volumeMusique, int toucheGauche, int toucheDroite, int toucheSaut, int winWidth, int winHeight) {
+void Game::setVariables(int volumeSon, int volumeMusique, int toucheHaut, int toucheBas, int toucheGauche, int toucheDroite, int toucheSaut, int winWidth, int winHeight) {
     this->volumeSon = volumeSon;
     this->volumeMusique = volumeMusique;
+    this->toucheHaut = toucheHaut;
+    this->toucheBas = toucheBas;
     this->toucheGauche = toucheGauche;
     this->toucheDroite = toucheDroite;
     this->toucheSaut = toucheSaut;
