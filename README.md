@@ -1,6 +1,6 @@
 **RTB - ALPHA 1.1**
 
-LINUX
+*LINUX*
 
 INSTALLATION
 - Téléchargement du jeu a mettre dans un dossier
@@ -17,7 +17,6 @@ LANCEMENT
 - Ouvrir un terminal dans le dossier du jeu
 - Taper : make run
 
-
-WINDOWS
+*WINDOWS*
 
 WORK IN PROGRESS
