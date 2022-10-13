@@ -11,7 +11,7 @@
 - Taper : make
 
 ### MISE A JOUR
-- oOuvrir un terminal dans le dossier du jeu
+- Ouvrir un terminal dans le dossier du jeu
 - Taper : git pull origin master
 - Tape : make
 
