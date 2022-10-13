@@ -43,8 +43,9 @@ fclean : clean
 re : clean bin/$(TARGET)
 
 install :
-	sudo apt install libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev
-	sudo apt-get install libjsoncpp-dev
+	apt install libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev
+	apt-get install libjsoncpp-dev
+	apt install g++
 	mkdir bin
 	mkdir obj
 
