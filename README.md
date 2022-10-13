@@ -1,22 +1,24 @@
-**RTB - ALPHA 1.1**
+#**RTB - ALPHA 1.1**
 
-*LINUX*
+##*LINUX*
 
-INSTALLATION
-- Téléchargement du jeu a mettre dans un dossier
-- Ouvrir un terminal dans le dossier du jeu
-- Taper : sudo make install
+###INSTALLATION
+- Ouvrir un terminal dans l'endroi ou vous souhaiter installer le jeu
+- Taper : git clone https://github.com/agtdbx/RTB.git RTB
+- Taper cd RTB
+- Taper : make install
+- Taper votre mot de passe pour réaliser les installations
 - Taper : make
 
-MISE A JOUR
-- Télécharger la nouvelle version du jeu a mettre dans un dossier
-- ouvrir un terminal dans le dossier du jeu
+###MISE A JOUR
+- oOuvrir un terminal dans le dossier du jeu
+- Taper : git pull origin master
 - Tape : make
 
-LANCEMENT
+###LANCEMENT
 - Ouvrir un terminal dans le dossier du jeu
 - Taper : make run
 
-*WINDOWS*
+##*WINDOWS*
 
-WORK IN PROGRESS
+###WORK IN PROGRESS
