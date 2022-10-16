@@ -19,9 +19,9 @@
 void Game::initButton() {
     SDL_Color colorOff = {255, 255, 255, 0};
     SDL_Color colorOn = {100, 100, 100, 100};
-    this->butContinuer = Button("Continuer", 40, 1, this->textColor, this->winW/2 - 100, this->winH/2 - 75, 200, 50, colorOff, colorOn,2, this->color);
-    this->butQuitter = Button("Quitter", 40, 1, this->textColor, this->winW/2 - 100, this->winH/2 + 25, 200, 50, colorOff, colorOn,2, this->color);
-    this->butRetourMenu = Button("Retour au menu", 40, 1, this->textColor, this->winW/2 - 150, this->winH/2 - 75, 300, 50, colorOff, colorOn,2, this->color);
+    this->butContinuer = Button((char *)"Continuer", 40, 1, this->textColor, this->winW/2 - 100, this->winH/2 - 75, 200, 50, colorOff, colorOn,2, this->color);
+    this->butQuitter = Button((char *)"Quitter", 40, 1, this->textColor, this->winW/2 - 100, this->winH/2 + 25, 200, 50, colorOff, colorOn,2, this->color);
+    this->butRetourMenu = Button((char *)"Retour au menu", 40, 1, this->textColor, this->winW/2 - 150, this->winH/2 - 75, 300, 50, colorOff, colorOn,2, this->color);
 }
 
 void Game::input() {
