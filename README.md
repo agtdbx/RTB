@@ -1,5 +1,7 @@
 # RTB - ALPHA 1.1
 
+RTB est un platformer 2D fait en C++ avec la SDL2
+
 ## LINUX
 
 ### INSTALLATION
