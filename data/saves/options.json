@@ -1,13 +1,13 @@
 {
-   "fullscreen" : true,
-   "lastLevelComplete" : 0,
+   "fullscreen" : false,
+   "lastLevelComplete" : 3,
    "resolution" : "1920x1080",
    "toucheBas" : 22,
    "toucheDroite" : 7,
    "toucheGauche" : 4,
    "toucheHaut" : 26,
    "toucheSaut" : 44,
-   "volumeMusique" : 50,
+   "volumeMusique" : 80,
    "volumeSon" : 90,
    "winH" : 1080,
    "winW" : 1920
