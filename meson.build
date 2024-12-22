@@ -21,15 +21,15 @@ executable('RTB',
           'src/Switch.cpp',
           'src/Tuile.cpp',
           'src/Zone.cpp',
-       build_rpath: '.',
-           dependencies : [
-              dependency('sdl2'),
-              dependency('sdl2_image'),
-              dependency('sdl2_ttf'),
-              dependency('sdl2_mixer'),
-              dependency('jsoncpp'),
-              ],
-			include_directories: include_directories('include'),
-           install : true)
+          build_rpath: '.',
+          dependencies : [
+            dependency('sdl2'),
+            dependency('sdl2_image'),
+            dependency('sdl2_ttf'),
+            dependency('sdl2_mixer'),
+            dependency('jsoncpp'),
+            ],
+          include_directories: include_directories('include'),
+          install : true)
 
 install_subdir('data', install_dir:'.')
