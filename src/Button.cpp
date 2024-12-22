@@ -4,7 +4,7 @@
 
 #include "../include/Button.h"
 
-#include <SDL2/SDL.h>
+#include <SDL.h>
 #include "../include/Functions.h"
 
 #include <iostream>
@@ -48,7 +48,7 @@ Button::Button(char *text, int textSize, int textAlign, SDL_Color textColor, int
 
 
 Button::~Button() {
-    
+
 }
 
 

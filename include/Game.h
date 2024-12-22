@@ -5,8 +5,8 @@
 #ifndef RTB_GAME_H
 #define RTB_GAME_H
 
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_mixer.h>
+#include <SDL.h>
+#include <SDL_mixer.h>
 #include "../include/Button.h"
 #include "../include/Personnage.h"
 #include "../include/Map.h"

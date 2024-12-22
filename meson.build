@@ -1,6 +1,10 @@
 project('RTB', 'cpp',
   version : '1.1',
-  default_options : ['warning_level=1', 'cpp_std=c++14'])
+  default_options : [
+    'warning_level=1',
+    'cpp_std=c++14',
+    'default_library=static'
+  ])
 
 
 

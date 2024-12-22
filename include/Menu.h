@@ -7,9 +7,9 @@
 
 #include <iostream>
 #include <vector>
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
-#include <SDL2/SDL_mixer.h>
+#include <SDL.h>
+#include <SDL_image.h>
+#include <SDL_mixer.h>
 #include "../include/Button.h"
 #include "../include/Select.h"
 #include "../include/Switch.h"

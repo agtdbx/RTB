@@ -5,7 +5,7 @@
 #ifndef RTB_PERSONNAGE_H
 #define RTB_PERSONNAGE_H
 
-#include <SDL2/SDL.h>
+#include <SDL.h>
 #include "../include/Camera.h"
 #include "../include/Map.h"
 #include "../include/Background.h"

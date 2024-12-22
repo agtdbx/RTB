@@ -15,7 +15,7 @@ clean:
 fclean: clean
 	rm -rf $(MESON_CONFIG_DIR)
 
-re: clean all
+re: fclean all
 
 run: all
 	cd $(MESON_BUILD_DIR) && ./RTB

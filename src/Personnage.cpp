@@ -4,7 +4,7 @@
 
 #include "../include/Personnage.h"
 #include "../include/Functions.h"
-#include <SDL2/SDL.h>
+#include <SDL.h>
 
 
 // Private methodes
@@ -107,7 +107,7 @@ bool Personnage::mouvementPossibleX(Map *map, float delta) {
         x = this->x + (this->vX * delta);
         i++;
     }
-    
+
     if (this->isInTuile(map, "mur", x, y) || this->isInTuile(map, "glace", x, y))
     {
         this->vX = 0.0f;
@@ -127,7 +127,7 @@ bool Personnage::mouvementPossibleY(Map *map, float delta) {
         this->vY *= -1.0f;
         return true;
     }
-        
+
     if (this->isInTuile(map, "plateforme", x, y) && this->vY > 0.0f)
     {
         if (this->isOnTuile(map, "plateforme", this->x, this->y - map->getSquarreSize()) == false &&
@@ -137,7 +137,7 @@ bool Personnage::mouvementPossibleY(Map *map, float delta) {
             return false;
         }
     }
-    
+
     if (this->isInTuile(map, "mur", x, y) || this->isInTuile(map, "glace", x, y))
     {
         this->vY = 0.0f;
@@ -159,7 +159,7 @@ bool Personnage::nagePossibleX(Map *map, float delta) {
         x = this->x + (this->vX * delta);
         i++;
     }
-    
+
     if (this->isInTuileWater(map, "mur", x, y) || this->isInTuileWater(map, "glace", x, y))
     {
         this->vX = 0.0f;
@@ -172,7 +172,7 @@ bool Personnage::nagePossibleX(Map *map, float delta) {
 bool Personnage::nagePossibleY(Map *map, float delta) {
     float x = this->x;
     float y = this->y + (this->vY * delta);
-        
+
     int i = 2;
 
     while ((this->isInTuileWater(map, "mur", x, y) || this->isInTuileWater(map, "glace", x, y)) && i < 10)
@@ -181,7 +181,7 @@ bool Personnage::nagePossibleY(Map *map, float delta) {
         y = this->y + (this->vY * delta);
         i++;
     }
-    
+
     if (this->isInTuileWater(map, "mur", x, y) || this->isInTuileWater(map, "glace", x, y))
     {
         this->vY = 0.0f;
@@ -436,7 +436,7 @@ bool Personnage::walljump(Map *map, bool space_pressed) {
 }
 
 
-void Personnage::move(float delta, Camera& camera, Map *map) {   
+void Personnage::move(float delta, Camera& camera, Map *map) {
     if (this->wallJumpOk && this->canWallJump(map))
         this->timeOfChargeWallJump += delta;
     else

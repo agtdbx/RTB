@@ -4,15 +4,15 @@
 
 #include "../include/Game.h"
 #include "../include/Functions.h"
-#include <SDL2/SDL.h>
+#include <SDL.h>
 #include <string>
 #include <ostream>
 #include <fstream>
 #include <sstream>
-#include <jsoncpp/json/json.h>
-#include <jsoncpp/json/value.h>
-#include <jsoncpp/json/writer.h>
-#include <jsoncpp/json/reader.h>
+#include <json/json.h>
+#include <json/value.h>
+#include <json/writer.h>
+#include <json/reader.h>
 #include <dirent.h>
 
 //Private methods
