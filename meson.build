@@ -7,11 +7,6 @@ project('RTB', 'cpp',
   ])
 
 
-
-conf_data = configuration_data()
-conf_data.set('DATA_PATH', get_option('prefix') + '/data')
-
-
 executable('RTB',
           'src/main.cpp',
           'src/Background.cpp',
@@ -29,10 +24,10 @@ executable('RTB',
        build_rpath: '.',
            dependencies : [
               dependency('sdl2'),
-              dependency('sdl2_image', static: true),
-              dependency('sdl2_ttf', static: true),
-              dependency('sdl2_mixer', static: true),
-              dependency('jsoncpp', static: true),
+              dependency('sdl2_image'),
+              dependency('sdl2_ttf'),
+              dependency('sdl2_mixer'),
+              dependency('jsoncpp'),
               ],
 			include_directories: include_directories('include'),
            install : true)
